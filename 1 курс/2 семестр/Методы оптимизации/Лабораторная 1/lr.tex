@@ -1,0 +1,97 @@
+\documentclass[12pt]{article}
+\usepackage{hhline}
+\usepackage{graphicx}
+\graphicspath{{pictures/}}
+\DeclareGraphicsExtensions{.png}
+\usepackage{multirow}
+\usepackage{amsmath}
+\usepackage{mathtext}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{pscyr} 
+\usepackage[left=2cm,right=2cm, top=1.5cm,bottom=1cm,bindingoffset=0cm]{geometry}
+\begin{document}
+\pagestyle{empty}
+\begin{center}
+\large{\textbf{Университет ИТМО}}
+\end{center}
+\rule{500pt}{1pt}
+\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip
+\begin{center}
+\Large
+\textbf{Лабораторная работа №1}
+
+\textbf{\textit{«Основные понятия линейного программирования»}}
+
+
+\end{center}
+\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip      
+\begin{flushright}
+\large
+Выполнил: Федюкович С. А.
+\par\bigskip
+Факультет: МТУ “Академия ЛИМТУ”
+\par\bigskip
+Группа: S3100                       
+\par\bigskip\par\bigskip\par\bigskip
+
+\rule{150pt}{0.5pt}
+\par\bigskip\par\bigskip\par\bigskip\par\bigskip                                                            
+ Проверил: ...
+\par\bigskip \par\bigskip
+
+\rule{150pt}{0.5pt}
+\end{flushright}
+\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip     
+\begin{center}
+\large
+Санкт-Петербург
+\par\bigskip
+2018
+\end{center}
+\newpage
+\section*{Теоретические основы лабораторной работы}
+
+Линейное программирование – это направление математического
+программирования, изучающее методы решения экстремальных задач, которые
+характеризуются линейной зависимостью между переменными и линейным критерием.
+
+Необходимым условием постановки задачи линейного программирования являются
+ограничения на наличие ресурсов, величину спроса, производственную мощность
+предприятия и другие производственные факторы.
+
+Сущность линейного программирования состоит в нахождении точек наибольшего
+или наименьшего значения некоторой функции при определенном наборе ограничений,
+налагаемых на аргументы и образующих систему ограничений, которая имеет, как
+правило, бесконечное множество решений. Каждая совокупность значений переменных
+(аргументов функции $F$), которые удовлетворяют системе ограничений, называется
+допустимым планом задачи линейного программирования. Функция $F$, максимум или
+минимум которой определяется, называется целевой функцией задачи. Допустимый план,
+на котором достигается максимум или минимум функции $F$, называется оптимальным
+планом задачи.
+
+Система ограничений, определяющая множество планов, диктуется условиями
+производства. Задачей линейного программирования (ЗЛП) является выбор из множества
+допустимых планов наиболее выгодного (оптимального).
+
+В общей постановке задача линейного программирования выглядит следующим
+образом:
+
+Имеются какие-то переменные $х = (х_1,  х_2 , … х_n )$ и функция этих переменных $f(x) =
+f (х_1, х_2, … х_n )$, которая носит название целевой функции. Ставится задача: найти
+экстремум (максимум или минимум) целевой функции $f(x)$ при условии, что переменные x
+принадлежат некоторой области $G$:
+
+\begin{center}
+$\begin{cases}
+   f(x) \Rightarrow extr \\
+  x \in G 
+ \end{cases}$
+ \end{center}
+ 
+Линейное программирование характеризуется:
+\begin{itemize}
+\itemфункция $f(x)$ является линейной функцией переменных $х_1 , х_2 , … х_n$
+\itemобласть $G$ определяется системой линейных равенств или неравенств.
+\end{itemize}
+\end{document}
