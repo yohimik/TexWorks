@@ -1,6 +1,10 @@
 \documentclass[12pt]{article}
 \usepackage{hhline}
 \usepackage{graphicx}
+\usepackage{pgfplots}
+\usepgfplotslibrary{fillbetween}
+\usetikzlibrary{patterns}
+\pgfplotsset{width=7cm,compat=1.15}
 \graphicspath{{pictures/}}
 \DeclareGraphicsExtensions{.png}
 \usepackage{multirow}
@@ -11,6 +15,7 @@
 \usepackage{pscyr} 
 \usepackage[left=2.5cm,right=2.5cm, top=1.5cm,bottom=1cm,bindingoffset=0cm]{geometry}
 \begin{document}
+
 \pagestyle{empty}
 \begin{center}
 \large{\textbf{Университет ИТМО}}
@@ -21,7 +26,7 @@
 \Large
 \textbf{Лабораторная работа №2}
 
-\textbf{\textit{«Основные теоремы линейного программирования»}}
+\textbf{\textit{«Геометрическое истолкование задачи линейного программирования в стандартной форме в случае двух переменных»}}
 
 
 \end{center}
@@ -52,5 +57,306 @@
 \newpage
 \section*{Теоретические основы лабораторной работы}
 
+Задача линейного программирования в стандартной форме с двумя переменными имеет вид:
+\begin{center}
+$ \begin{cases}$
+ $ a_{11}x_1 +a_{12}x_2 \ge b_1,\\ $
+$  a_{21}x_1 +a_{22}x_2 \ge b_2,\\$
+$  ...\\$
+ $ a_{m1}x_1 +a_{m2}x_2 \ge b_m.$
+$ \end{cases}$
 
+$x_1\ge0, x_2\ge0$
+
+$F=c_1x_1+c_2x_2 \rightarrow max(min)$
+\end{center}
+
+Введя систему координат,  изобразим каждую совокупность значений переменных $x_1$ и $x_2$ точкой на плоскости, откладывая по одной оси $x_1$, а по другой - $x_2$. Тогда совокупность решений  решений одного отдельно взятого неравенства будет являться полуплоскостью, а системы нескольких неравенств --- выпуклой многоугольной областью. Условия неотрицательности переменных $x_1 \ge 0$ и $x_2 \ge 0$ приводят к тому,  что эта область находится в первой координатной области.
+
+\section*{Решение заданий}
+\begin{enumerate}
+
+\item На звероферме могут выращиваться лисицы и песцы. Для обеспечения
+нормальных условий их выращивания используется три вида кормов. Количество кормов
+каждого вида, которое должны получать животные, приведено в таблице 1. В ней также
+указаны общее количество корма каждого вида, которое может быть использовано
+зверофермой ежедневно, и прибыль от реализации одной шкурки лисицы и песца.
+Определить, сколько лисиц и песцов можно вырастить при имеющихся запасах корма. Решить графически.
+\begin{table}[h!]
+\begin{center}
+Таблица 1 
+
+\begin{tabular}{|c|c|c|c|}
+\hline
+\multirow{2}{70pt}{Вид корма} 	&	\multicolumn{2}{|c|}{Количество единиц корма в день}	&	\multirow{2}{70pt}{Запас корма}	\\
+\hhline{~--~}
+			&	Лисица		&		Песец				&				\\
+\hline
+А			&	2			&		2					&	180		   	\\
+\hline
+Б			&	4			&		1					&	240		   	\\
+\hline
+В			&	6			&		7					&	426		   	\\
+\hline
+Цена одной шкурки, руб	&	1600		&	1200		&\\
+\hline
+\end{tabular}
+\end{center}
+\end{table} 
+
+\textbf{Решение}
+
+Пусть $x_1$ --- количество лисиц, а $x_2$ --- количество песцов. Составим модель задачи:
+\begin{center}
+$\begin{cases}$
+$  2x_1+2x_2 \le180,\\ $
+$  4x_1 +x_2 \le 240,\\$
+$  6x_1 +7x_2 \le 426.$
+ $\end{cases}$
+
+$x_1\ge0, x_2\ge0$\\
+$F=1600x_1+1200x_2 \rightarrow max$\\
+\end{center}
+\newpage
+Поделим обе части первого неравенства на два:
+\begin{center}
+$\begin{cases}$
+$  x_1+x_2 \le90,\\ $
+$  4x_1 +x_2 \le 240,\\$
+$  6x_1 +7x_2 \le 426.$
+ $\end{cases}$
+
+$x_1\ge0, x_2\ge0$\\
+$F=1600x_1+1200x_2 \rightarrow max$\\
+\end{center}
+Выразим $x_2$ из каждого неравенства системы:
+\begin{center}
+$\begin{cases}$
+$  x_2 \le90-x_1,\\ $
+$   x_2 \le 240- 4x_1,\\$
+$  x_2 \le \frac{426-6x_1}{7}.$
+ $\end{cases}$
+ 
+ $x_1\ge0, x_2\ge0$\\
+$F=1600x_1+1200x_2 \rightarrow max$\\
+ \end{center}
+
+Найдём решение системы, выделив область решений каждого неравенства:
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[		
+	xlabel = {$x_1$},
+	ylabel = {$x_2$},	
+	xmin = 0,
+	ymin = 0,
+	xmax = 90,
+	ymax = 100,	
+	axis x line=center,
+	axis y line=center,
+	width = 400,
+	height = 200,
+	domain = 0:1000	
+]
+\legend{ 
+	Ограничение корма А, 
+	Ограничение корма Б, 
+	Ограничение корма В,
+	Оптимальное решение
+};
+\addplot [green,fill=green,fill opacity=0.4,]  {90-x}
+|- (0,0) -- cycle;
+
+\addplot [brown,fill=brown,fill opacity=0.4,]  {240-4*x}
+|- (0,0) -- cycle;
+
+\addplot [blue,fill=blue,fill opacity=0.4,]  {426/7-6/7*x}
+|- (0,0) -- cycle;
+
+\addplot+ [red] coordinates{(57,12)};
+
+\end{axis}
+\end{tikzpicture}
+\end{center}
+Решением всей системы будет тёмно-синия область на графике, а оптимальное решение достигается в точке пересечения ограничений Б и В (57,12).
+
+\textbf{Ответ:} звероферме нужно содержать 57 лисиц и 12 песцов
+\newpage
+\item При подкормке посевов необходимо внести на $0,01га.$ почвы не менее $8ед.$ азота, не менее $24ед.$ фосфора и не менее 16 единиц калия. Фермер закупает комбинированные удобрения двух видов \lq{}Азофоска\rq{} и \lq{}Комплекс\rq{}. В таблице 2 указано содержание количества единиц химического вещества в $1кг.$ каждого вида удобрений и цена $1кг.$ удобрений. Определить графически потребность фермера в удобрениях того и другого вида на $0,01га.$ посевной площади при минимальных затратах на потребление.
+\begin{table}[h!]
+\begin{center}
+Таблица 2 
+
+\begin{tabular}{|c|c|c|}
+\hline
+\multirow{2}{70pt}{Химическое вещество} 	&	\multicolumn{2}{|c|}{Содержание химических веществ в $1кг.$ удобрения}	\\
+\hhline{~--}
+			&	Азофоска		&		Комплекс	\\
+\hline
+Азот			&	1			&		2		\\
+\hline
+Фосфор		&	12			&		3		\\
+\hline
+Калий 		&	4			&		4		\\
+\hline
+Цена $1кг.$ удобрения, руб.	&	50		&	20	\\
+\hline
+\end{tabular}
+\end{center}
+\end{table} 
+
+\textbf{Решение}
+
+Пусть $x_1$ --- количество килограмм \lq{}Азофоски\rq{}, а $x_2$ --- \lq{}Комплекса\rq{}. Составим модель задачи:
+\begin{center}
+$\begin{cases}$
+$  x_1+2x_2 \ge8,\\ $
+$  12x_1 +3x_2 \ge 24,\\$
+$  4x_1 +4x_2 \ge 16.$
+ $\end{cases}$
+
+$x_1\ge0, x_2\ge0$\\
+$F=50x_1+20x_2 \rightarrow min$\\
+\end{center}
+Поделим обе части второго неравенства на три, а третьего на четыре:
+\begin{center}
+$\begin{cases}$
+$  x_1+2x_2 \ge8,\\ $
+$  4x_1 +x_2 \ge 8,\\$
+$  x_1 +x_2 \ge 4.$
+ $\end{cases}$
+
+$x_1\ge0, x_2\ge0$\\
+$F=50x_1+20x_2 \rightarrow min$\\
+\end{center}
+Выразим $x_2$ из каждого неравенства системы:
+\begin{center}
+$\begin{cases}$
+$  x_2 \ge \frac{8-x_1}{2},\\ $
+$  x_2 \ge 8-4x_1,\\$
+$  x_2 \ge 4 -x_1.$
+ $\end{cases}$
+
+$x_1\ge0, x_2\ge0$\\
+$F=50x_1+20x_2 \rightarrow min$\\
+\end{center}
+\newpage
+Найдём решение системы, выделив область решений каждого неравенства:
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[		
+	xlabel = {$x_1$},
+	ylabel = {$x_2$},	
+	xmin = 0,
+	ymin = 0,
+	xmax = 8,
+	ymax = 8,	
+	axis x line=center,
+	axis y line=center,
+	width = 400,
+	height = 200,
+	domain = 0:100	
+]
+\legend{ 
+	Ограничение азота, 
+	Ограничение фосфора, 
+	Ограничение калия,
+	Оптимальное решение
+};
+\addplot [green, name path=B]  {(8-x)/2};
+
+
+\addplot [brown, name path=C]  {8-4*x};
+
+\addplot [blue, name path=D]  {4-x};
+
+
+\addplot+ [red] coordinates{(8/7,24/7)};
+\addplot [white,name path = A] coordinates{(0,8) (8,8)};
+\addplot [green,fill opacity=0.4] fill between [of=A and B,soft clip={domain=0:8}];
+\addplot [brown,fill opacity=0.4] fill between [of=A and C,soft clip={domain=0:8}];
+\addplot [blue,fill opacity=0.4] fill between [of=A and D,soft clip={domain=0:8}];
+\end{axis}
+\end{tikzpicture}
+\end{center}
+Решением всей системы будет тёмно-синия область на графике, а оптимальное решение достигается в точке пересечения ограничений азота и фосфора ($\frac{8}{7},\frac{24}{7}$).
+
+\textbf{Ответ:} фермеру потребуется $\frac{8}{7}кг.$ \lq{}Азофоски\rq{}  и $\frac{24}{7}кг.$ \lq{}Комплекса\rq{}.
+\newpage
+\item Полной даме необходимо похудеть, а за помощью она обратилась к подруге. Подруга посоветовала перейти на рациональное питание, состоящее из двух продуктов $P$ и $Q$. 
+
+Суточное питание этими продуктами должно давать менее $14ед.$ жира (чтобы похудеть), но не менее $300$ килокалорий. На упаковке продукта $Р$ написано, что в одном килограмме этого продукта содержится $15ед.$ жира и $150$ килокалорий, а на упаковке с продуктом $Q$ --- $4$ единицы жира и $200$ килокалорий соответственно. При этом цена продукта $Р$ равна $250 руб./кг$, а цена продукта $Q$ равна $210 руб./кг$.
+
+Так как дама была стеснена в средствах, то ее интересовал вопрос: в какой пропорции нужно брать эти продукты для того, чтобы выдержать условия диеты и истратить как можно меньше денег? Решите задачу графически. 
+
+\textbf{Решение}
+
+Пусть $x_1$ --- количество продукта $P$, а $x_2$ --- $Q$. Составим модель задачи:
+\begin{center}
+$\begin{cases}$
+$  15x_1+4x_2 < 14,\\ $
+$  150x_1 +200x_2 \ge 300.$
+$\end{cases}$
+
+$x_1\ge0, x_2\ge0$\\
+$F=250x_1+210x_2 \rightarrow min$\\
+\end{center}
+Обе части второго неравенства поделим на 50:
+\begin{center}
+$\begin{cases}$
+$  15x_1+4x_2 < 14,\\ $
+$  3x_1 +4x_2 \ge 6.$
+$\end{cases}$
+
+$x_1\ge0, x_2\ge0$\\
+$F=250x_1+210x_2 \rightarrow min$\\
+\end{center}
+Выразим $x_2$ из каждого неравенства системы:
+\begin{center}
+$\begin{cases}$
+$  x_2 < \frac{14-15x_1}{4},\\ $
+$  x_2 \ge \frac{6-3x_1}{4}.$
+$\end{cases}$
+
+$x_1\ge0, x_2\ge0$\\
+$F=250x_1+210x_2 \rightarrow min$\\
+\end{center}
+\newpage
+Найдём решение системы, выделив область решений каждого неравенства:
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[		
+	xlabel = {$x_1$},
+	ylabel = {$x_2$},	
+	xmin = 0,
+	ymin = 0,
+	xmax = 1,
+	ymax = 4,	
+	axis x line=center,
+	axis y line=center,
+	width = 400,
+	height = 200,
+	domain = 0:10	
+]
+\legend{ 
+	Ограничение жира, 
+	Ограничение килокалорий, 	
+	Оптимальное решение
+};
+\addplot [yellow,fill=yellow,fill opacity=0.4,]  {(14-15*x)/4}
+|- (0,0) -- cycle;
+
+\addplot [blue, name path=C]  {(6-3*x)/4};
+
+\addplot+ [red] coordinates{(0,3/2)};
+\addplot [white,name path = A] coordinates{(0,4) (1,4)};
+
+\addplot [blue,fill opacity=0.4] fill between [of=A and C,soft clip={domain=0:8}];
+
+\end{axis}
+\end{tikzpicture}
+\end{center}
+Решением всей системы будет жёлто-синия область на графике, а оптимальное решение достигается в точке пересечения ограничений килокалорий и оси $x_2$ ($0,\frac{3}{2}$).
+
+\textbf{Ответ:} даме потребуется $0кг.$ продукта $P$ и $\frac{3}{2}кг.$ продукта $Q$.
+\end{enumerate}
 \end{document}
