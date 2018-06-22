@@ -1,0 +1,330 @@
+\documentclass[12pt]{article}
+\usepackage[russian]{babel}
+\usepackage{hhline}
+\usepackage{graphicx}
+\graphicspath{{pictures/}}
+\DeclareGraphicsExtensions{.png}
+\usepackage{multirow}
+\usepackage{amsmath}
+\usepackage{mathtext}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{pscyr} 
+\usepackage[left=1.5cm,right=1.5cm, top=1cm,bottom=1cm,bindingoffset=0cm]{geometry}
+\begin{document}
+
+\pagestyle{empty}
+\begin{center}
+\large{\textbf{Университет ИТМО}}
+\end{center}
+\rule{525pt}{1pt}
+\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip
+\begin{center}
+\Large
+\textbf{Лабораторная работа №4}
+
+\textbf{\textit{«Транспортная задача. Методы нахождения начального решения транспортной задачи»}}
+
+
+\end{center}
+\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip      
+\begin{flushright}
+\large
+Выполнил: Федюкович С. А.
+\par\bigskip
+Факультет: МТУ “Академия ЛИМТУ”
+\par\bigskip
+Группа: S3100                       
+\par\bigskip\par\bigskip\par\bigskip
+
+\rule{150pt}{0.5pt}
+\par\bigskip\par\bigskip\par\bigskip\par\bigskip                                                            
+ Проверила: Авксентьева Е. Ю.
+\par\bigskip \par\bigskip
+
+\rule{150pt}{0.5pt}
+\end{flushright}
+\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip     
+\begin{center}
+\large
+Санкт-Петербург
+\par\bigskip
+2018
+\end{center}
+\newpage
+\section*{Теоретические основы лабораторной работы}
+Частным случаем задачи линейного программирования является транспортная задача, которая в общем виде состоит в определении оптимального плана перевозок некоторого груза из $m$ пунктов отправления
+ $А_1 , А_2 , ..., А_m$ в $n$ пунктов назначения  $B_1 , B_2 , ..., B_n$. 
+
+Теорема. Любая транспортная задача, у которой суммарный объем запасов совпадает с
+суммарным объемом потребностей, имеет решение.
+
+Методы составления опорного плана транспортной задачи:
+\begin{enumerate}
+\item Метод северо-западного угла --- заключается в последовательном удовлетворении потребностей каждого $j-го$ потребиля за счет $i-го$  поставщика. Процесс
+продолжается до тех пор, пока все потребители не будут удовлетворены.
+\item Метод минимальной стоимости --- заключается в том, что из всей таблицы стоимостей выбирается наименьшая,
+и в клетку, которая ей соответствует, помещается меньшее из чисел $A_i$, или $B_j$. Затем, из
+рассмотрения исключается либо строка, соответствующая поставщику, запасы которого
+полностью израсходованы, либо столбец, соответствующий потребителю, потребности
+которого полностью удовлетворены, либо и строку и столбец, если израсходованы запасы
+поставщика и удовлетворены потребности потребителя. Из оставшейся части таблицы
+стоимостей снова выбирают наименьшую стоимость, и процесс распределения запасов
+продолжают, пока все запасы не будут распределены, а потребности удовлетворены.
+\item Метод аппроксимации Фогеля --- заключается в поиске наибольших разностей между двумя наимененьшими стоимостями перевозок, из которых после формируется опорный план.
+\item Метод двойного предпочтения --- заключается в посике наименьших стоимостей в каждом столбце и строке и из их пересечений формируется опорное решение.
+\end{enumerate}
+
+\newpage
+\section*{Решение заданий}
+
+Составить опорные планы различными методами, сравнить значения суммарной
+стоимости перевозок по каждому плану: 
+
+\subsection*{Задача 1}
+
+\begin{table}[h!]
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+           & $B_1$ & $B_2$ & $B_3$ & $B_4$ & $A_i$	\\
+\hline
+ $A_1$ & 2 & 3 & 2 & 4 & 30	\\
+\hline
+ $A_2$ & 3 & 2 & 5 & 1 & 40	\\
+\hline
+ $A_3$ & 4 & 3 & 2 & 6 & 20	\\ 
+\hline
+ $B_j$ & 20 & 30 & 30 & 10 & 90	\\
+\hline
+\end{tabular}
+\end{center}
+\end{table} 
+\subsection*{Решение}
+Решим методом северо-западного угла:
+\begin{table}[h!]
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+           & $B_1$ & $B_2$ & $B_3$ & $B_4$ & $A_i$	\\
+\hline
+ $A_1$ & $20^2$ & $10^3$  & 2 & 4 & 30	\\
+\hline
+ $A_2$ & 3 & $20^2$  & $20^5$  & 1 & 40	\\
+\hline
+ $A_3$ & 4 & 3 & $10^2$  & $10^6$  & 20	\\ 
+\hline
+ $B_j$ & 20 & 30 & 30 & 10 & 90	\\
+\hline
+\end{tabular}\\
+
+Стоимость: 290
+\end{center}
+\end{table} 
+
+Решим методом минимальной стоимости:
+\begin{table}[h!]
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+           & $B_1$ & $B_2$ & $B_3$ & $B_4$ & $A_i$	\\
+\hline
+ $A_1$ & 2 & 3 & $30^2$ & 4 & 30	\\
+\hline
+ $A_2$ & 3 & $30^2$ & 5 & $10^1$ & 40	\\
+\hline
+ $A_3$ & $20^4$ & 3 & 2 & 6 & 20	\\ 
+\hline
+ $B_j$ & 20 & 30 & 30 & 10 & 90	\\
+\hline
+\end{tabular}\\
+Стоимость: 210
+\end{center}
+\end{table} 
+\newpage
+\subsection*{Задача 2}
+\begin{table}[h!]
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|c|}
+\hline
+           & $B_1$ & $B_2$ & $B_3$ & $B_4$ & $B_5$ & $A_i$	\\
+\hline
+ $A_1$ & 2 & 7 & 3 & 6 & 2 & 30	\\
+\hline
+ $A_2$ & 9 & 4 & 5 & 7 & 3 & 70	\\
+\hline
+ $A_3$ & 5 & 7 & 6 & 2 & 4 & 50	\\
+\hline
+ $B_j$ & 10 & 40 & 20 & 60 & 20 & 150	\\
+\hline
+\end{tabular}
+\end{center}
+\end{table} 
+\subsection*{Решение}
+Решим методом северо-западного угла:
+\begin{table}[h!]
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|c|}
+\hline
+           & $B_1$ & $B_2$ & $B_3$ & $B_4$ & $B_5$ & $A_i$	\\
+\hline
+ $A_1$ & $10^2$ & $20^7$ & 3 & 6 & 2 & 30	\\
+\hline
+ $A_2$ & 9 & $20^4$ & $20^5$ & $30^7$ & 3 & 70	\\
+\hline
+ $A_3$ & 5 & 7 & 6 & $30^2$ & $20^4$ & 50	\\
+\hline
+ $B_j$ & 10 & 40 & 20 & 60 & 20 & 150	\\
+\hline
+\end{tabular}\\
+
+Стоимость: 690
+\end{center}
+\end{table} 
+
+Решим методом минимальной стоимости:
+\begin{table}[h!]
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|c|}
+\hline
+           & $B_1$ & $B_2$ & $B_3$ & $B_4$ & $B_5$ & $A_i$	\\
+\hline
+ $A_1$ & $10^2$ & 7 & 3 & 6 & $20^2$ & 30	\\
+\hline
+ $A_2$ & 9 & $40^4$ & $20^5$ & $10^7$ & 3 & 70	\\
+\hline
+ $A_3$ & 5 & 7 & 6 & $50^2$ & 4 & 50	\\
+\hline
+ $B_j$ & 10 & 40 & 20 & 60 & 20 & 150	\\
+\hline
+\end{tabular}\\
+Стоимость: 390
+\end{center}
+\end{table} 
+\newpage
+\subsection*{Задача 3}
+\begin{table}[h!]
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|c|}
+\hline
+           & $B_1$ & $B_2$ & $B_3$ & $B_4$ & $B_5$ & $A_i$	\\
+\hline
+ $A_1$ & 4 & 2 & 5 & 7 & 6 & 20	\\
+\hline
+ $A_2$ & 7 & 8 & 3 & 4 & 5 & 110	\\
+\hline
+ $A_3$ & 2 & 1 & 4 & 3 & 2 & 120	\\
+\hline
+ $B_j$ & 70 & 40 & 30 & 60 & 50 & 250	\\
+\hline
+\end{tabular}
+\end{center}
+\end{table} 
+\subsection*{Решение}
+Решим методом северо-западного угла:
+\begin{table}[h!]
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|c|}
+\hline
+           & $B_1$ & $B_2$ & $B_3$ & $B_4$ & $B_5$ & $A_i$	\\
+\hline
+ $A_1$ & $20^4$ & 2 & 5 & 7 & 6 & 20	\\
+\hline
+ $A_2$ & $50^7$ & $40^8$ & $20^3$ & 4 & 5 & 110	\\
+\hline
+ $A_3$ & 2 & 1 & $10^4$ & $50^3$ & $60^2$ & 120	\\
+\hline
+ $B_j$ & 70 & 40 & 30 & 60 & 50 & 250	\\
+\hline
+\end{tabular}\\
+
+Стоимость: 1120
+\end{center}
+\end{table} 
+
+Решим методом минимальной стоимости:
+\begin{table}[h!]
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|c|}
+\hline
+           & $B_1$ & $B_2$ & $B_3$ & $B_4$ & $B_5$ & $A_i$	\\
+\hline
+ $A_1$ & 4 & 2 & 5 & 7 & $20^6$ & 20	\\
+\hline
+ $A_2$ & 7 & 8 & $30^3$ & $50^4$ & $30^5$ & 110	\\
+\hline
+ $A_3$ & $70^2$ & $40^1$ & 4 & 3 & $10^2$ & 120	\\
+\hline
+ $B_j$ & 70 & 40 & 30 & 60 & 50 & 250	\\
+\hline
+\end{tabular}\\
+Стоимость: 760
+\end{center}
+\end{table} 
+\newpage
+\subsection*{Задача 4}
+\begin{table}[h!]
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|c|}
+\hline
+           & $B_1$ & $B_2$ & $B_3$ & $B_4$ & $B_5$ & $A_i$	\\
+\hline
+ $A_1$ & 2 & 8 & 4 & 6 & 3 & 120	\\
+\hline
+ $A_2$ & 3 & 2 & 5 & 2 & 6 & 30	\\
+\hline
+ $A_3$ & 6 & 5 & 8 & 7 & 4 & 40	\\
+\hline
+ $A_4$ & 3 & 4 & 4 & 2 & 1 & 60	\\
+\hline
+ $B_j$ & 30 & 90 & 80 & 20 & 30 & 250	\\
+\hline
+\end{tabular}
+\end{center}
+\end{table} 
+\subsection*{Решение}
+Решим методом северо-западного угла:
+\begin{table}[h!]
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|c|}
+\hline
+           & $B_1$ & $B_2$ & $B_3$ & $B_4$ & $B_5$ & $A_i$	\\
+\hline
+ $A_1$ & $30^2$ & $90^8$ & 4 & 6 & 3 & 120	\\
+\hline
+ $A_2$ & 3 & 2 & $30^5$ & 2 & 6 & 30	\\
+\hline
+ $A_3$ & 6 & 5 & $40^8$ & 7 & 4 & 40	\\
+\hline
+ $A_4$ & 3 & 4 & $10^4$ & $20^2$ & $30^1$ & 60	\\
+\hline
+ $B_j$ & 30 & 90 & 80 & 20 & 30 & 250	\\
+\hline
+\end{tabular}\\
+
+Стоимость: 1360
+\end{center}
+\end{table} 
+
+Решим методом минимальной стоимости:
+\begin{table}[h!]
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|c|}
+\hline
+           & $B_1$ & $B_2$ & $B_3$ & $B_4$ & $B_5$ & $A_i$	\\
+\hline
+ $A_1$ & $30^2$ & $10^8$ & $80^4$ & 6 & 3 & 120	\\
+\hline
+ $A_2$ & 3 & $10^2$ & 5 & $20^2$ & 6 & 30	\\
+\hline
+ $A_3$ & 6 & $40^5$ & 8 & 7 & 4 & 40	\\
+\hline
+ $A_4$ & 3 & $30^4$ & 4 & 2 & $30^1$ & 60	\\
+\hline
+ $B_j$ & 30 & 90 & 80 & 20 & 30 & 250	\\
+\hline
+\end{tabular}\\
+Стоимость: 870
+\end{center}
+\end{table} 
+\end{document}
