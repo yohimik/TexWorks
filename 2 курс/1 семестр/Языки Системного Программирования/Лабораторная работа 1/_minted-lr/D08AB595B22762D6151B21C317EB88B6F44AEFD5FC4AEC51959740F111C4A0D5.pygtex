@@ -1,0 +1,15 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{section} \PYG{n+nv}{.text}
+\PYG{k}{global} \PYG{n+nv}{\PYGZus{}start}
+ \PYG{n+nl}{\PYGZus{}start:}
+\PYG{n+nf}{mov} \PYG{n+nb}{ecx}\PYG{p}{,} \PYG{n+nv}{message}
+\PYG{n+nf}{mov} \PYG{n+nb}{edx}\PYG{p}{,} \PYG{n+nv}{length}
+\PYG{n+nf}{mov} \PYG{n+nb}{ebx}\PYG{p}{,} \PYG{l+m+mi}{1}
+\PYG{n+nf}{mov} \PYG{n+nb}{eax}\PYG{p}{,} \PYG{l+m+mi}{4}
+\PYG{n+nf}{int} \PYG{l+m+mh}{0x80}
+\PYG{n+nf}{mov} \PYG{n+nb}{eax}\PYG{p}{,} \PYG{l+m+mi}{1}
+\PYG{n+nf}{int} \PYG{l+m+mh}{0x80}
+\PYG{k}{section} \PYG{n+nv}{.data}
+\PYG{n+no}{message}\PYG{k+kd}{ db} \PYG{l+s}{\PYGZsq{} !\PYGZsq{}}\PYG{p}{,} \PYG{l+m+mi}{10} \PYG{err}{Ассемблер} \PYG{err}{рулит}
+\PYG{n+nf}{length} \PYG{n+nv}{equ} \PYG{k+kc}{\PYGZdl{}} \PYG{o}{\PYGZhy{}} \PYG{n+nv}{message}
+\end{Verbatim}

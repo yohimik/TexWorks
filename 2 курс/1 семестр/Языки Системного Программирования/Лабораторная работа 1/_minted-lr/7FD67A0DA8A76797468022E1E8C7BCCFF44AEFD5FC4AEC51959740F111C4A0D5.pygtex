@@ -1,0 +1,35 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n+nf}{SYS\PYGZus{}EXIT} \PYG{n+nv}{equ} \PYG{l+m+mi}{1}
+\PYG{n+nf}{SYS\PYGZus{}WRITE} \PYG{n+nv}{equ} \PYG{l+m+mi}{4}
+\PYG{n+nf}{STDOUT} \PYG{n+nv}{equ} \PYG{l+m+mi}{1}
+\PYG{n+nf}{index} \PYG{n+nv}{equ} \PYG{l+m+mi}{4} \PYG{c+c1}{;позиция 4}
+\PYG{n+nf}{number} \PYG{n+nv}{equ} \PYG{l+m+mi}{3} \PYG{c+c1}{;число символов 3}
+\PYG{k}{section} \PYG{n+nv}{.text}
+ \PYG{k}{global} \PYG{n+nv}{\PYGZus{}start} \PYG{c+c1}{;must be declared for linker (ld)}
+\PYG{n+nl}{\PYGZus{}start:} \PYG{c+c1}{;tell linker entry point}
+\PYG{c+c1}{;position source at index, destination at buffer}
+\PYG{n+nf}{mov} \PYG{n+nb}{ESI}\PYG{p}{,} \PYG{n+nv}{string} \PYG{o}{+} \PYG{n+nv}{index} \PYG{c+c1}{; SI \PYGZhy{} source register for MOVSB}
+\PYG{n+nf}{mov} \PYG{n+nb}{EDI}\PYG{p}{,} \PYG{n+nv}{buffer} \PYG{c+c1}{; DI \PYGZhy{} destination register for MOVSB}
+\PYG{n+nf}{mov} \PYG{n+nb}{ECX}\PYG{p}{,} \PYG{n+nv}{number} \PYG{c+c1}{; CX is used in MOVSB as a counter}
+\PYG{n+nf}{REP} \PYG{n+nv}{MOVSB} \PYG{c+c1}{;mov n bytes}
+\PYG{c+c1}{;position source at index + n, destination at index}
+\PYG{n+nf}{MOV} \PYG{n+nb}{EDI}\PYG{p}{,} \PYG{n+nv}{string} \PYG{o}{+} \PYG{n+nv}{index}
+\PYG{n+nf}{MOV} \PYG{n+nb}{ESI}\PYG{p}{,} \PYG{n+nv}{string} \PYG{o}{+} \PYG{n+nv}{index} \PYG{o}{+} \PYG{n+nv}{number}
+\PYG{n+nf}{MOV} \PYG{n+nb}{ECX}\PYG{p}{,} \PYG{n+nv}{number}
+\PYG{n+nf}{REP} \PYG{n+nv}{MOVSB} \PYG{c+c1}{;mov the ending of the string to the index position}
+\PYG{n+nf}{MOV} \PYG{n+nb}{EDI}\PYG{p}{,} \PYG{n+nv}{string} \PYG{o}{+} \PYG{n+nv}{index} \PYG{o}{+} \PYG{n+nv}{number} \PYG{c+c1}{;set destination at index + n;}
+\PYG{n+nf}{MOV} \PYG{n+nb}{ESI}\PYG{p}{,} \PYG{n+nv}{buffer}
+\PYG{n+nf}{MOV} \PYG{n+nb}{ECX}\PYG{p}{,} \PYG{n+nv}{number}
+\PYG{n+nf}{REP} \PYG{n+nv}{MOVSB}
+\PYG{n+nf}{mov} \PYG{n+nb}{edx}\PYG{p}{,} \PYG{n+nv}{length} \PYG{c+c1}{; message length}
+\PYG{n+nf}{mov} \PYG{n+nb}{ecx}\PYG{p}{,} \PYG{n+nv}{string} \PYG{c+c1}{; message to write}
+\PYG{n+nf}{mov} \PYG{n+nb}{ebx}\PYG{p}{,} \PYG{l+m+mi}{1} \PYG{c+c1}{; file descriptor (stdout)}
+\PYG{n+nf}{mov} \PYG{n+nb}{eax}\PYG{p}{,} \PYG{n+nv}{SYS\PYGZus{}WRITE} \PYG{c+c1}{; system call number (sys\PYGZus{}write)}
+\PYG{n+nf}{int} \PYG{l+m+mh}{0x80} \PYG{c+c1}{; call kernel}
+\PYG{n+nf}{mov} \PYG{n+nb}{eax}\PYG{p}{,} \PYG{n+nv}{SYS\PYGZus{}EXIT} \PYG{c+c1}{; system call number (sys\PYGZus{}exit)}
+\PYG{n+nf}{int} \PYG{l+m+mh}{0x80} \PYG{c+c1}{; call kernel}
+\PYG{k}{section} \PYG{n+nv}{.data}
+\PYG{n+no}{string}\PYG{k+kd}{ db} \PYG{l+s}{\PYGZsq{}0123456789\PYGZsq{}} \PYG{c+c1}{;Исходная строка \PYGZsq{}0123456789\PYGZsq{}}
+\PYG{n+nf}{length} \PYG{n+nv}{equ} \PYG{k+kc}{\PYGZdl{}} \PYG{o}{\PYGZhy{}} \PYG{n+nv}{string}
+\PYG{n+no}{buffer}\PYG{k+kd}{ times} \PYG{n+nv}{number} \PYG{n+nv}{db} \PYG{l+m+mi}{0}
+\end{Verbatim}
