@@ -1,0 +1,597 @@
+\documentclass[12pt]{article}
+\usepackage{mathtext} 
+\usepackage{amsmath}
+
+\usepackage[english, russian]{babel}
+\usepackage[TS1, T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{pscyr}
+\usepackage{enumitem,kantlipsum}
+\usepackage{tikz}
+\usetikzlibrary{patterns}
+\usepackage{fp}
+\usepackage{pgfplots}
+\usepgfplotslibrary{fillbetween}
+\pgfplotsset{compat=1.9}
+
+
+\usepackage{siunitx}
+\sisetup{output-decimal-marker={,}}
+
+\usepackage[left=2cm,right=2cm, top=1cm,bottom=1.5cm,bindingoffset=0cm]{geometry}
+
+\begin{document}
+	\pagestyle{empty}
+	
+	\begin{center}
+		\normalsize
+		\textbf{Федеральное государственное автономное образовательное учреждение высшего образования}
+
+		\small
+		\medskip 
+		\textbf{САНКТ-ПЕТЕРБУРГСКИЙ НАЦИОНАЛЬНЫЙ ИССЛЕДОВАТЕЛЬСКИЙ  УНИВЕРСИТЕТ ИНФОРМАЦИОННЫХ ТЕХНОЛОГИЙ, МЕХАНИКИ И ОПТИКИ}
+
+		\medskip 
+		\textbf{ФАКУЛЬТЕТ ПРОГРАММНОЙ ИНЖЕНЕРИИ И КОМПЬЮТЕРНОЙ ТЕХНИКИ}	
+	\bigskip\bigskip\bigskip\bigskip\bigskip\bigskip\bigskip\bigskip\bigskip\bigskip\bigskip\bigskip	
+		\par\medskip\par\smallskip\par\smallskip
+		\Large 
+		\textbf{Типовой расчет по математике} 
+
+		\textbf{Модуль 5}
+
+		\large
+		\par\bigskip
+		\textbf{«Кратные, криволинейные и поверхностные интегралы.}
+		
+		\textbf{Теория поля»}
+		\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip
+		\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip
+		\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip
+		\normalsize
+		\begin{tabular}{lllll}
+							\hspace{170pt}	 							& \hspace{80pt}	&	Выполнил:								&\\
+																		&			&	Студент группы P3255					&\\
+																		& 			&	Федюкович С. А. \_\_\_\_\_\_\_\_\_\_\_\_\_\_	&\\
+																		&			&	Вариант 26									&\\
+																		&			&										&\\
+		\end{tabular}
+		\par\bigskip\par\bigskip\par\bigskip                                                  
+		\par\bigskip \par\bigskip
+		\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip
+		
+		Санкт-Петербург
+		\par\bigskip
+		2018
+	\end{center}
+	\newpage
+	\pagestyle{plain}
+	\setcounter{page}{1}
+	\section*{Задача 1}	
+	\subsection*{Условие}
+	
+	Плоская область $D$ ограничена заданными кривыми: $$x=\arcsin y, y=\frac{\pi}{2x}, y=\frac{8x}{\pi}.$$
+	
+	\begin{enumerate}
+		\item Сделать схематический рисунок области $D$.
+		\item С помощью двойного интеграла найти площадь $D$.		
+	\end{enumerate}
+
+	\subsection*{Решение}
+	\begin{enumerate}[wide, labelwidth=!, labelindent=0pt]
+		\item Область $D$, ограниченная указанными линиями, изображена ниже:		
+		\begin{center}
+			\begin{tikzpicture}
+				\begin{axis}[		
+				xlabel = {$x$},
+				ylabel = {$y$},	
+				xmin = -pi/2-0.1,
+				ymin = -2.1,
+				xmax = pi/2+0.1,
+				ymax = 2.1,	
+				axis x line=center,
+				axis y line=center,
+				width = 400,
+				height = 400,
+				grid = none,
+				xtick={-1.5707963267948966, -0.7853981633974483, 0, 0.7853981633974483,1.5707963267948966},
+				ytick={-2,-1,0,1,2},
+				xticklabels={$\pi/2$,$-\pi/4$,$0$,$\pi/4$,$\pi/2$}
+				]				
+					\addplot[black,domain=-2:2,unbounded coords=jump,samples=101, name path=A] {pi/(2*x)};
+					\node[label={0:{$y=\frac{\pi}{2x}$}}] at (axis cs:-1.68,-1.3) {};
+					
+					\addplot[black,domain=-1.5707963267948966:1.5707963267948966, samples=101, name path=B] {sin(deg(x))};
+					\node[label={0:{$x=\arcsin y$}}] at (axis cs:0.3,0.3) {};
+					
+					\addplot[black, name path=D] {8*x/pi};
+					\node[label={0:{$y=\frac{8x}{\pi}$}}] at (axis cs:0.08,1.3) {};
+					
+					\addplot[gray!30,opacity=0.6] fill between[of=B and D,soft clip={domain=-1.5707963267948966:1.5707963267948966}];
+					
+					\node[label={0:{$D$}}] at (axis cs:0.7,1.2) {};
+					
+					\addplot[black, name path=C, opacity=0] coordinates {(pi/4,2.1) (1.7,2.1) (pi/2,0.9)};
+					\addplot[black, name path=E, opacity=0] coordinates {(-pi/4,-2.1) (-1.7,-2.1) (-pi/2,-0.9)};				
+					\addplot[white!30,opacity=1] fill between[of=A and C,soft clip={domain=0.1:1.5707963267948966}];
+					\addplot[white!30,opacity=1] fill between[of=A and E,soft clip={domain=-1.5707963267948966:-0.1}];
+					
+					\node[label={135:{$0$}} ] at (axis cs:0,0) {};
+					\node[label={-100:{$(\pi/2,1)$}},circle,fill,inner sep=2pt] at (axis cs:1.5707963267948966,1) {};
+					\node[label={180:{$(\pi/4,2)$}},circle,fill,inner sep=2pt] at (axis cs:0.7853981633974483,2) {};
+					\node[label={80:{$(-\pi/2,-1)$}},circle,fill,inner sep=2pt] at (axis cs:-1.5707963267948966,-1) {};
+					\node[label={180:{$(-\pi/4,-2)$}},circle,fill,inner sep=2pt] at (axis cs:-0.7853981633974483,-2) {};
+				\end{axis}
+			\end{tikzpicture}
+		\end{center}
+	
+		Координаты точек пересечения граничных линий найдены графически.
+		
+		\item Площадь $S$ области $D$ находится по формуле:
+		
+		$$S=\iint \limits_{D} \,d x\,d y$$
+		
+		\newpage		
+		Представим двойной интеграл в виде:
+		
+		$$S=\iint \limits_{D} \,d x\,d y = \int_{a}^{b} \,dx \int_{f_1(x)}^{f_2(x)} \,dy$$
+		
+		Для расстановки пределов интегрирования разрешим уравнения граничных линий относительно $y$:
+		$$y=\sin x, y=\frac{\pi}{2x}, y=\frac{8x}{\pi}.$$
+		
+		В силу нечетности кривых площадь $D$, при $x > 0$ будет равна площади $D$, при $x < 0$. Площадь $ S $ области $ D $ представим в виде удвоенной суммы площадей областей $ D_{1} $ и $ D_{2} $:
+		
+		\begin{center}
+			\begin{tikzpicture}
+			\begin{axis}[		
+			xlabel = {$x$},
+			ylabel = {$y$},	
+			xmin = -0.1,
+			ymin = -0.1,
+			xmax = pi/2+0.1,
+			ymax = 2.1,	
+			axis x line=center,
+			axis y line=center,
+			width = 400,
+			height = 350,
+			grid = none,
+			xtick={-1.5707963267948966, -0.7853981633974483, 0, 0.7853981633974483,1.5707963267948966},
+			ytick={-2,-1,0,1,2},
+			xticklabels={$\pi/2$,$-\pi/4$,$0$,$\pi/4$,$\pi/2$}
+			]				
+			\addplot[black,domain=0:2,unbounded coords=jump,samples=101, name path=A] {pi/(2*x)};
+			\node[label={0:{$y=\frac{\pi}{2x}$}}] at (axis cs:1.25,1.3) {};
+			
+			\addplot[black,domain=0:1.5707963267948966, samples=101, name path=B] {sin(deg(x))};
+			\node[label={0:{$y=\sin x$}}] at (axis cs:0.3,0.3) {};
+			
+			\addplot[black,domain=0:2, name path=D] {8*x/pi};
+			\node[label={0:{$y=\frac{8x}{\pi}$}}] at (axis cs:0.25,1.3) {};
+			
+			\addplot[gray!30,opacity=0.6] fill between[of=B and D,soft clip={domain=-1.5707963267948966:1.5707963267948966}];
+			
+			\node[label={0:{$D_{1}$}}] at (axis cs:0.4,0.9) {};
+			\node[label={0:{$D_{2}$}}] at (axis cs:0.9,1.2) {};
+			
+			\addplot[black, name path=G, opacity=1] coordinates {(pi/4,2) (pi/4,0.707106)};
+			
+			\addplot[black, name path=C, opacity=0] coordinates {(pi/4,2.1) (1.7,2.1) (pi/2,0.9)};				
+			\addplot[white!30,opacity=1] fill between[of=A and C,soft clip={domain=0.1:1.5707963267948966}];
+			
+			\node[label={-100:{$(\pi/2,1)$}},circle,fill,inner sep=2pt] at (axis cs:1.5707963267948966,1) {};
+			\node[label={-135:{$0$}},circle,fill,inner sep=2pt] at (axis cs:0,0) {};
+			\node[label={180:{$(\pi/4,2)$}},circle,fill,inner sep=2pt] at (axis cs:0.7853981633974483,2) {};
+			\node[label={-30:{$(\pi/4,1/\sqrt{2})$}},circle,fill,inner sep=2pt] at (axis cs:0.785398163,0.707106) {};
+			\end{axis}
+			\end{tikzpicture}
+		\end{center}		
+		$$S= 2(\iint \limits_{D_1} \,d x\,d y + \iint \limits_{D_2} \,d x\,d y)=$$
+		$$= 2(\int_{0}^{\pi/4} \,dx \int_{\sin x}^{8x / \pi} \,dy + \int_{\pi/4}^{\pi/2} \,dx \int_{\sin x}^{\pi / (2x)} \,dy)=$$
+		$$=2(\int_{0}^{\pi/4}(8x/\pi  - \sin x) \,dx + \int_{\pi/4}^{\pi/2}(\pi/(2x) - \sin x ) \,dx)=$$
+		$$=2((4x^{2}/\pi + \cos x)\Big|_0^{\pi/4} + (\frac{\pi}{2}\ln x+ \cos x)\Big|_{\pi/4}^{\pi/2})=$$
+		$$ =2(\pi/4 + \sqrt{2}/2 - 1 +\frac{\pi}{2}\ln{\frac{\pi}{2}} - \frac{\pi}{2}\ln{\frac{\pi}{4}} -\sqrt{2}/2)=$$
+		$$= 2(\pi/4-1+\frac{\pi}{2}\ln{2})=\pi/2 - 2 +\pi\ln2$$
+					
+	\end{enumerate}		
+	\hspace{290pt}\textbf{Ответ:} $\pi/2 - 2 +\pi\ln2$	
+	
+	\newpage
+	\section*{Задача 2}	
+	\subsection*{Условие}
+	
+	Тело $Т$ ограничено заданными поверхностями: $$z=-\frac{5}{16}(x^2+y^2)\quad(1), z=-\sqrt{x^2+y^2 + 9}\quad(2), y=0\quad(3) \quad \textrm{при} \quad y \leq 0.$$
+	
+	\begin{enumerate}
+		\item Сделать схематический рисунок тела $Т$.
+		\item С помощью тройного интеграла найти объем тела $Т$, перейдя к цилиндрическим или сферическим координатам. 
+	\end{enumerate}
+	
+	\subsection*{Решение}
+	\begin{enumerate}[wide, labelwidth=!, labelindent=0pt]
+		\item Уравнение $(1)$ задает параболоид вращения, симметричный относительно оси $Oz$ с вершиной в точке $O(0; 0; 0)$, полость которого обращена вниз. Уравнение $(2)$ задает нижнюю полость двуполостного гиперболоида с вершиной в точке $P(0; 0; -3)$. Уравнение $(3)$ задает координатную плоскость $Oxz$. Условие	выделяет ту часть тела, ограниченного указанными поверхностями,	которая лежит в области отрицательных значений ординат. Тело $Т$ изображено ниже:
+	
+	\begin{center}
+		\begin{tikzpicture}
+			\begin{axis}[
+			width=500,
+			height=500,
+			axis lines = center,
+			xlabel = {$x$},
+			ylabel = {$y$},
+			zlabel = {$z$},
+			zmin=-5,
+			zmax=0.5,
+			xmin=-4,
+			xmax=4,
+			ymin=-4,
+			ymax=4,
+			view = {100}{10},
+			xtick={-4,0, 4},
+			ytick={-4,0,4},
+			ztick={0,-3,-5}
+			]
+			\addplot3[black, samples=40, domain=-4:4,thick, samples y=0]({x},{0},{(-5*x^2)/16});
+						
+			\addplot3[black, samples=40, domain=-4:0,thick]({0},{y},{(-5*y^2)/16});
+			
+			\addplot3[black, samples=40,		 domain=-4:4,samples y=0	]({x},{0},{-sqrt(x^2+9)});
+			\addplot3[black, samples=40, dashed, domain=-4:0 				]({0},{y},{-sqrt(y^2+9)});
+			
+			\addplot3[black, samples=20, dashed, domain=-4:0,samples y=0    ]({x},{-sqrt(-x^2+16)},{-5});
+			\addplot3[black, samples=20, 		 domain= 0:4,samples y=0    ]({x},{-sqrt(-x^2+16)},{-5});
+			
+			\addplot3[black, samples=40, dashed, domain=-sqrt(9.6):0 ,samples y=0    ]({x},{-sqrt(-x^2+ 9.6)},{-3});
+			\addplot3[black, samples=40,		 domain= 0:sqrt(9.6) ,samples y=0    ]({x},{-sqrt(-x^2+ 9.6))},{-3});
+
+			\end{axis}
+		\end{tikzpicture}
+	\end{center}
+		\newpage
+		\item Объем $V$ тела $Т$ выражается тройным интегралом:
+		$$ V=\iiint \limits_{T} \,d v$$
+				
+		Будем вычислять этот интеграл, перейдя к цилиндрическим	координатам $x = r \cos \varphi,$\\$y=r\sin \varphi$ с учетом того, что $x^2+y^2=r^2$. Якобиан перехода равен $r$, а формула объема тела примет вид:
+		$$ V=\iiint \limits_{T} r \,d r \,d \varphi \,d z$$
+		
+		Запишем уравнения поверхностей, ограничивающих тело $Т$, в цилиндрических координатах. Уравнение параболоида: $z = -5r^2/16 $ , уравнение нижней полости двуполостного гиперболоида: $z=-\sqrt{r^2 + 9}$ . Неравенство $y\leq 0$ в цилиндрических координатах примет вид: 
+		$$r\sin\varphi \leq 0 \Rightarrow \sin \varphi \leq 0 \Rightarrow - \pi \leq \varphi \leq 0\quad(4)$$ 
+		
+		Для расстановки пределов интегрирования найдем линию пересечения параболоида и полости гиперболоида:
+		\begin{equation*}	 
+			\begin{cases}
+				z = -5r^2/16\\
+				z=-\sqrt{r^2 + 9}\\
+				r \geq 0
+			\end{cases}
+			\Rightarrow
+			\begin{cases}
+				z = -5r^2/16\\
+				-5r^2/16=-\sqrt{r^2 + 9}\\
+				r \geq 0
+			\end{cases}
+			\Rightarrow
+			\begin{cases}
+				z = -5\\
+				r=4
+			\end{cases}
+		\end{equation*}
+		
+		Таким образом, параболоид и полость гиперболоида пересекаются по полуокружности радиуса $4$ с центром в точке $K(0;0;-5)$ в плоскости $z = -5$ при $y \leq 0$. Значит, для всех точек тела $Т$ справедливо условие $0 \leq r \leq 4$	(5). 
+		
+		Наконец, отметим, что при входе в область $Т$ прямая, параллельная оси $Oz$, пересечет полость гиперболоида $ z=-\sqrt{r^2 + 9} $, а при выходе --- параболоид $ z = -5r^2/16 $. Следовательно, для всех точек тела выполняется условие $ -\sqrt{r^2 + 9} \leq z \leq  -5r^2/16 $ (6). 
+		
+		Используя условия	(4), (5) и (6), расставим пределы интегрирования в тройном интеграле и решим его:			
+		$$ V= \int_{- \pi}^{0} \,d \varphi \int_{0}^{4} r \,d r \int_{-\sqrt{r^2 + 9}}^{-5r^2/16} \,d z = \int_{- \pi}^{0} \,d \varphi \int_{0}^{4} r(-5r^2/16 +\sqrt{r^2 + 9}) \,d r  = $$
+		$$ = \int_{- \pi}^{0} \,d \varphi \int_{0}^{4} (-5r^3/16 +r\sqrt{r^2 + 9}) \,d r = $$
+		$$ = \int_{- \pi}^{0} \,d \varphi \int_{0}^{4} -5r^3/16 \,d r + \int_{- \pi}^{0} \,d \varphi \int_{0}^{4}r\sqrt{r^2 + 9} \,d r = $$
+		$$ = \int_{- \pi}^{0} \,d \varphi  (-5r^4/64) \Big|_0^{4}  + \frac{1}{2} \int_{- \pi}^{0} \,d \varphi \frac{2(r^2 + 9)^{3/2}}{3} \Big|_0^{4} =$$
+		$$ = \int_{- \pi}^{0} \,d \varphi(-20)  + \frac{1}{2} \int_{- \pi}^{0} \,d \varphi \frac{196}{3} = $$
+		$$ = -20\pi + \frac{98\pi}{3} = \frac{38\pi}{3} $$
+		
+		\hspace{290pt}\textbf{Ответ:} $38\pi/3$	
+	\end{enumerate}
+	\newpage 
+	
+	\section*{Задача 3}	
+	\subsection*{Условие}
+	
+	С помощью криволинейного интеграла первого рода	найти массу $M$ дуги плоской материальной кривой, заданной уравнениями:			 
+		$\begin{cases}
+			x = 2\sqrt{t}\\
+			y=\frac{2}{3}t\sqrt{t}
+		\end{cases},\text{ при }  1 \leq t \leq 4 ,\quad \rho(x,y)=\sqrt{1+\frac{3}{4}xy} .$
+	
+	
+	\subsection*{Решение}
+	
+	Масса $M$ дуги плоской материальной кривой между точками $A$ и $B$ выражается криволинейным интегралом первого рода по дуге $AB$ кривой:
+	$$ M = \int \limits_{AB} \rho (x,y ) \,dl,\text{где $\,dl$ --- дифференциал длины дуги}$$
+	
+	Если кривая задана параметрическим способом:
+	$\begin{cases}
+		x = \phi (t)\\
+		y = \psi (t)
+	\end{cases}$, то $ \,dl =\sqrt{(\psi'(t))^2+\phi'(t))^2}\,dt $, а криволинейный интеграл преобразуется в определенный интеграл по формуле:
+	$$ M = \int_{t_1}^{t_2}\rho (\varphi(t),\psi(t))\sqrt{(\varphi'(t))^2+(\psi'(t))^2}\,dt$$ 
+	
+	В этом случае $ \varphi'(t)= x'_t= 1/\sqrt{t},\quad \psi'(t)= y'_t= \sqrt{t} $, поэтому:
+	$$ \,dl=\sqrt{(\varphi'(t))^2+(\psi'(t))^2}\,dt=\sqrt{1/t+t}\,dt $$
+	
+	Плотность примет вид:	
+	$$ \rho(x,y)=\sqrt{1+\frac{3}{4}xy} \Rightarrow \rho(2\sqrt{t}, \frac{2}{3}t\sqrt{t})=\sqrt{1+t^2}$$
+	
+	Подставив полученные формулы в выражение криволинейного	интеграла, будем иметь:
+	$$ M = \int_{1}^{4}\sqrt{1+t^2}\sqrt{1/t+t}\,dt = \int_{1}^{4}\frac{t^2+1}{\sqrt{t}}\,dt  = \int_{1}^{4}t^{-1/2}(t^2+1)\,dt $$ 
+	
+	Вычислим неопределенный интеграл:
+	$$\int t^{-1/2}(t^2+1)\,dt = 2\sqrt{t}(t^2+1) - \int 2\sqrt{t}(2t)\,dt = $$ 
+	$$= 2\sqrt{t}(t^2+1) - 4 \int t^{3/2} \,dt = 2\sqrt{t}(t^2+1) -  \frac{8t^{5/2}}{5} $$ 
+	
+	Перейдём обратно к определенному интегралу:
+	$$ \int_{1}^{4}t^{-1/2}(t^2+1)\,dt = (2\sqrt{t}(t^2+1) -  \frac{8t^{5/2}}{5})\Big|_1^{4}=$$ 
+	$$= 68 -  \frac{256}{5}-4+  \frac{8}{5}=\frac{72}{5}$$ 
+	
+	\hspace{290pt}\textbf{Ответ:} $\frac{72}{5}$	
+	\newpage
+	\section*{Задача 4}	
+	\subsection*{Условие}
+	
+	Дано векторное поле $\vec{a} =3z\vec{i} - (2x+y+3z)\vec{j}$ и плоскость $\sigma$, заданная уравнением $x + y + 2z = 2$, пересекающая координатные плоскости по замкнутой ломаной $KLMK$, где $K$, $L$, $M$ --- точки пересечения	плоскости $\sigma$ с координатными осями $ Ox $, $ Oy $ и $ Oz $ соотвественно.
+	\begin{enumerate}
+		\item Найти поток $Q$ векторного поля $\vec{a}$ через часть $S$ плоскости $ \sigma $, расположенную в первом октанте, в направлении нормали $ \vec{n} $, образующей острый угол с осью $ Oz $.
+		\item Найти циркуляцию $C$ векторного поля $\vec{a}$ по контуру $ KLMK $, образованному пересечением плоскости $\sigma$ с координатными осями.
+	\end{enumerate}
+
+	\subsection*{Решение}
+	\begin{enumerate}[wide, labelwidth=!, labelindent=0pt]
+		\item Часть $S$ плоскости $\sigma$, лежащая в первом октанте, представляет собой треугольник $KLM$, изображенный ниже: 
+			\begin{center}
+				\begin{tikzpicture}
+					\begin{axis}[
+					width=300,
+					height=300,
+					axis lines = center,
+					xlabel = {$x$},
+					ylabel = {$y$},
+					zlabel = {$z$},
+					zmin=-0.2,
+					zmax=1.1,
+					xmin=-0.5,
+					xmax=4,
+					ymin=-0.2,
+					ymax=2.25,
+					view = {100}{10},
+					xtick={2},
+					ytick={2},
+					ztick={1}
+					]
+						\addplot3[black,thick]coordinates {(2,0,0) (0,2,0) (0,0,1) (2,0,0)};
+						\addplot3[black,  opacity=0.7, domain=0:2,pattern= north east lines]coordinates {(0,0,0) (2,0,0) (0,2,0) (0,0,0)};
+						\node[label={120:{$K$}},circle,fill,inner sep=2pt] at (axis cs:2,0,0) {};
+						\node[label={90:{$L$}},circle,fill,inner sep=2pt] at (axis cs:0,2,0) {};
+						\node[label={0:{$M$}},circle,fill,inner sep=2pt] at (axis cs:0,0,1) {};
+						\node[label={44:{$O$}}] at (axis cs:0,0,0) {};				
+						\addplot3 [->,  black] coordinates {(0.5,0.5,0.5) (0.6,0.6,0.7) };
+						\node[label={180:{$\vec{n}$}}] at (axis cs:0.6,0.6,0.7) {};
+						\node[label={0:{$x+y=2$}}] at (axis cs:2.2,0.7,0) {};
+						\node[label={0:{$x+2z=2$}}] at (axis cs:2,-0.2,0.65) {};
+						\node[label={0:{$2z+y=2$}}] at (axis cs:0,1,0.5) {};
+					\end{axis}
+				\end{tikzpicture}
+			\end{center}
+
+		Поток $Q$ векторного поля $\vec{a}$ через поверхность $S$ выражается поверхностным интегралом первого рода:
+		$$ Q = \iint \limits_{S} \vec{a} \cdot \vec{n} \,d S ,$$
+		где $\vec{n} = \vec{i}\cos{\alpha} + \vec{j}\cos{\beta} + \vec{k}\cos{\gamma}$ --- единичный вектор	нормали к данной поверхности, направление которого задано в		условии задачи, $ \,dS $ --- дифференциал площади поверхности. 
+		
+		Скалярное произведение, стоящее под знаком интеграла, в координатной форме имеет вид:
+		$$ \vec{a}\cdot \vec{n} = a_x\cos{\alpha} + a_y\cos{\beta} + a_z\cos{\gamma},$$
+		где $ a_x=a_x(x,y,z), a_y=a_y(x,y,z), a_z=a_z(x,y,z)$ --- координаты вектора $ \vec{a} $.
+		
+		Если уравнение поверхности разрешено относительно $ z $, т. е. задано в виде $ z = f(x, y) $, то, введя обозначения частных производных:		
+		$$ \frac{\partial z}{\partial x} = p(x,y);\quad \frac{\partial z}{\partial y} = q(x,y), $$\\
+		выразим направляющие косинусы единичного вектора нормали: 
+		$$ \cos{\alpha} = \frac{-p(x,y)}{\pm \sqrt{1+p^2(x,y)+q^2(x,y)}},\quad \cos{\beta} = \frac{-q(x,y)}{\pm \sqrt{1+p^2(x,y)+q^2(x,y)}}$$
+		$$ \cos{\gamma} = \frac{1}{\pm \sqrt{1+p^2(x,y)+q^2(x,y)}}$$.
+		
+		В приведенных формулах перед радикалом выбирается знак $«+»$, если вектор нормали образует острый угол с осью $Oz$, и знак $«-»$ в противном случае. Дифференциал площади поверхности равен:
+		$$\,d S = \sqrt{1+p^2(x,y)+q^2(x,y)}\,dx\,dy.$$
+		
+		В условиях данной задачи координаты вектора $ \vec{a} $ равны:
+		$$a_x=3z,\quad a_y=- (2x+y+3z),\quad a_z =0$$
+		
+		Разрешив уравнение плоскости $ \sigma $ относительно $ z $, получим:
+		$$z=1-\frac{x}{2}-\frac{y}{2}$$
+		
+		Частные производные будут равны:
+		$$ \frac{\partial z}{\partial x} = p(x,y) = -\frac{1}{2};\quad \frac{\partial z}{\partial y} = q(x,y) = -\frac{1}{2} $$
+		
+		Радикал, стоящий в знаменателях направляющих косинусов, равен:
+		$$  \sqrt{1+p^2(x,y)+q^2(x,y)} = \sqrt{1 +\frac{1}{4} + \frac{1}{4} } = \frac{\sqrt{6}}{2}$$
+		
+		Согласно условию задачи, $ \cos{\gamma} > 0 $ , следовательно, перед радикалом выбираем знак $ «+» $. В результате получим:
+		$$\cos{\alpha} = \frac{1}{\sqrt{6}};\quad \cos{\beta} = \frac{1}{\sqrt{6}};\quad \cos{\gamma} = \frac{2}{\sqrt{6}}$$
+		
+		Найдем скалярное произведение $ \vec{a}\cdot \vec{n} $:
+		$$\vec{a}\cdot \vec{n}=3z \cdot \frac{1}{\sqrt{6}} - (2x+y+3z) \cdot \frac{1}{\sqrt{6}} + 0\cdot \frac{2}{\sqrt{6}}=\frac{3z -2x-y-3z}{\sqrt{6}}=-\frac{2 x + y}{\sqrt{6}}$$
+		
+		Для вычисления потока преобразуем поверхностный интеграл по	части $ S $ плоскости $ \sigma $ в двойной интеграл по плоской области $ D $ проекции области $ S $ на плоскость $ Oxy $. Для этого выразим дифференциал площади поверхности по формуле:
+		$$\,dS = \sqrt{1+p^2(x,y)+q^2(x,y)}\,dx\,dy =\frac{\sqrt{6}}{2}\,dx\,dy $$\\
+		Получим:
+		$$Q=\iint \limits_{S} \vec{a} \cdot \vec{n} \,d S = -\iint \limits_{D_{xy}}\frac{2 x + y}{\sqrt{6}} \cdot \frac{\sqrt{6}}{2}\,dx\,dy  = -\frac{1}{2} \iint \limits_{D_{xy}}(2 x + y)\,dx\,dy$$
+		
+		Полученное выражение представляет собой двойной интеграл по	треугольнику $ OKL $, лежащему в плоскости $ Oxy $. Расставим пределы интегрирования и вычислим этот интеграл:
+		$$Q=-\frac{1}{2} \iint \limits_{D_{xy}}(2 x + y)\,dx\,dy = -\frac{1}{2} \int_{0}^{2}\,dx\int_{0}^{2-x}(2 x + y)\,dy$$ 
+		$$= -\frac{1}{2} \int_{0}^{2}\,dx(2 x y + \frac{y^2}{2})\Big|_0^{2-x}=-\frac{1}{2} \int_{0}^{2}(2 + 2 x - \frac{3 x^2}{2})\,dx$$ 
+		$$= -\frac{1}{2} (2 x + x^2 - \frac{x^3}{2})\Big|_0^{2}=-\frac{1}{2} (4+4-\frac{8}{2})=-2$$ 
+		
+		Вычислим поток $ Q $ векторного поля $ \vec{a} $ через поверхностный интеграл второго рода:
+		
+		$$Q = \iint \limits_{S} a_x\,dy\,dz + a_y\,dx\,dz + a_z\,dy\,dx = $$
+		$$= \iint \limits_{S} 3z\,dy\,dz -(2x + y + 3z)\,dx\,dz + 0\cdot\,dy\,dx = $$
+		$$= \iint \limits_{S} 3z\,dy\,dz - \iint \limits_{S}(2x + y + 3z)\,dx\,dz = $$
+		$$= 3\iint \limits_{D_{yz}} z\,dy\,dz - \iint \limits_{D_{xz}}(x + z + 2)\,dx\,dz = $$
+		$$= 3\int_0^2 \,dy \int_{0}^{1-1/2y}  z\,dz - \int_0^2 \,dx \int_{0}^{1-1/2x} (x + z + 2)\,dz = $$
+		$$= 3\int_0^2 (y-2)^2/8 \,dy  - \int_0^2 (20 - 4 x - 3 x^2)/8 \,dx  = $$
+		$$= 3\cdot 1/3  - 3   =  -2 $$
+		
+		\newpage
+		\item По условию задачи обход контура производится в направлении отмеченном ниже:		
+		\begin{center}
+			\begin{tikzpicture}
+			\begin{axis}[
+			width=300,
+			height=300,
+			axis lines = center,
+			xlabel = {$x$},
+			ylabel = {$y$},
+			zlabel = {$z$},
+			zmin=-0.2,
+			zmax=1.1,
+			xmin=-0.5,
+			xmax=4,
+			ymin=-0.2,
+			ymax=2.25,
+			view = {100}{10},
+			xtick={2},
+			ytick={2},
+			ztick={1}
+			]
+			\addplot3[black,thick]coordinates {(2,0,0) (0,2,0) (0,0,1) (2,0,0)};
+			\node[label={120:{$K$}},circle,fill,inner sep=2pt] at (axis cs:2,0,0) {};
+			\node[label={90:{$L$}},circle,fill,inner sep=2pt] at (axis cs:0,2,0) {};
+			\node[label={0:{$M$}},circle,fill,inner sep=2pt] at (axis cs:0,0,1) {};
+			\node[label={44:{$O$}}] at (axis cs:0,0,0) {};				
+			\addplot3 [->,  black,very thick] coordinates {(0,0,1) (1,0,0.5) };
+			\addplot3 [black,very thick] coordinates {(1,0,0.5) (2,0,0) };
+			\addplot3 [->,  black,very thick] coordinates { (0,2,0) (0,1,0.5) };
+			\addplot3 [black,very thick] coordinates {(0,1,0.5) (0,0,1) };
+			\addplot3 [->,  black,very thick] coordinates {(2,0,0) (1,1,0) };
+			\addplot3 [black,very thick] coordinates {(1,1,0) (0,2,0) };
+			\node[label={0:{$x+y=2$}}] at (axis cs:2.2,0.7,0) {};
+			\node[label={0:{$x+2z=2$}}] at (axis cs:2,0.15,0.65) {};
+			\node[label={0:{$2z+y=2$}}] at (axis cs:0,1,0.5) {};
+			\end{axis}
+			\end{tikzpicture}
+		\end{center}		
+		Циркуляция векторного поля $ \vec{a} $ по контуру $ l $ представляет собой криволинейный интеграл первого рода:
+		
+		$$C = \int \limits_{l} [a_x\cos\alpha + a_y\cos\beta + a_z\cos\gamma]\,dS=$$
+		$$ = \int \limits_{KLMK} [3z\cos\alpha -(2x + y + 3z)\cos\beta]\,dS=$$
+		$$ = \bigg\{\int \limits_{KL}+\int \limits_{LM} + \int \limits_{MK}\bigg\} [3z\cos\alpha -(2x + y + 3z)\cos\beta]\,dS=$$
+		
+		Вычислим отдельно каждый из трех интегралов:
+		
+		$$J_1 = \int \limits_{KL} [3z\cos\alpha -(2x + y + 3z)\cos\beta]\,dS$$\\
+		--- это интеграл вдоль отрезка $ KL $,касательный вектор к которому $ \vec{\tau} $, очевидно, можно взять просто $ \vec{KL} = (-2;2;0) $ (касательный вектор постоянен, так как $ KL $ --- это отрезок прямой).Направляющие косинусы, очевидно, совпадают с искомыми:
+		
+		$$\cos\alpha = \frac{-2}{\sqrt{(-2)^2+2^2 + 0^2}} = - \frac{2}{\sqrt{8}};\quad \cos\beta = \frac{2}{\sqrt{8}};\quad \cos\gamma = \frac{0}{\sqrt{8}} = 0$$
+		
+		Напишем параметрические уравнения линии $ KL $:
+		
+		$$\begin{cases}
+			x(t) = 2 -2t\\
+			y(t) = 0 + 2t\\
+			z(t) = 0 -0\cdot t\\
+		\end{cases}, t \in [0;1]$$
+		
+		Учитывая параметрическое представление линии $ KL $ и формулу для вычисления $ \,dS $, получаем: 
+		
+		$$\,dS = \sqrt{(x_t'^2 + y_t'^2 + z_t'^2 )} \,dt = \sqrt{8} \,dt$$  
+
+		Подставляя полученные результаты в равенство для $ J_1 $, имеем следующие выражения для криволинейного интеграла первого рода $ J_1 $ через определенный интеграл:
+
+		$$J_1 = \int \limits_{0}^1 \bigg\{ 3\cdot 0\cdot(- \frac{2}{\sqrt{8}}) -(2(2 -2t) + 2t + 3\cdot0)\frac{2}{\sqrt{8}} \bigg\}\sqrt{8} \,dt$$
+		$$= \int \limits_{0}^1 \bigg\{  -(4 -4t + 2t)\frac{2}{\sqrt{8}} \bigg\}\sqrt{8} \,dt$$
+		$$= \int \limits_{0}^1 \bigg\{  -(4 -2t)\frac{2}{\sqrt{8}} \bigg\}\sqrt{8} \,dt$$
+		$$ = 4 (-2 t + \frac{t^2}{2})\Big|_0^{1} = 4 (-2 + \frac{1}{2}) = -6 $$
+
+		Аналогично для $ J_2 $ 
+
+		$$J_2 = \int \limits_{LM} [3z\cos\alpha -(2x + y + 3z)\cos\beta]\,dS$$\\
+		Имеем $ \vec{\tau} = \vec{LM} = (0;-2;1) $:
+
+		$$\cos\alpha = \frac{0}{\sqrt{0^2 + (-2)^2+1^2}} = 0;\quad \cos\beta = -\frac{2}{\sqrt{5}};\quad \cos\gamma = \frac{1}{\sqrt{5}}$$
+		
+		$$\begin{cases}
+			x(t) = 0 + 0\cdot t\\
+			y(t) = 0 -2t\\
+			z(t) = 1 + t\\
+		\end{cases}, t \in [0;1]$$
+		
+		$$\,dS = \sqrt{(x_t'^2 + y_t'^2 + z_t'^2 )} \,dt = \sqrt{5} \,dt$$  
+
+		$$J_2 = \int \limits_{0}^1 \bigg\{ 3(1 + t)\cdot 0 + (2 \cdot 0 -2t  + 3(1 + t))\frac{2}{\sqrt{5}}  \bigg\}\sqrt{5} \,dt$$
+		$$= \int \limits_{0}^1 \bigg\{ ( -2t  + 3 + 3t)\frac{2}{\sqrt{5}}  \bigg\}\sqrt{5} \,dt$$
+		$$= \int \limits_{0}^1 \bigg\{  ( 3 + t)\frac{2}{\sqrt{5}}  \bigg\}\sqrt{5} \,dt$$
+		$$= (2 (3 t + \frac{t^2}{2}))\Big|_0^{1} = 2 (3  + \frac{1}{2}) = 7$$
+
+		Аналогично для $ J_3 $ 
+
+		$$J_3 = \int \limits_{MK} [3z\cos\alpha -(2x + y + 3z)\cos\beta]\,dS$$\\
+		Имеем $ \vec{\tau} = \vec{MK} = (2;0;-1) $:
+
+		$$\cos\alpha = \frac{2}{\sqrt{2^2+0^2+(-1)^2}} = \frac{2}{\sqrt{5}};\quad \cos\beta = \frac{0}{\sqrt{5}}=0;\quad \cos\gamma = -\frac{1}{\sqrt{5}}$$
+		
+		$$\begin{cases}
+			x(t) = 2 + 2t\\
+			y(t) = 0 + 0\cdot t\\
+			z(t) = 0 -t\\
+		\end{cases}, t \in [0;1]$$
+		
+		$$\,dS = \sqrt{(x_t'^2 + y_t'^2 + z_t'^2 )} \,dt = \sqrt{5} \,dt$$  
+
+		$$J_2 = \int \limits_{0}^1 \bigg\{ 3(-t)\frac{2}{\sqrt{5}} - (2(2 + 2t) + 0 + 3(-t))\cdot0 \bigg\}\sqrt{5} \,dt$$
+		$$= \int \limits_{0}^1 \bigg\{ -3t\frac{2}{\sqrt{5}}  \bigg\}\sqrt{5} \,dt$$
+		$$= -3t^2\Big|_0^{1} = -3$$
+
+		Окончательно:
+
+		$$ C = -(J_1 + J_2+J_3)  = -(-6 + 7 -3) = -(-2) = 2$$
+		
+		Циркуляция векторного поля $ \vec{a} $ по контуру $ l $ представляет собой криволинейный интеграл второго рода:
+		$$ C = \int \limits_{l} \vec{a} \cdot \,d\vec{r} = \int \limits_{l} a_x \,d x + a_y \,d y + a_z \,d z$$
+		
+		Для нашей задачи получим:
+		$$ C = \int \limits_{KLMK} a_x \,d x + a_y \,d y + a_z \,d z = \int \limits_{KLMK} 3z \,d x - (2x+y+3z)\,dy $$		
+		
+		Для вычисления циркуляции применим свойство аддитивности интеграла и представим $ C $ в виде суммы трех криволинейных интегралов $ I_{KL} $, $ I_{LM} $, и $ I_{MK} $, взятым по отрезкам $ KL $, $ LM $ и $ MK $ соответственно, т. е. $ C =  I_{KL} + I_{LM} + I_{MK} $ . Найдём значения этих интегралов:
+		
+		Отрезок $ KL $ представляет собой отрезок прямой, заданной системой:\\
+		$\begin{cases}
+			z=0\\
+			y=2-x
+		\end{cases}$, откуда следует, что:
+		$\begin{cases}
+			\,dz=0\\
+			\,dy=-\,dx
+		\end{cases}$.  При движении от точки $ K $ к точке $ L $ координата $ x $ меняется от $ 2 $ до $ 0 $, следовательно:
+		$$ I_{KL} = \int \limits_{2}^{0} (2x+2-x)\,dx  = (x^2/2+2x)\Big|_{2}^{0} = -6$$
+		
+		Отрезок $ LM $ представляет собой отрезок прямой, заданной системой:\\
+		$\begin{cases}
+		x=0\\
+		y=2-2z
+		\end{cases}$, откуда следует, что:
+		$\begin{cases}
+		\,dx=0\\
+		\,dy=-2\,dz
+		\end{cases}$.  При движении от точки $ L $ к точке $ M $ координата $ z $ меняется от $ 0 $ до $ 1 $, следовательно:
+		$$ I_{LM} = 2\int \limits_{0}^{1} (2-2z+3z)\,dz  = 2(z^2/2+2z)\Big|_{0}^{1} = 5$$
+		
+		Отрезок $ MK $ представляет собой отрезок прямой, заданной системой:\\
+		$\begin{cases}
+		y=0\\
+		x=2-2z
+		\end{cases}$, откуда следует, что:
+		$\begin{cases}
+		\,dy=0\\
+		\,dx=-2\,dz
+		\end{cases}$.  При движении от точки $ M $ к точке $ K $ координата $ z $ меняется от $ 1 $ до $ 0 $, следовательно:
+		$$ I_{LM} = -2\int \limits_{1}^{0}  3z \,d z = -6(z^2/2)\Big|_{1}^{0} = 3$$
+		
+		Окончательно получим: $ C = -6 + 5 + 3  = 2$
+		
+		\hspace{290pt}\textbf{Ответ:} $\text{1) } Q = -2\text{, 2) } C = 2.$	
+	\end{enumerate}
+\end{document}
