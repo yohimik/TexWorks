@@ -1,0 +1,607 @@
+\documentclass[12pt]{article}
+\usepackage{mathtext} 
+\usepackage{amsmath}
+
+\usepackage[english, russian]{babel}
+\usepackage[TS1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{pscyr}
+\usepackage{enumitem,kantlipsum}
+\usepackage{tikz}
+\usetikzlibrary{patterns}
+\usepackage{fp}
+\usepackage{pgfplots}
+\usepgfplotslibrary{fillbetween}
+\pgfplotsset{compat=1.9}
+\usepackage{indentfirst}
+
+\usepackage{siunitx}
+\sisetup{output-decimal-marker={,}}
+
+\usepackage[left=2cm,right=2cm, top=1cm,bottom=1.5cm,bindingoffset=0cm]{geometry}
+
+\usepackage{graphicx}
+\graphicspath{{pictures/}}
+\DeclareGraphicsExtensions{.pdf,.png,.jpg}
+
+\begin{document}
+	\pagestyle{empty}
+	
+	\begin{center}
+		\normalsize
+		\textbf{Федеральное государственное автономное образовательное учреждение высшего образования}
+
+		\small
+		\medskip 
+		\textbf{САНКТ-ПЕТЕРБУРГСКИЙ НАЦИОНАЛЬНЫЙ ИССЛЕДОВАТЕЛЬСКИЙ  УНИВЕРСИТЕТ ИНФОРМАЦИОННЫХ ТЕХНОЛОГИЙ, МЕХАНИКИ И ОПТИКИ}
+
+		\medskip 
+		\textbf{ФАКУЛЬТЕТ ПРОГРАММНОЙ ИНЖЕНЕРИИ И КОМПЬЮТЕРНОЙ ТЕХНИКИ}	
+	\bigskip\bigskip\bigskip\bigskip\bigskip\bigskip\bigskip\bigskip\bigskip\bigskip\bigskip\bigskip	
+		\par\medskip\par\smallskip\par\smallskip
+		\Large 
+		\textbf{Домашнее задание по математике} 
+
+		\textbf{Модуль 5}
+
+		\large
+		\par\bigskip
+		\textbf{«Кратные, криволинейные и поверхностные интегралы.}
+		
+		\textbf{Теория поля»}
+		\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip
+		\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip
+		\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip
+		\normalsize
+		\begin{tabular}{lllll}
+							\hspace{170pt}	 							& \hspace{80pt}	&	Выполнил:								&\\
+																		&			&	Студент группы P3255					&\\
+																		& 			&	Федюкович С. А. \_\_\_\_\_\_\_\_\_\_\_\_\_\_	&\\
+																		&			&	Вариант 26									&\\
+																		&			&										&\\
+		\end{tabular}
+		\par\bigskip\par\bigskip\par\bigskip                                                  
+		\par\bigskip \par\bigskip
+		\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip
+		
+		Санкт-Петербург
+		\par\bigskip
+		2019
+	\end{center}
+	\newpage
+	\pagestyle{plain}
+	\setcounter{page}{1}
+	\section*{Задача 1}	
+	\subsection*{Условие}
+	
+	Вычислить двойной интеграл, затем изменить порядок интегрирования. Нарисовать область интегрирования $ D $ и вычислить двойной интеграл.
+	
+	$$ \int_{-1}^0 \,dx \int_{-1-x}^{\sqrt{1-x^2}} x \,dy +  \int_{0}^1 \,dx \int_{-\sqrt{1-x^2}}^{0} x \,dy$$
+
+	\subsection*{Решение}
+	\begin{enumerate}[wide, labelwidth=!, labelindent=0pt]
+		\item Область интегрирования $ D $ изображена ниже:		
+		\begin{center}
+			\begin{tikzpicture}
+				\begin{axis}[		
+				xlabel = {$x$},
+				ylabel = {$y$},	
+				xmin = -1.2,
+				ymin = -1.2,
+				xmax = 1.2,
+				ymax = 1.2,	
+				axis x line=center,
+				axis y line=center,
+				width = 400,
+				height = 400,
+				grid = none,
+				xtick={-1, 0, 1},
+				ytick={-1,0,1}
+				]				
+					\addplot[black,domain=-1:0,unbounded coords=jump,samples=50,fill opacity=0.4, name path=A] {sqrt(1-x^2)};
+					\addplot[black,domain=0:1,unbounded coords=jump,samples=101,fill opacity=0.4, name path=C] {-sqrt(1-x^2)};
+					\addplot[black,domain=-1:0,unbounded coords=jump,samples=101,fill opacity=0.4, name path=B] {-1-x};		
+					\addplot[black, name path=D, opacity=0] coordinates {(1,0) (0,0)};		
+					
+					\node[label={0:{$y=\sqrt{1-x^2}$}}] at (axis cs:-0.8,0.65) {};
+					\node[label={0:{$y=-1-x$}}] at (axis cs:-0.9,-0.6) {};
+					\node[label={0:{$y=-\sqrt{1-x^2}$}}] at (axis cs:0.25,-0.5) {};
+
+					\addplot[gray!30,opacity=0.6] fill between[of=B and A,soft clip={domain=-1:0}];
+					\addplot[gray!30,opacity=0.6] fill between[of=C and D,soft clip={domain=-1:1}];
+				\end{axis}
+			\end{tikzpicture}
+		\end{center}
+		\newpage
+		Вычислим двойной интеграл:
+
+		$$ \int_{-1}^0 \,dx \int_{-1-x}^{\sqrt{1-x^2}} x \,dy +  \int_{0}^1 \,dx \int_{-\sqrt{1-x^2}}^{0} x \,dy =$$
+		$$ = \int_{-1}^0  x (1 + x + \sqrt{1 - x^2}) \,dx  +  \int_{0}^1  x \sqrt{1 - x^2} \,dx =$$
+		$$ = \Big[1/6 (3 x^2 + 2 x^3 - 2 (1 - x^2)^{3/2}) \Big]\Big|_{-1}^0  +  \Big[-1/3 (1 - x^2)^{3/2} \Big] \Big|_{0}^1 =$$
+		$$ = -1/2  +  1/3 = -1/6$$
+
+		Теперь изменим порядок интегрирования и снова вычислим двойной интеграл:
+
+		$$ \int_{-1}^0 \,dx \int_{-1-x}^{\sqrt{1-x^2}} x \,dy +  \int_{0}^1 \,dx \int_{-\sqrt{1-x^2}}^{0} x \,dy =$$
+		$$ = \int_{-1}^0 \,dy \int_{-1-y}^{\sqrt{1-y^2}} x \,dx +  \int_{0}^1 \,dy \int_{-\sqrt{1-y^2}}^{0} x \,dx =$$
+		$$ = - \int_{-1}^0  y (1 + y) \,dy +  1/2 \int_{0}^1  (-1 + y^2) \,dy =$$  
+		$$ =  \Big[ -y^2/2 - y^3/3 \Big] \Big|_{-1}^0 + 1/2  \Big[  -y + y^3/3 \Big] \Big|_{0}^1  =$$
+		$$ =  1/6  -1/3 = -1/6$$
+	
+					
+	\end{enumerate}		
+	\hspace{290pt}\textbf{Ответ:} $-1/6$	
+	
+	\newpage
+
+	\section*{Задача 2}	
+	\subsection*{Условие}
+	
+	Тело $Т$ ограничено заданными поверхностями: $$z=\sqrt{2(x^2+y^2)}\quad(1), z=\sqrt{x^2+y^2}\quad(2), z=1\quad(3).$$
+	
+	\begin{enumerate}
+		\item Сделать схематический рисунок тела $Т$.
+		\item С помощью тройного интеграла найти объем тела $Т$, перейдя к цилиндрическим или сферическим координатам. 
+	\end{enumerate}
+	
+	\subsection*{Решение}
+	\begin{enumerate}[wide, labelwidth=!, labelindent=0pt]
+		\item Уравнения $(1)$ и $(2)$ задают конусы с вершинами в точке $O(0; 0; 0)$. Уравнение $(3)$ задает плоскость параллельную плоскости $ xOy $, при $ z = 1 $. Тело $Т$ изображено ниже:
+	
+	\begin{center}
+		\begin{tikzpicture}
+			\begin{axis}[
+			width=500,
+			height=500,
+			axis lines = center,
+			xlabel = {$x$},
+			ylabel = {$y$},
+			zlabel = {$z$},
+			zmin=-0.1,
+			zmax=1.1,
+			xmin=-1,
+			xmax=1,
+			ymin=-1,
+			ymax=1,
+			view = {100}{10},
+			xtick={-1,0, 1},
+			ytick={-1,0,1},
+			ztick={0,1}
+			]
+			\addplot3[black, samples=40, domain=-1:1,thick			   ]({sqrt(1-y^2)},{y},{1});   
+			\addplot3[black, samples=40, domain=-1:1,thick			   ]({-sqrt(1-y^2)},{y},{1});
+
+			\addplot3[black, samples=40, domain=-0.5:0.5,thick			   ]({sqrt(0.25-y^2)},{y},{0.5});
+			\addplot3[black, samples=40, domain=-0.5:0.5			   ]({-sqrt(0.25-y^2)},{y},{0.5});
+
+			\addplot3[black, samples=15, domain=-0.353553:0.353553,samples y=0   ]({x},{sqrt(0.125-x^2)},{0.5});
+			\addplot3[black, samples=15, domain=-0.353553:0.353553,samples y=0 ]({x},{-sqrt(0.125-x^2)},{0.5});
+
+			\addplot3[black, samples=15, domain= -0.70710678 : 0.70710678 ,thick,samples y=0 ]({x},{sqrt(0.5-x^2)},{1});
+			\addplot3[black, samples=15, domain= -0.70710678 : 0.70710678 ,thick,samples y=0 ]({x},{-sqrt(0.5-x^2)},{1});
+
+			\addplot3[black] coordinates {(-1,0,1) (0,0,0)};		
+			\addplot3[black, thick] coordinates {(-1,0,1) (-1/sqrt(2), 0 ,1)};		
+			\addplot3[black, thick] coordinates {(0,0,0) (1,0,1) (1/sqrt(2), 0 ,1)};		
+			\addplot3[black, thick] coordinates {(0, - 1/sqrt(2),1) (0,-1,1) (0,0,0) (0,1,1 ) (0, 1/sqrt(2),1)};		
+
+			\addplot3[black] coordinates {(-0.707106,0,1) (0,0,0) (0.707106,0,1)};		
+			\addplot3[black] coordinates {(0,-0.707106,1) (0,0,0) (0,0.707106,1)};	
+			\end{axis}
+		\end{tikzpicture}
+	\end{center}
+		\newpage
+		\item Объем $V$ тела $Т$ выражается тройным интегралом:
+		$$ V=\iiint \limits_{T} \,d v$$
+				
+		Будем вычислять этот интеграл, перейдя к сферическим координатам $x = r \sin{\theta} \cos{\varphi},$\\$y=r \sin{\theta} \sin{\varphi}, \, z= r \cos{\theta}$ с учетом того, что $x^2+y^2=r^2$. Якобиан перехода равен $r$, а формула объема тела примет вид:
+		$$ V=\iiint \limits_{T} r \,d r \,d \varphi \,d z$$
+		
+		Запишем уравнения поверхностей, ограничивающих тело $Т$, в цилиндрических координатах. Уравнение $ (1) $: $z=\sqrt{2r^2} $ , уравнение $ (2) $: $z=\sqrt{r^2} $.
+
+		Объём данного тела будем находить, как разность объёмов двух косинусов ($ (1) $ и $ (2) $):
+
+		$$ V_T = V_{T_2} - V_{T_2} = \iiint \limits_{T_2} r \,d r \,d \varphi \,d z - \iiint \limits_{T_1} r \,d r \,d \varphi \,d z$$
+		
+		Для расстановки пределов интегрирования найдем линию пересечения плоскости и конуса $ (2) $:
+		\begin{equation*}	 
+			\begin{cases}
+				z = 1\\
+				z=\sqrt{r^2}\\
+				r \geq 0
+			\end{cases}
+			\Rightarrow
+			\begin{cases}
+				z = 1\\
+				1=\sqrt{r^2}\\
+				r \geq 0
+			\end{cases}
+			\Rightarrow
+			\begin{cases}
+				z = 1\\
+				r= 1
+			\end{cases}
+		\end{equation*}
+
+		Также найдём для конуса $ (1) $:
+		\begin{equation*}	 
+			\begin{cases}
+				z = 1\\
+				z=\sqrt{2r^2}\\
+				r \geq 0
+			\end{cases}
+			\Rightarrow
+			\begin{cases}
+				z = 1\\
+				1=\sqrt{2r^2}\\
+				r \geq 0
+			\end{cases}
+			\Rightarrow
+			\begin{cases}
+				z = 1\\
+				r = \frac{1}{\sqrt{2}}
+			\end{cases}
+		\end{equation*}
+
+		Таким образом, радиус основания конуса $ (2) $ равен $ 1 $, а радиус основания конуса $ (1) $ равен $ \frac{1}{\sqrt{2}} $. Значит, для всех точек тела $Т_1$ справедливо условие $0 \leq r \leq \frac{1}{\sqrt{2}}$	$ (4) $, а для всех точек тела $Т_2$ $0 \leq r \leq 1$	$ (5) $.
+		
+		Используя условия $ (4) $ и $ (5) $, расставим пределы интегрирования в разности тройных интегралов и решим их:
+		
+		$$ \iiint \limits_{T_2} r\,d r \,d \varphi \,d z - \iiint \limits_{T_1} r \,d r \,d \varphi \,d z =  $$
+		$$ = \int_{0}^{2\pi} \,d \varphi \int_0^1 r \,dr \int_{\sqrt{r^2}}^1 \,dz  - \int_{0}^{2\pi} \,d \varphi \int_0^{\frac{1}{\sqrt{2}}} r \,dr \int_{\sqrt{2r^2}}^1 \,dz = $$
+		$$ = \int_{0}^{2\pi} \,d \varphi \int_0^1 r (1-\sqrt{r^2}) \,dr  - \int_{0}^{2\pi} \,d \varphi \int_0^{\frac{1}{\sqrt{2}}} r (1-\sqrt{2r^2}) \,dr , \, \sqrt{r^2} \rightarrow |r|, \, r \geq 0  \rightarrow r$$
+		$$ \int_{0}^{2\pi} \,d \varphi \int_0^1 r (1-r) \,dr  - \int_{0}^{2\pi} \,d \varphi \int_0^{\frac{1}{\sqrt{2}}} r (1-r) \,dr = \int_{0}^{2\pi} \frac{1}{6} \,d \varphi  - \int_{0}^{2\pi} \frac{1}{12} \,d \varphi =  $$
+		$$ = \frac{\pi}{3}  - \frac{\pi}{6} = \frac{\pi}{6}   $$
+		\hspace{290pt}\textbf{Ответ:} $ \pi/6 $	
+	\end{enumerate}
+	\newpage 
+	
+	\section*{Задача 3}	
+	\subsection*{Условие}
+	
+	Доказать, что данное выражение $ (1-\frac{y}{x^2+y^2})\,dx + (\frac{x}{x^2+y^2}-1)\, dy $ является полным дифференциалом функции $ Ф(x,y) $ и найти её с помощью криволинейного интеграла.
+
+	\subsection*{Решение}
+	
+	\indent Обозначим:
+
+	$$ P(x,y) = (1-\frac{y}{x^2+y^2}) ,\, Q(x,y) = (\frac{x}{x^2+y^2}-1)$$
+
+	Очевидно, что:
+
+	$$ \frac{\partial Q}{\partial x} = \frac{\partial P}{\partial y}  = \frac{y^2 -x^2}{(x^2 + y^2)^2}$$
+
+	Для отыскания функции $ Ф(x,y) $, дифференциал которой нам известен, вычислим: 
+	$$ \int_{A(a,b)}^{M(x,y)} P(x,y) \,dx + Q(x,y) \, dy$$
+
+	Путь интегрирования, то есть кривая, соединяющая две точки $ A $ и $ M $, должна быть такой, чтобы на ней подынтегральная функция существовала и не претерпевала разрывы, то есть должно быть:
+
+	$$ x^2+y^2 \neq 0 \Leftrightarrow x \neq 0 , \, y \neq 0 $$
+
+	Таким образом, ясно, что в точке $ (0;0) $ подынтегральная функция терпит разрыв. Поэтому возьмем в качестве пути интегральную ломанную линию $ ABM(A(x,0),B(x,y),M(0,y)) $:
+
+	$$ Ф(x,y) = \int \limits_{ABM} (1-\frac{y}{x^2+y^2})\,dx + (\frac{x}{x^2+y^2}-1)\, dy $$
+	на $ AB $ : $ x = const, \, dx = 0\, , y\in [0,y] $; на $ BM $ : $ y = const, \, dy = 0\, , x\in [x,0] $. Тогда сводя криволинейный интеграл к определенному получаем:
+
+	$$ Ф(x,y) = \int \limits_0^y (\frac{x}{x^2+y^2}-1)\, dy + \int \limits_x^0 (1-\frac{y}{x^2+y^2})\,dx = $$
+	$$ = arctg(x/y) + arctg(y/x) - y -x $$
+
+	\hspace{240pt}\textbf{Ответ:} $ arctg(x/y) + arctg(y/x) - y - x $	
+
+	\newpage
+	\section*{Задача 4}	
+	\subsection*{Условие}
+	 
+	Вычислить поток векторного поля $ \vec{a} = \vec{i} - 2z\vec{k} $ из тела $ T $, ограниченного указанными поверхностями $ z = \sqrt{1 - x^2 - y^2},\, x = 0 \, (x \geq 0), \, z=0 $ с помощью поверхностного интеграла первого рода, второго рода и также проверить результат с помощью теоремы Гаусса-Остроградского.
+
+	\subsection*{Решение}
+
+	Данное тело ограничено тремя поверхностями:
+
+	$ S_1 $ : $ x = 0 $ ( $ \vec{n_1} = -\vec{i} $ --- единичный вектор внешней нормали к поверхности $ S_1 $ : $ a_n = -1 $).
+
+	$ S_2 $ : $ z = 0 $ ( $ \vec{n_1} = -\vec{k} $ --- единичный вектор внешней нормали к поверхности $ S_2 $ : $ a_n = 2z $).
+
+	$ S_3 $ --- часть сферы $ z = \sqrt{1 - x^2 - y^2} $:
+
+	\begin{center}
+		\begin{tikzpicture}
+			\begin{axis}[
+			width=310,
+			height=315,
+			axis lines = center,
+			xlabel = {$x$},
+			ylabel = {$y$},
+			zlabel = {$z$},
+			zmin=-0.1,
+			zmax=1.1,
+			xmin=-0.1,
+			xmax=1.1,
+			ymin=-1.3,
+			ymax=1.3,
+			view = {210}{10},
+			xtick={0, 1},
+			ytick={-1,0,1},
+			ztick={0,1}
+			]
+				\addplot3[black, samples=40, domain=-1:1 , thick             ] ({0}, {y}, {sqrt(1 - y^2)} );
+				\node[label={180:{$S_1$}}] at (axis cs:0,0.7,0.7) {};
+				
+				\addplot3[black, samples=40, domain=0:1, samples y=0 , thick ] ({x}, {sqrt(1 - x^2)}, {0} );
+				\addplot3[black, samples=40, domain=0:1, samples y=0  ] ({x}, {-sqrt(1 - x^2)}, {0} );
+				\node[label={180:{$S_2$}}] at (axis cs:0.4,1.1,0) {};  
+
+				\addplot3[black, samples=40, domain=0:1, samples y=0, thick  ] ({x}, {0}, {sqrt(1 - x^2)} );
+				\node[label={180:{$S_3$}}] at (axis cs:0.7,0,0.7) {};
+
+				\addplot3 [->,  black, very thick] coordinates {(-0.01,0,0.5) (-0.2,0,0.5) };
+				\node[label={-90:{$\vec{n_1}$}}] at (axis cs:-0.2,0,0.5) {};
+
+				\addplot3 [->,  black, very thick] coordinates {(0.6,0,-0.01) (0.6,0,-0.2) };
+				\node[label={0:{$\vec{n_2}$}}] at (axis cs:0.6,0,-0.2) {};
+
+				\addplot3 [->,  black, very thick] coordinates {(0.72,0,0.72) (0.9,0,0.9) };
+				\node[label={-110:{$\vec{n_3}$}}] at (axis cs:0.9,0,0.9) {};
+			\end{axis}
+		\end{tikzpicture}
+	\end{center}
+
+	Вычислим:
+	$$ \frac{\partial z}{\partial x} = p(x,y) = -\frac{x}{\sqrt{1 - x^2 - y^2}};\quad \frac{\partial z}{\partial y} = q(x,y) =-\frac{y}{\sqrt{1 - x^2 - y^2}} $$
+	$$\,d S = \sqrt{1+p^2(x,y)+q^2(x,y)}\,dx\,dy = \frac{1}{\sqrt{1 - x^2 - y^2}}\,dx\,dy$$
+
+	Нормаль $ \vec{n_3} $ образует острый угол с осью $ Oz $, то есть соответствует верхней стороне поверхности $ S_3 $, следовательно:
+	$$\cos{\alpha} = x;\quad \cos{\beta} = y;\quad \cos{\gamma} = \sqrt{1 - x^2 - y^2}$$
+	$$ a_n = 1 \cdot x + 0 \cdot y - 2z \cdot \sqrt{1 - x^2 - y^2} = x - 2z \sqrt{1 - x^2 - y^2} $$	
+
+	Вычислим теперь поток $ П $ вектора $ \vec{a} $ из тела $ T $. Ясно, что поток равен сумме трех потоков, то есть $ П = П_1 + П_2 + П_3 $, где $ П_1 $ --- поток через поверхность $ S_1 $, $ П_2 $ --- поток через поверхность $ S_2 $ и $ П_3 $ --- поток через поверхность $ S_3 $. Тогда:
+	$$ П_1 = \iint \limits_{S_1} a_n \, dS = \iint \limits_{S_1} (-1) \, dS = - \int_0^1 \,dz \int_{-\sqrt{1-z^2}}^{\sqrt{1-z^2}} \, dy = - \frac{\pi}{2} $$
+	$$ П_2 = \iint \limits_{S_2} a_n \, dS = \iint \limits_{S_2} (2z) \, dS = 0, $$
+	так как на поверхности $ S_2 $ $ z = 0 $;
+	$$ П_3 = \iint \limits_{S_3} a_n \, dS = \iint \limits_{S_3} \Big[ x - 2z \sqrt{1 - x^2 - y^2} \Big] \, dS = \iint \limits_{D} \frac{x - 2(1 - x^2 - y^2)}{\sqrt{1 - x^2 - y^2}}\,dx\,dy $$ 
+
+	Для вычисления двойного интеграла перейдем к полярным координатам:	
+	$$ x = r \cos{\varphi}, \, y = r \sin{\varphi}, \, | I(r,\varphi) | = r $$
+
+	Получим:
+	$$ П_3 = \iint \limits_{D} \frac{r \cos{\varphi} - 2(1 - r^2)}{\sqrt{1 - r^2}} r \, dr \, d\varphi = $$
+	$$ = \int_{-\pi/2}^{\pi/2} \, d\varphi \int_0^1 \frac{r \cos{\varphi} - 2(1 - r^2)}{\sqrt{1 - r^2}} r \, dr $$
+	$$ I_{ВН.} = \int_0^1 \frac{r \cos{\varphi} - 2(1 - r^2)}{\sqrt{1 - r^2}} r \, dr = $$
+	$$ = \Big[ 1/2 arcsin(r) \cos{\varphi} - \frac{1}{6} \sqrt{1 - r^2} (-4 + 4 r^2 + 3 r \cos{\varphi}) \Big] \Big|_0^1 =  $$
+	$$ = \frac{\pi}{4} \cos{\varphi} - \frac{2}{3} $$
+	
+	$$ П_3 =  \int_{-\pi/2}^{\pi/2} (\frac{\pi}{4} \cos{\varphi} - \frac{2}{3}) \, d\varphi = \Big[ -\frac{2 \varphi}{3} + \frac{\pi}{4} \sin{\varphi} \Big] \Big|_{-\pi/2}^{\pi/2} = - \frac{\pi}{6} $$
+
+	Окончательно:
+	$$ П = П_1 + П_2 + П_3 = - \frac{\pi}{2} + 0 - \frac{\pi}{6}  = - \frac{2\pi}{3} $$
+
+	Вычислим поток $ П $ векторного поля $ \vec{a} $ через поверхностный интеграл второго рода:
+		
+	$$ П = \iint \limits_{S} a_x(x,y,z)\,dy\,dz + a_y(x,y,z)\,dx\,dz + a_z(x,y,z) \, dy dx = $$
+
+	По прежнему $ П = П_1 + П_2 + П_3 $:
+
+	$$ П_1 = \iint \limits_{S_1} 1 \, dy \, dz + 0 \cdot \, dz \, dx - 2z \, dx dy = \iint \limits_{S_1} \, dy dz = - \frac{\pi}{2} ,$$
+	на $ S_1 $ : $ x = 0 $, $ dx = 0 $.
+
+	$$ П_2 = \iint \limits_{S_2} 1 \, dy \, dz + 0 \cdot \, dz \, dx - 2z \, dx dy = 0 ,$$
+	на $ S_2 $ : $ z = 0 $, $ dz = 0 $.	
+
+	$$ П_3 = \iint \limits_{S_3} 1 \, dy \, dz + 0 \cdot \, dz \, dx - 2z \, dx dy ,$$
+	на $ S_3 $ : $ z = \sqrt{1 - x^2 - y^2} $.	
+	$$ \iint \limits_{S_3} 1 \, dy \, dz - 2z \, dx \, dy = $$
+	$$ = \iint \limits_{S_1} \, dy \, dz - 2 \iint \limits_D \sqrt{1 - x^2 - y^2} \, dx dy = $$
+	$$ = \frac{\pi}{2} - 2 \iint \limits_D \sqrt{1 - r^2} r \, dr \, d\varphi = $$
+	$$ = \frac{\pi}{2} - 2 \int_{-\pi/2}^{\pi/2} \, d\varphi \int_0^1 \sqrt{1 - r^2} r \, dr = $$
+	$$ = \frac{\pi}{2} - \frac{2\pi}{3} = - \frac{\pi}{6} $$
+
+	Окончательно:
+	$$ П = П_1 + П_2 + П_3 = - \frac{\pi}{2} + 0 - \frac{\pi}{6}  = - \frac{2\pi}{3} $$
+
+	Проверим по формуле Гаусса-Остроградского:
+	$$ П = \iiint \limits_T \Big[ \frac{\partial a_x}{\partial x} + \frac{\partial a_y}{\partial y} + \frac{\partial a_z}{\partial z} \Big] \, dx dy dz = -2 \iiint \limits_T  \, dx dy dz = $$
+	$$ = -2 \iiint \limits_T r^2 \sin{\theta} \, d\varphi d\theta dr = - 2 \int_ {-\pi/2}^{\pi/2} \, d\varphi \int_ {0}^{\pi/2} \sin{\theta} \, d\theta \int_0^1 r^2 \, dr = - \frac{2\pi}{3} $$
+
+	\hspace{290pt}\textbf{Ответ:} $ \frac{2\pi}{3} $	
+	\newpage
+	\section*{Задача 5}	
+	\subsection*{Условие}
+	 
+	Найти циркуляцию  векторного поля $ \vec{a} = z x \vec{i} + \vec{j} + z \vec{k} $ по контуру (замкнутой линии) $ l $, получающемуся при пересечении заданной плоскости $ \alpha : - 3x - y + z = 3$ координатными плоскостями, через криволинейный интеграл первого и второго рода и с помощью формулы Стокса через поверхностный интеграл первого и второго рода. Контур $ l $ считается лежащим в координатном октанте, заданном неравенствами: $ x \leq 0; \, y \leq 0; \, z \geq 0 $. 
+
+	\subsection*{Решение}
+			
+	Нарисуем контур $ l $. Для этого заметим, что уравнение плоскости $ \alpha : - 3x - y + z = 3$ может быть преобразовано к виду:
+	$$ - \frac{x}{1} - \frac{y}{3} + \frac{z}{3} = 1$$
+
+	\begin{center}
+		\begin{tikzpicture}
+			\begin{axis}[
+			width=350,
+			height=300,
+			axis lines = center,
+			xlabel = {$x$},
+			ylabel = {$y$},
+			zlabel = {$z$},
+			zmin=0,
+			zmax=3.3,
+			xmin=-1.5,
+			xmax=1,
+			ymin=-3.2,
+			ymax=0.5,
+			view = {280}{10},
+			xtick={-1},
+			ytick={-3},
+			ztick={3}
+			]
+				\addplot3[black,thick]coordinates {(-1,0,0) (0,-3,0) (0,0,3) (-1,0,0)};
+				\node[label={120:{$A$}},circle,fill,inner sep=2pt] at (axis cs:-1,0,0) {};
+				\node[label={90:{$B$}},circle,fill,inner sep=2pt] at (axis cs:0,-3,0) {};
+				\node[label={0:{$C$}},circle,fill,inner sep=2pt] at (axis cs:0,0,3) {};
+				
+				\addplot3 [->,  black,very thick] coordinates {(-1,0,0) (-0.5,-1.5,0) };
+				\addplot3 [black,very thick] coordinates {(-0.5,-1.5,0) (0,-3,0) };
+				\addplot3 [->,  black,very thick] coordinates { (0,-3,0)  (0,-1.5,1.5) };
+				\addplot3 [black,very thick] coordinates {(0,-1.5,1.5) (0,0,3) };
+				\addplot3 [->,  black,very thick] coordinates {(0,0,3) (-0.5,0,1.5) };
+				\addplot3 [black,very thick] coordinates {(-0.5,0,1.5) (-1,0,0) };
+
+				\node[label={0:{$ z = y + 3 $}}] at (axis cs:0,-1.5,1.5) {};
+				\node[label={-45:{$ x = -y/3 - 1 $}}] at (axis cs:0,-1.3,0) {};
+				\node[label={0:{$ z = 3x + 3 $}}] at (axis cs:-0.5,0,1.5) {};
+			\end{axis}
+		\end{tikzpicture}
+	\end{center}
+
+	Циркуляция векторного поля $ \vec{a} $ по контуру $ l $ представляет собой криволинейный интеграл первого рода:
+		
+	$$ C = \int \limits_{l} [ a_x \cos{\alpha} + a_y \cos{\beta} + a_z \cos{\gamma} ] \, dS=$$
+	$$ = \int \limits_{ABCA} [ z x \cos{\alpha} + \cos{\beta} + z \cos{\gamma} ] \, dS=$$
+	$$ = \bigg\{ \int \limits_{AB} + \int \limits_{BC} + \int \limits_{CA} \bigg\} [ z x \cos{\alpha} + \cos{\beta} + z \cos{\gamma} ]\,dS=$$
+	
+	Вычислим отдельно каждый из трех интегралов:
+	
+	$$ J_1 = \int \limits_{AB} [ z x \cos{\alpha} + \cos{\beta} + z \cos{\gamma} ] \, dS $$\\
+	--- это интеграл вдоль отрезка $ AB $,касательный вектор к которому $ \vec{\tau} $, очевидно, можно взять просто $ \vec{AB} = ( 1; -3; 0) $ (касательный вектор постоянен, так как $ AB $ --- это отрезок прямой). Направляющие косинусы, очевидно, совпадают с искомыми:
+		
+	$$ \cos{\alpha} = \frac{1}{\sqrt{ 1^2 + (-3)^2 + 0^2 }} = \frac{ 1 }{ \sqrt{ 10 } }; \, \cos\beta = - \frac{3}{\sqrt{10}};\quad \cos\gamma = \frac{0}{\sqrt{10}} = 0$$
+		
+	Напишем параметрические уравнения линии $ AB $:
+		
+	$$\begin{cases}
+		x(t) =-1 +   t\\
+		y(t) = 0 - 3 t \\
+		z(t) = 0 + 0 \cdot t\\
+	\end{cases}, t \in [0;1]$$
+		
+	Учитывая параметрическое представление линии $ KL $ и формулу для вычисления $ \,dS $, получаем: 
+		
+	$$\,dS = \sqrt{(x_t'^2 + y_t'^2 + z_t'^2 )} \,dt = \sqrt{10} \,dt$$  
+
+	Подставляя полученные результаты в равенство для $ J_1 $, имеем следующие выражения для криволинейного интеграла первого рода $ J_1 $ через определенный интеграл:
+
+	$$J_1 = \int \limits_{0}^1 \bigg\{  0 \cdot (- 1 + t) \frac{ 1 }{ \sqrt{ 10 } } - \frac{3}{\sqrt{10}} + 0 \cdot 0 \bigg\} \sqrt{10} \, dt = $$
+	$$= \int \limits_{0}^1 \bigg\{ - \frac{3}{\sqrt{10}} \bigg\} \sqrt{10} \, dt = (-3t)\Big|_0^{1} = -3$$
+
+	Аналогично для $ J_2 $ 
+
+	$$J_2 = \int \limits_{BC} [ z x \cos{\alpha} + \cos{\beta} + z \cos{\gamma} ] \, dS $$\\
+	Имеем $ \vec{\tau} = \vec{LM} = (0; 3; 3) $:
+
+	$$\cos\alpha = \frac{0}{\sqrt{0^2 + 3^2 + 3^2}} = 0;\quad \cos\beta = \frac{3}{\sqrt{18}};\quad \cos\gamma = \frac{3}{\sqrt{18}}$$
+		
+	$$\begin{cases}
+		x(t) = 0 + 0 \cdot t\\
+		y(t) = -3 + 3t\\
+		z(t) = 0 + 3t\\
+	\end{cases}, t \in [0;1]$$
+		
+	$$\,dS = \sqrt{(x_t'^2 + y_t'^2 + z_t'^2 )} \,dt = \sqrt{18} \,dt$$  
+
+	$$ J_2 = \int \limits_{0}^1 \bigg\{  (3t) \cdot 0 \cdot 0 + \frac{3}{\sqrt{18}} + (3t) \cdot \frac{3}{\sqrt{18}} \bigg\} \sqrt{18} \, dt = $$
+	$$ = \int \limits_{0}^1 \bigg\{ \frac{3}{\sqrt{18}} + (3t) \cdot \frac{3}{\sqrt{18}} \bigg\} \sqrt{18} \, dt  = ( 3 t + \frac{ 9t^2 }{2} ) \Big|_0^1 = \frac{15}{2} $$
+
+	Аналогично для $ J_3 $ 
+
+	$$J_3 = \int \limits_{CA} [ z x \cos{\alpha} + \cos{\beta} + z \cos{\gamma} ] \, dS $$\\
+	Имеем $ \vec{\tau} = \vec{CA} = (-1; 0; -3) $:
+
+	$$\cos\alpha = -\frac{1}{\sqrt{(-1)^2+0^2+(-3)^2}} = - \frac{1}{\sqrt{10}};\quad \cos\beta = \frac{0}{\sqrt{10}}=0;\quad \cos\gamma = -\frac{3}{\sqrt{10}}$$
+		
+	$$\begin{cases}
+		x(t) = 0 - 1t\\
+		y(t) = 0 + 0\cdot t\\
+		z(t) = 3 - 3t\\
+	\end{cases}, t \in [0;1]$$
+		
+	$$\,dS = \sqrt{(x_t'^2 + y_t'^2 + z_t'^2 )} \,dt = \sqrt{10} \,dt$$  
+
+	$$ J_3 = \int \limits_{0}^1 \bigg\{  (3 - 3t) (- 1t) ( - \frac{1}{\sqrt{10}})  + 0 + (3 - 3t) (-\frac{3}{\sqrt{10}}) \bigg\} \sqrt{10} \, dt = $$
+	$$ = \int \limits_{0}^1 \bigg\{  (3 - 3t) (- 1t) ( - \frac{1}{\sqrt{10}}) + (3 - 3t) (-\frac{3}{\sqrt{10}}) \bigg\} \sqrt{10} \, dt = $$
+	$$ ( -3 (3 t - 2 t^2 + \frac{t^3}{3})) \Big|_0^1 = - 4  $$
+
+	Окончательно: $ C = - 3 + \frac{15}{2} - 4  = \frac{1}{2} $
+		
+	Циркуляция векторного поля $ \vec{a} $ по контуру $ l $ представляет собой криволинейный интеграл второго рода:
+	$$ C = \int \limits_{l} \vec{a} \cdot \,d\vec{r} = \int \limits_{l} a_x \,d x + a_y \,d y + a_z \,d z$$
+		
+	Для нашей задачи получим:
+	$$ C = \int \limits_{ABCA} a_x \,d x + a_y \,d y + a_z \,d z = \int \limits_{ABCA} zx \,d x + \, dy + z \, dz $$		
+		
+	Для вычисления циркуляции применим свойство аддитивности интеграла и представим $ C $ в виде суммы трех криволинейных интегралов $ J_{AB} $, $ J_{BC} $, и $ J_{CA} $, взятым по отрезкам $ AB $, $ BC $ и $ CA $ соответственно, т. е. $ C =  J_{AB} + J_{BC} + J_{CA} $ . Найдём значения этих интегралов:
+		
+	Отрезок $ AB $ представляет собой отрезок прямой, заданной системой:\\
+	$\begin{cases}
+		z=0\\
+		y= - 3x - 3
+	\end{cases}$, откуда следует, что:
+	$\begin{cases}
+		dz=0\\
+		dy=-3\,dx
+	\end{cases}$.  При движении от точки $ A $ к точке $ B $ координата $ x $ меняется от $ -1 $ до $ 0 $, следовательно:
+	$$ I_{AB} = \int \limits_{-1}^{0} -3 \, dx  = (-3x)\Big|_{2}^{0} = - 3 $$
+		
+	Отрезок $ BC $ представляет собой отрезок прямой, заданной системой:\\
+	$\begin{cases}
+		x = 0\\
+		y = z - 3
+	\end{cases}$, откуда следует, что:
+	$\begin{cases}
+		dx=0\\
+		dy=dz
+	\end{cases}$.  При движении от точки $ B $ к точке $ C $ координата $ z $ меняется от $ 0 $ до $ 3 $, следовательно:
+	$$ I_{BC} = \int \limits_{0}^{3}  (1 + z) \, dz  = ( z + z^2/2)\Big|_{0}^{3} = \frac{15}{2}$$
+		
+	Отрезок $ CA $ представляет собой отрезок прямой, заданной системой:\\
+	$\begin{cases}
+		y = 0\\
+		x = z/3 - 1
+	\end{cases}$, откуда следует, что:
+	$\begin{cases}
+		dy = 0\\
+		dx = 1/3 \, dz
+	\end{cases}$.  При движении от точки $ C $ к точке $ A $ координата $ z $ меняется от $ 3 $ до $ 0 $, следовательно:
+	$$ I_{CA} = \int \limits_{3}^{0}  (z( z/3 - 1)/3 + z) \, dz  = (z^3/27 + z^2/3) \Big|_{3}^{0} = - 4$$
+		
+	Окончательно: $ C = - 3 + \frac{15}{2} - 4  = \frac{1}{2} $
+
+	Проверим циркуляцию векторного поля $ \vec{a} $ с помощью формулы Стокса. В начале вычислим $ rot \, \vec{a} $:
+	\begin{equation*} 
+		rot \, \vec{a} = 
+		\begin{array}{|ccc|}
+			\vec{i}						& \vec{j}	  					& \vec{k}						\\
+			\frac{\partial}{\partial x}	& \frac{\partial}{\partial y}	& \frac{\partial}{\partial z} 	\\
+			zx							& 1								& z							 	\\
+		\end{array} 
+		= \vec{i} \, \bigg\{ \frac{\partial (z)}{\partial y} - \frac{\partial (1)}{\partial z} \bigg\} - \vec{j} \, \bigg\{ \frac{\partial (z)}{\partial x} - \frac{\partial (zx)}{\partial z} \bigg\} + \vec{k} \, \bigg\{ \frac{\partial (1)}{\partial x} - \frac{\partial (zx)}{\partial y} \bigg\} = \vec{j} x 
+	\end{equation*}
+
+	Тогда:
+
+	$$ C = \iint \limits_{\sigma} [ 0 \cdot \cos{\alpha} + x \cos{\beta} + 0 \cdot \cos{\gamma} ] \, d\sigma = \iint \limits_{\sigma} ( x \cos{\beta} ) \, d\sigma $$
+
+	Выражения для циркуляции через поверхностный интеграл первого рода (здесь в качестве поверхности $ \sigma $ выбран треугольник $ ABC $, ограниченный контуром $ l $ --- ломанной $ ABCA $). Вычислим $ \cos{\beta} $. Для этого заметим, что нормалью к поверхности $ \sigma $ может служить вектор $ \vec{n} = (-3;-1;1)$. Направляющие косинусы буду равны: 
+	$$ \cos{\alpha} = \frac{-3}{\sqrt{ (-3)^2 + (-1)^2 + 1^2 }} = -\frac{ 3 }{ \sqrt{ 11 } }; \, \cos\beta = - \frac{1}{\sqrt{11}};\quad \cos\gamma = \frac{1}{\sqrt{11}} $$
+	
+	Тогда циркуляция примет вид: 
+	$$ C = - \iint \limits_{\sigma}  \frac{x}{\sqrt{11}}  \, d\sigma  = \iint \limits_{D_{xz}}  \frac{x}{\sqrt{11}} \sqrt{ \Big(\frac{\partial y}{\partial x}\Big)^2 + 1 + \Big(\frac{\partial y}{\partial z } \Big)^2 } \, dxdz  $$
+
+	$$ y = - 3x - 3 + z $$
+
+	Тогда интеграл примет вид:
+	$$ C = \iint \limits_{D_{xz}}  \frac{x}{\sqrt{11}} \sqrt{11} \, dxdz = \iint \limits_{D_{xz}}  x \, dxdz = \int_{-1}^{0} \, dx \int_{3x+3}^{0} x \, dz = \frac{1}{2}$$
+
+	Выполним расчет циркуляции по формуле Стокса, используя при этом поверхностный интеграл второго рода: 
+	$$ C = \iint \limits_{\sigma} [ 0 \, dydz + x \, dxdz + 0 \, dxdy ] = \iint \limits_{\sigma} x \, dxdz $$
+
+	Выражая поверхностный интеграл второго рода через двойной, имеем:
+
+	$$ C = \iint \limits_{D_{xz}} x \, dxdz $$
+
+	Здесь использован тот факт, что нормаль $ \vec{n} = (-3;-1;1)$ к поверхности $ \sigma $ образует тупой угол $ \beta $ с осью $ Oy $. Очевидно, что этот интеграл совпадает с соответствующим выражением поверхностного интеграла первого рода $ - \iint \limits_{\sigma}  \frac{x}{\sqrt{11}}  \, d\sigma $ через двойной интеграл.
+
+	Поэтому $ C = \iint \limits_{D_{xz}} x \, dxdz = \frac{1}{2} $ --- как и следовало ожидать.
+
+	\hspace{290pt}\textbf{Ответ:} $ C = \frac{1}{2}.$
+	
+\end{document}
