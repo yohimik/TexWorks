@@ -1,0 +1,240 @@
+\documentclass[12pt]{article}
+\usepackage{mathtext} 
+\usepackage{amsmath}
+
+\usepackage[english, russian]{babel}
+\usepackage[TS1, T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{pscyr}
+\usepackage{enumitem,kantlipsum}
+\usepackage{tikz}
+\tikzset{
+  jumpdot/.style={mark=*,solid},
+  excl/.append style={jumpdot,fill=white},
+  incl/.append style={jumpdot,fill=black},
+}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.9}
+
+\usepackage[left=2cm,right=2cm, top=1cm,bottom=1.5cm,bindingoffset=0cm]{geometry}
+
+\begin{document}
+	\pagestyle{empty}
+	
+	\begin{center}
+		\normalsize
+		\textbf{Федеральное государственное автономное образовательное учреждение высшего образования}
+
+		\small
+		\medskip 
+		\textbf{САНКТ-ПЕТЕРБУРГСКИЙ НАЦИОНАЛЬНЫЙ ИССЛЕДОВАТЕЛЬСКИЙ  УНИВЕРСИТЕТ ИНФОРМАЦИОННЫХ ТЕХНОЛОГИЙ, МЕХАНИКИ И ОПТИКИ}
+
+		\medskip 
+		\textbf{ФАКУЛЬТЕТ ПРОГРАММНОЙ ИНЖЕНЕРИИ И КОМПЬЮТЕРНОЙ ТЕХНИКИ}	
+	\bigskip\bigskip\bigskip\bigskip\bigskip\bigskip\bigskip\bigskip\bigskip\bigskip\bigskip\bigskip	
+		\par\medskip\par\smallskip\par\smallskip
+		\Large 
+		\textbf{Типовой расчет по математике} 
+
+		\textbf{Модуль 6}
+
+		\large
+		\par\bigskip
+		\textbf{«Ряды»}
+		\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip
+		\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip
+		\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip
+		\normalsize
+		\begin{tabular}{lllll}
+							\hspace{170pt}	 							& \hspace{80pt}	&	Выполнил:								&\\
+																		&			&	Студент группы P3255					&\\
+																		& 			&	Федюкович С. А. \_\_\_\_\_\_\_\_\_\_\_\_\_\_	&\\
+																		&			&	Вариант 26									&\\
+																		&			&										&\\
+		\end{tabular}
+		\par\bigskip\par\bigskip\par\bigskip                                                  
+		\par\bigskip \par\bigskip
+		\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip
+		
+		Санкт-Петербург
+		\par\bigskip
+		2019
+	\end{center}
+	\newpage
+	\pagestyle{plain}
+	\setcounter{page}{1}
+
+	\section*{Задача 1}	
+	\subsection*{Условие}
+	
+	Исследовать сходимость числовых рядов:  
+
+	\begin{enumerate}
+		\item Cходится или расходится положительный ряд $ \sum_{n=1}^{\infty} \frac{5^n + 2^n}{10^n} $
+		\item Cходится или расходится знакопеременный ряд  $ \sum_{n=2}^{\infty} \frac{(-1)^n}{n\sqrt{\ln{n}}} $; если ряд сходится, установить характер сходимости.
+	\end{enumerate}
+
+	\subsection*{Решение}
+	\begin{enumerate}[wide, labelwidth=!, labelindent=0pt]
+		\item Применим интегральный признак Коши. Для этого введем функцию $ f(x) = \frac{5^x + 2^x}{10^x} $, удовлетворяющую условиям интегрального признака и исследуем несобственный интеграл от этой функции:		
+		$$ \int \limits_1^{+ \infty} f(x) \, dx = \int \limits_1^{+ \infty} \frac{5^x + 2^x}{10^x} \, dx = \lim_{b \to + \infty} \int \limits_1^b ( \frac{1}{2^x} + \frac{1}{5^x}) \, dx = \lim_{b \to + \infty} \Big[ - \frac{1}{ 2^x \ln{2} } - \frac{1}{ 5^x \ln{5} } \Big] \Big|_0^b = $$
+		$$ = \lim_{b \to + \infty} ( - \frac{1}{ 2^b \ln{2} } - \frac{1}{ 5^b \ln{5} } - (- \frac{1}{ 2 \ln{2} } - \frac{1}{ 5 \ln{5} } ) )  =  \frac{1}{ 2 \ln{2} } + \frac{1}{ 5 \ln{5} }$$
+
+		Несобственный интеграл сходится, значит, по интегральному признаку Коши сходится исследуемый ряд. 
+
+		\item Данный ряд является знакочередующимся, поэтому применим признак Лейбница. Последовательность абсолютных величин членов данного ряда является убывающей:
+		$$ \lim_{n \to \infty} \frac{1}{n\sqrt{\ln{n}}} = 0 $$
+		Значит по признаку Лейбница данный ряд сходится.
+
+		Исследуем характер сходимости. Для этого рассмотрим положительный ряд $ \sum_{n=2}^{\infty} \frac{1}{n\sqrt{\ln{n}}} $, снова применив интегральный признак Коши. Для этого введем функцию $ f(x) = \frac{1}{x\sqrt{\ln{x}}} $, удовлетворяющую условиям интегрального признака и исследуем несобственный интеграл от этой функции:
+		$$ \int \limits_2^{+ \infty} f(x) \, dx = \int \limits_2^{+ \infty} \frac{1}{x\sqrt{\ln{x}}} \, dx = \lim_{b \to + \infty} \int \limits_2^b \frac{d(\ln{n})}{\sqrt{\ln{x}}} = \lim_{b \to + \infty} 2\sqrt{\ln{n}} \Big|_0^b = \lim_{b \to + \infty} ( 2\sqrt{\ln{b}} - 2\sqrt{\ln{2}} ) = \infty $$
+
+		Несобственный интеграл расходится, значит, по интегральному признаку Коши расходится исследуемый ряд. Следовательно сходящийся знакочередующийся ряд $ \sum_{n=2}^{\infty} \frac{(-1)^n}{n\sqrt{\ln{n}}} $ сходится условно. 		
+	\end{enumerate}
+
+	\hspace{200pt}\textbf{Ответ:} 1) ряд сходится; 2) ряд сходится условно.
+
+	\newpage
+
+	\section*{Задача 2}	
+	\subsection*{Условие}
+	
+	Найти область сходимости степенного ряда:
+	$$ \sum_{n=1}^{\infty} \frac{(x + 1)^{2n} \ln{n}}{\sqrt{n^2 + 1}} $$
+
+	\subsection*{Решение}
+
+	Согласно обобщенному признаку Даламбера, интервал сходимости находится из условия:
+	$$ \lim_{n \to \infty} \frac{|u_{n+1}(x)|}{|u_{n}(x)|} < 1 ,$$
+	где $ u_{n}(x) $ --- общий член ряда. В нашем случае:
+	$$ u_{n}(x) = \frac{(x + 1)^{2n} \ln{n}}{\sqrt{n^2 + 1}},  u_{n+1}(x) = \frac{(x + 1)^{2(n+1)} \ln{(n+1)}}{\sqrt{(n+1)^2 + 1}} .$$	
+	Тогда: 
+	$$ \lim_{n \to \infty} \frac{|u_{n+1}(x)|}{|u_{n}(x)|} = \lim_{n \to \infty} \Big| \frac{\frac{(x + 1)^{2(n+1)} \ln{(n+1)}}{\sqrt{(n+1)^2 + 1}}}{\frac{(x + 1)^{2n} \ln{n}}{\sqrt{n^2 + 1}}} \Big| = \lim_{n \to \infty} \Big| \frac{(x + 1)^2 \ln{(n+1)} \sqrt{n^2 + 1}}{\ln{n} \sqrt{(n+1)^2 + 1}} \Big| = $$
+	$$ = (x + 1)^2 \lim_{n \to \infty} \Big| \sqrt{\frac{n^2 + 1}{(n+1)^2 + 1}} \cdot \frac{\ln{(n+1)} }{\ln{n} } \Big| = (x + 1)^2 $$
+	Перейдём к неравенству:
+	$$ \lim_{n \to \infty} \frac{|u_{n+1}(x)|}{|u_{n}(x)|} < 1 \Leftrightarrow (x + 1)^2 < 1 \Leftrightarrow |x + 1| < 1 \Leftrightarrow - 1 < x + 1 < 1 \Leftrightarrow - 2 < x < 0  $$
+	В граничных точках $ x = - 2 $ и $ x = 0 $  получим положительный ряд:
+	$$ \sum_{n=1}^{\infty} \frac{(1)^{2n} \ln{n}}{\sqrt{n^2 + 1}} = \sum_{n=1}^{\infty} \frac{ \ln{n}}{\sqrt{n^2 + 1}} $$
+	Для получения оценки общего члена данного ряда рассмотрим неравенства:
+	\begin{equation*}
+		\begin{cases}
+			\ln{n} > 1\\
+			\sqrt{n^2 + 1} > n\\
+		\end{cases}
+		\text{при } n > 2 \Rightarrow \frac{ \ln{n}}{\sqrt{n^2 + 1}} > \frac{1}{n} \text{ при } n > 2 
+	\end{equation*}
+	Значит, при $ n > 2 $ каждый член положительного ряда больше соответствующего члена гармонического ряда, который расходится. По первому признаку сравнения в граничных точках $ x = - 2 $ и $ x = 0 $ исследуемый степенной ряд расходится, т. е. область его абсолютной сходимости --- интервал $ (-2;0) $.
+
+	\hspace{150pt}\textbf{Ответ:} область абсолютной сходимости ряда --- интервал $ (-2;0) $.
+
+	\newpage
+
+	\section*{Задача 3}	
+	\subsection*{Условие}
+	
+	Разложить функции в степенные ряды по степеням $ x $, используя стандартные разложения. Указать интервалы их сходимости.
+
+	\begin{enumerate}
+		\item $ f(x) = \frac{1}{10} \ln{(1 + 10x)} $
+		\item $ f(x) = \frac{6}{3x^2 + 2} $
+	\end{enumerate}
+
+	\subsection*{Решение}
+
+	\begin{enumerate}[wide, labelwidth=!, labelindent=0pt]
+		\item Разложим функцию, используя разложение $ f(x) = \ln{(1 + x)} $, затем каждый член полученного ряда почленно умножим на $ \frac{1}{10} $:
+		$$ f(x) = \frac{1}{10} \cdot \ln{(1 + 10x)} = \frac{1}{10} \cdot \sum_{n=0}^{\infty} \frac{(-1)^{n} (10x)^{n+1}}{n + 1} = \sum_{n=0}^{\infty} \frac{(-1)^{n} (10x)^{n+1}}{10(n + 1)} $$
+
+		Степенной ряд $ f(x) = \ln{(1 + x)} $ сходится абсолютно при условии $ -1 < x \leq 1  $, поэтому область сходимости полученного ряда будем искать из неравенства $ -1 < 10x \leq 1  $, откуда следует $ -1/10 < x \leq 1/10  $. Таким образом, область абсолютной сходимости представляет собой интервал $ (-1/10;1/10] $.
+
+		\item Представим данную функцию в виде:
+		$$ f(x) = \frac{6}{3x^2 + 2} = 3 \cdot \frac{1}{1 + 3/2x^2} $$
+
+		Разложим функцию, используя разложение $ f(x) = \frac{1}{1 + x} $, затем каждый член полученного ряда почленно умножим на $ 3 $:
+		$$ f(x) = 3 \cdot \frac{1}{1 + 3/2x^2} = 3 \cdot \sum_{n=0}^{\infty} (-1)^{n} (3/2x^2)^n  = \sum_{n=0}^{\infty} (-1)^{n} (9/2x^2)^n $$
+
+		Степенной ряд  $ f(x) = \frac{1}{1 + x} $ сходится абсолютно при условии $ -1 < x < 1  $, поэтому область сходимости полученного ряда будем искать из неравенства $ -1 < 3/2x^2 < 1  $, откуда следует $ -\sqrt{2/3} < x < \sqrt{2/3} $. Таким образом, область абсолютной сходимости представляет собой интервал $ (-\sqrt{2/3};\sqrt{2/3}) $.
+	\end{enumerate}
+
+	\hspace{150pt}\textbf{Ответ:} 1) $ \sum_{n=0}^{\infty} \frac{(-1)^{n} (10x)^{n+1}}{10(n + 1)} $ на $ (-1/10;1/10] $;
+
+	\hspace{6.6cm} 2) $ \sum_{n=0}^{\infty} (-1)^{n} (9/2x^2)^n $ на $ (-\sqrt{2/3};\sqrt{2/3}) $.
+
+	\newpage
+
+	\section*{Задача 4}	
+	\subsection*{Условие}
+
+	Разложить функцию $ f(x) =  x^2 - 2 $ при $ 0 \leq x \leq 2  $ в ряд Фурье на промежутке $ [-2;2] $. Доопределить её на промежутке $ [-2;0) $ нечетным образом.	Сделать схематический чертеж графика функции $ f(x) $ на промежутке $ [-2;2] $ и графика суммы $ S(x) $ ряда Фурье этой функции.
+
+	\subsection*{Решение}
+
+	Разложение в ряд Фурье нечетной функции содержит только синусы и имеет вид:
+	$$ S(x) = \sum_{n=1}^\infty b_n \sin{\frac{n \pi x}{p}}, \text{ где } b_n = \frac{2}{p} \int_0^p f(x) \sin{\frac{n \pi x}{p}} \, dx .$$
+	В нашем случае $ p = 2 $. Найдём $ b_n $:
+	$$ b_n = \frac{2}{p} \int_0^p f(x) \sin{\frac{n \pi x}{p}} \, dx = \int_0^2 (x^2 - 2) \sin{\frac{n \pi x}{2}} \, dx = \int_0^2 (x^2 - 2 ) \Big( - \frac{2}{\pi n} \Big) \, d \Big( \cos{\frac{n \pi x}{2}} \Big) = $$
+	$$ \frac{2(x^2 - 2)}{\pi n} \cos{\frac{n \pi x}{2}} \Big|_0^2 + \frac{4}{\pi n} \int_0^2 x \cos{\frac{n \pi x}{2}} \, dx = \frac{4 (1 +\cos{\pi n})}{\pi n} - \frac{16 \cos{((\pi n x)/2)} + 8 n \pi x \sin{((n \pi x)/2)}}{n^3 \pi^3} \Big|_0^2 = $$
+	$$ = - \frac{8 (\pi n \cos{((\pi n)/2)} - 2 \sin{((\pi n)/2)})^2}{n^3 \pi^3}$$
+	Ряд Фурье для функции $ f(x) $ имеет вид: 
+	$$ S(x) = - \frac{8}{\pi^3} \sum_{n=1}^\infty \frac{(\pi n \cos{((\pi n)/2)} - 2 \sin{((\pi n)/2)})^2}{n^3 } \sin{\frac{n \pi x}{2}} $$
+	Графики функции $ f(x) $ и суммы $ S(x) $ ряда Фурье изображены ниже
+	\begin{center}
+		\begin{tikzpicture}
+			\begin{axis}[
+			width=175,
+			height=200,
+			axis lines = center,
+			xlabel = {$x$},
+			ylabel = {$y$},
+			xmin=-3,
+			xmax=3,
+			ymin=-3,
+			ymax=3,
+			xtick={-2,0, 2},
+			ytick={-2,0,2}
+			]
+			\addplot[black, domain=0:2,]{x^2-2};
+			\addplot[black, domain=-2:0,]{-x^2+2};
+			\addplot[excl] coordinates {(0,2)};
+			\end{axis}
+		\end{tikzpicture}
+		\begin{tikzpicture}
+			\begin{axis}[
+			width=300,
+			height=200,
+			axis lines = center,
+			xlabel = {$x$},
+			ylabel = {$y$},
+			xmin=-5.5,
+			xmax=5.5,
+			ymin=-3,
+			ymax=3,
+			xtick={-4,-2,0, 2,4},
+			ytick={-2,0,2}
+			]
+			\addplot[black, domain=0:2,]{x^2-2};
+			\addplot[black, domain=-2:0,]{-x^2+2};
+			\addplot[excl] coordinates {(0,2)};
+			\addplot[excl] coordinates {(0,-2)};
+			\addplot[excl] coordinates {(2,-2)};
+			\addplot[excl] coordinates {(2, 2)};
+			\addplot[excl] coordinates {(-2,2)};
+			\addplot[excl] coordinates {(-2,-2)};
+			\addplot[black, domain=4:5.9,]{(x-4)^2-2};
+			\addplot[black, domain=2:4,]{-(x-4)^2+2};
+			\addplot[excl] coordinates {(4,2)};
+			\addplot[excl] coordinates {(4,-2)};
+			\addplot[black, domain=-4:-2,]{(x+4)^2-2};
+			\addplot[black, domain=-5.9:-4,]{-(x+4)^2+2};
+			\addplot[excl] coordinates {(-4,2)};
+			\addplot[incl] coordinates {(-4,0)};
+			\addplot[incl] coordinates {(-2,0)};
+			\addplot[incl] coordinates {(0,0)};
+			\addplot[incl] coordinates {(2,0)};
+			\addplot[incl] coordinates {(4,0)};
+			\end{axis}
+		\end{tikzpicture}
+	\end{center}
+
+	\hspace{150pt}\textbf{Ответ:} $ S(x) = - \frac{8}{\pi^3} \sum_{n=1}^\infty \frac{(\pi n \cos{((\pi n)/2)} - 2 \sin{((\pi n)/2)})^2}{n^3 } \sin{\frac{n \pi x}{2}} $.
+\end{document}
