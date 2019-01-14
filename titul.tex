@@ -1,56 +1,95 @@
 \documentclass[12pt]{article}
-\usepackage{hhline}
-\usepackage[russian]{babel}
-\usepackage{graphicx}
-\graphicspath{{pictures/}}
-\DeclareGraphicsExtensions{.png}
-\usepackage{multirow}
+
+\usepackage{mathtext} 
 \usepackage{amsmath}
-\usepackage{mathtext}
-\usepackage[T2A]{fontenc}
+
+\usepackage[english, russian]{babel}
+\usepackage[TS1]{fontenc}
 \usepackage[utf8]{inputenc}
-\usepackage{pscyr} 
-\usepackage[left=2cm,right=2cm, top=1.5cm,bottom=1cm,bindingoffset=0cm]{geometry}
+\usepackage{pscyr}
+\usepackage[left=2cm,right=2cm, top=1cm,bottom=1.5cm,bindingoffset=0cm]{geometry}
+
+% \usepackage{multirow}
+% \usepackage{hhline}
+
+% \usepackage{indentfirst}
+
+% \usepackage{enumitem,kantlipsum}
+
+% \usepackage{graphicx}
+% \graphicspath{{pictures/}}
+% \DeclareGraphicsExtensions{.pdf,.png,.jpg}
+
+% \usepackage{tikz}
+% \usetikzlibrary{patterns}
+% \usepackage{pgfplots}
+% \pgfplotsset{compat=1.9}
+% \usepgfplotslibrary{fillbetween}
+
+% \usepackage{ulem}
+
+% \usepackage{hyperref}  
+
+% \usepackage{circuitikz}
+
+% \usepackage{fp}
+% \usepackage{xfp}
+
+% \usepackage{siunitx}
+% \sisetup{output-decimal-marker={,}}
+
+% \usepackage{minted}
+
 \begin{document}
-\pagestyle{empty}
-\begin{center}
-\large{\textbf{Университет ИТМО}}
-\end{center}
-\rule{500pt}{1pt}
-\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip
-\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip
-\begin{center}
-\Large
-\textbf{Название}
+    \pagestyle{empty}
+    \begin{center}
+        \textbf{Федеральное государственное автономное образовательное учреждение высшего образования}
+        
+        \vspace{5pt}
+        
+        {\small
+            \textbf{САНКТ-ПЕТЕРБУРГСКИЙ НАЦИОНАЛЬНЫЙ ИССЛЕДОВАТЕЛЬСКИЙ  УНИВЕРСИТЕТ ИНФОРМАЦИОННЫХ ТЕХНОЛОГИЙ, МЕХАНИКИ И ОПТИКИ}
 
-\textbf{\textit{«Тема.}}
+            \textbf{ФАКУЛЬТЕТ  ПРОГРАММНОЙ ИНЖЕНЕРИИ И КОМПЬЮТЕРНОЙ ТЕХНИКИ}%
+        }
 
-\textbf{\textit{Тема»}}
-\end{center}
-\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip    
-\begin{flushright}
-\large
-Выполнил: Федюкович С. А.
-\par\bigskip
-Факультет: МТУ “Академия ЛИМТУ”
-\par\bigskip
-Группа: S3100                       
-\par\bigskip\par\bigskip\par\bigskip
+        \vspace{140pt}
 
-\rule{150pt}{0.5pt}
-\par\bigskip\par\bigskip\par\bigskip\par\bigskip                                                            
- Проверил: ...
-\par\bigskip \par\bigskip
+        {\Large            
+            \textbf{РАБОТА}
 
-\rule{150pt}{0.5pt}
-\end{flushright}
-\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip     
-\begin{center}
-\large
-Санкт-Петербург
-\par\bigskip
-2018
-\end{center}
-\newpage
+            \vspace{7pt}
 
+            \textbf{РАБОТА}%
+        }
+
+        \vspace{10pt}
+
+        {\large
+            \textbf{«Тема.} 
+
+            \vspace{5pt}
+
+            \textbf{Тема»}%
+        }
+
+        \vspace{170pt}
+        
+        \begin{tabular}{lll}
+            Проверил:	 	  							                & \hspace{70pt}	&	Выполнил:							        	\\
+            ........................	 \_\_\_\_\_\_\_\_\_\_\_\_\_\_   &			    &	Студент группы P3255				        	\\
+            «\_\_\_\_\_\_» 	\_\_\_\_\_\_\_\_\_\_\_\_\_\_ \the\year г.	& 			    &	Федюкович С. А. \_\_\_\_\_\_\_\_\_\_\_\_\_\_	\\
+			                    							            &			    &									            	\\
+            Оценка\hspace{12pt}\_\_\_\_\_\_\_\_\_\_\_\_\_\_	            &			    &										            \\
+        \end{tabular}
+
+        \vspace*{\fill}
+
+        Санкт-Петербург
+
+        \the\year
+    \end{center}
+    \newpage
+    \pagestyle{plain}
+	\setcounter{page}{1}
 \end{document}
