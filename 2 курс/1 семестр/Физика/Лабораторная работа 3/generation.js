@@ -29,7 +29,7 @@ printer.addToPrint('rf1', '$ R =  ' + outNumber(r1) + ' [cm^{-1}]$', 'string');
 printer.addToPrint('r/4', outNumber(r24) + ' [см^{-1}]', 'string');
 printer.addToPrint('r2', outNumber(r2) + ' [см^{-1}]', 'string');
 printer.addToPrint('rt', outNumber(rt) + ' [см^{-1}]', 'string');
-printer.addToPrint('r12', '$ R = ' + outNumber(r1) + '; \\,R = ' + outNumber(r2) + ' $', 'string');
+printer.addToPrint('r12', '$ R = ' + outNumber(r1) + '[см^{-1}]; \\,R = ' + outNumber(r2) + ' [см^{-1}]$', 'string');
 printer.addToPrint('ef', ' 1,054 \\cdot 10^{-15} \\cdot 299792458 \\cdot ' + outNumber(r2) + ' / 1,6 = ' + outNumber(e) + '[эВ]', 'string');
 printer.addToPrint('e', '$ E_И = ' + outNumber(e) + '[эВ] $', 'string');
 printer.addToPrint('et', ' 13,600[эВ] ', 'string');
