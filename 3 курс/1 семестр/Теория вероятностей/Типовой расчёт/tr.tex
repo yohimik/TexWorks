@@ -1,0 +1,283 @@
+\documentclass[14pt]{article}
+
+\usepackage{mathtext}
+\usepackage{amsmath}
+\usepackage[english, russian]{babel}
+\usepackage[TS1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[left=2cm,right=2cm, top=1cm,bottom=1.5cm,bindingoffset=0cm]{geometry}
+
+% \usepackage{multirow}
+% \usepackage{hhline}
+
+% \usepackage{indentfirst}
+
+\usepackage{enumitem,kantlipsum}
+
+% \usepackage{graphicx}
+% \graphicspath{{pictures/}}
+% \DeclareGraphicsExtensions{.pdf,.png,.jpg}
+
+% \usepackage{tikz}
+% \usetikzlibrary{patterns}
+% \usepackage{pgfplots}
+% \pgfplotsset{compat=1.9}
+% \usepgfplotslibrary{fillbetween}
+
+% \usepackage{ulem}
+
+% \usepackage{hyperref}
+
+% \usepackage{circuitikz}
+
+% \usepackage{fp}
+% \usepackage{xfp}
+
+% \usepackage{siunitx}
+% \sisetup{output-decimal-marker={,}}
+
+% \usepackage{minted}
+
+% \let\oldref\ref
+% \renewcommand{\ref}[1]{(\oldref{#1})}
+
+\begin{document}
+    \pagestyle{empty}
+    \begin{center}
+        \textbf{Федеральное государственное автономное образовательное учреждение высшего образования}
+
+        \vspace{5pt}
+
+        {\small
+        \textbf{САНКТ-ПЕТЕРБУРГСКИЙ НАЦИОНАЛЬНЫЙ ИССЛЕДОВАТЕЛЬСКИЙ УНИВЕРСИТЕТ ИНФОРМАЦИОННЫХ ТЕХНОЛОГИЙ, МЕХАНИКИ И ОПТИКИ}
+
+        \textbf{ФАКУЛЬТЕТ ПРОГРАММНОЙ ИНЖЕНЕРИИ И КОМПЬЮТЕРНОЙ ТЕХНИКИ}%
+        }
+
+        \vspace{140pt}
+
+        {\Large
+        \textbf{Типовой расчёт 1}
+
+        \vspace{7pt}
+
+        \textbf{по теории вероятностей и математической статистике}%
+        }
+
+        \vspace{10pt}
+
+        \vspace{175pt}
+
+        \begin{tabular}{lll}
+            Проверил:                                                                                   & \hspace{70pt} & Выполнил:                                             \\
+            Хартов А. А.                            \rule[0.66\baselineskip]{2.3cm}{0.4pt}              &               & Студент группы P3355                                  \\
+            «\rule[0.66\baselineskip]{1cm}{0.4pt}»  \rule[0.66\baselineskip]{2cm}{0.4pt} \the\year г.   &               & Федюкович С. А. \rule[0.66\baselineskip]{2cm}{0.4pt}  \\
+            &               & Вариант 21                                                     \\
+            Оценка          \hspace{12pt}           \rule[0.66\baselineskip]{2.7cm}{0.4pt}              &               &                                                       \\
+        \end{tabular}
+
+        \vspace*{\fill}
+
+        Санкт-Петербург
+
+        \the\year
+    \end{center}
+    \newpage
+    \pagestyle{plain}
+    \setcounter{page}{1}
+
+    \section*{Тема 1.
+    Непосредственный подсчёт вероятностей в рамках классической схемы.}
+
+    \subsection*{Задача 1}
+    \subsubsection*{Условие}
+
+    Какова вероятность того, что в наудачу выбранном четрырёхзначном числе нет повторяющихся чисел?
+
+    \subsubsection*{Решение}
+
+    \begin{enumerate}[wide, labelwidth=!, labelindent=0pt]
+        \item Пространство элементарных событий $\omega$ состоит из множества четырёхзначных чисел $\{1000, 1001, ... 9999\}$.
+            Его мощность равна:
+            \[card (\omega)= 9 \cdot 10 \cdot 10 \cdot 10 = 9000 \]
+        \item Событие $A$, вероятность которого нам нужно найти, состоит из множества четырёхзначных чисел, в которых цифры числа не повторяюстя.
+            Тогда:
+            \[card (A) = 9 \cdot 9 \cdot 8 \cdot 7 = 4536\]
+        \item Таким образом, искомая вероятность события $A$ будет равна:
+            \[P(A) = \frac{card(A)}{card(\omega)} = \frac{4536}{9000} = \frac{63}{125} = 0,504\]
+    \end{enumerate}
+
+    \hspace{290pt}\textbf{Ответ:} $P(A) = 0,504$
+
+    \subsection*{Задача 2}
+    \subsubsection*{Условие}
+
+    В коробке лежат карандаши: двенадцать красных и восемь зелёных. Наудачу извлекают три.
+    Какова вероятность того, что среди извлечённых будет хотя бы один красный карандаш?
+
+    \subsubsection*{Решение}
+
+    \begin{enumerate}[wide, labelwidth=!, labelindent=0pt]
+        \item Пространство элементарных событий $\omega$ состоит из всех сочетаний множества $\{1, 2, ..., 20\}$ по $3$.
+            Его мощность равна числу этих сочетаний:
+            \[card (\omega)= C_{20}^3 = \frac{20!}{(20 - 3)!3!} = 1140\]
+        \item Пусть $A$ --- искомое событие. Найдём вероятность $\overline{A}$, которое будет состоять из всех сочетаний множества $\{1,2,...8\}$ по $3$.
+            Тогда:
+            \[card (\overline{A}) = C_{8}^3 = \frac{8!}{(8 - 3)!3!} = 56\]
+        \item Тогда вероятность события $\overline{A}$ будет равна:
+            \[P(\overline{A}) = \frac{card(\overline{A})}{card(\omega)} = \frac{56}{1140} = \frac{14}{285}\]
+        \item Таким образом, вероятность события $A$ будет равна:
+            \[P(A) = 1 - P(\overline{A}) = 1 - \frac{14}{285} = \frac{271}{285}\]
+    \end{enumerate}
+    \hspace{290pt}\textbf{Ответ:} $P(A) = \frac{271}{285}$
+
+    \newpage
+
+    \subsection*{Задача 3}
+    \subsubsection*{Условие}
+
+    Цифры от 1 до 9 располагаются в случайном порядке.
+    Какова вероятность того, что все нечётные цифры окажутся на нечётных местах?
+
+    \subsubsection*{Решение}
+
+    \begin{enumerate}[wide, labelwidth=!, labelindent=0pt]
+        \item Пространство элементарных событий $\omega$ состоит из всех перестановок множества $\{1, 2, ..., 9\}$.
+        Его мощность равна числу этих перестановок:
+        \[card (\omega)= P_9 = 9! = 362880\]
+        \item Событие $A$, вероятность которого нам нужно найти, состоит из множества девятизначных чисел, в которых нечётные цифры стоят на нечётных местах.
+        Тогда:
+        \[card (A) = 5 \cdot 4 \cdot 4 \cdot 3 \cdot 3 \cdot 2 \cdot 2 \cdot 1 \cdot 1 = 2880\]
+        \item Таким образом, искомая вероятность события $A$ будет равна:
+        \[P(A) = \frac{card(A)}{card(\omega)} = \frac{2880}{362880} = \frac{1}{126}\]
+    \end{enumerate}
+    \hspace{290pt}\textbf{Ответ:} $P(A) = \frac{1}{126}$
+
+    \subsection*{Задача 4}
+    \subsubsection*{Условие}
+
+    Станция метро оборудована тремя независимо работающими эскалаторами.
+    Вероятность безотказной работы в течение дня для первого эскалатора равна $9/10$, для второго --- $8/10$, для третьего --- $85/100$.
+    Найти вероятность того, что в течение дня произойдёт поломка не более одного эскалатора.
+
+    \subsubsection*{Решение}
+
+    \begin{enumerate}[wide, labelwidth=!, labelindent=0pt]
+        \item Пусть $A$ --- искомое событие. Обозначим события безотказной работы с первого по третий эскалатор $A_1$, $A_2$ и $A_3$ соответственно.
+        Тогда искомая вероятность будет равна:
+        \begin{gather*}
+            P(A) = P(A_1 A_2 A_3) + P(\overline{A_1} A_2 A_3) + P(A_1 \overline{A_2} A_3) + P(A_1 A_2 \overline{A_3}) =\\
+            = 0,9 \cdot 0,8 \cdot 0,85 + 0,1 \cdot 0,8 \cdot 0,85 + 0,9 \cdot 0,2 \cdot 0,85 + 0,9 \cdot 0,8 \cdot 0,15 =\\
+            = 0,941
+        \end{gather*}
+    \end{enumerate}
+    \hspace{290pt}\textbf{Ответ:} $P(A) = 0,941$
+
+    \subsection*{Задача 21}
+    \subsubsection*{Условие}
+
+    Предприятием послана автомашина за различными материалами на четыре базы.
+    Вероятность наличия нужного материала на первой базе равна $9/10$, на второй --- $85/100$, на третьей --- $7/10$, на четвертой --- $65/100$.
+    Найти вероятность того, что только на первой базе не окажется нужного материала.
+
+    \subsubsection*{Решение}
+
+    \begin{enumerate}[wide, labelwidth=!, labelindent=0pt]
+        \item Пусть $A$ --- искомое событие. Обозначим события наличия материала с первой по четвертую базу $A_1$, $A_2$, $A_3$ и $A_4$ соответственно.
+        Тогда искомая вероятность будет равна:
+        \begin{gather*}
+            P(A) = P(\overline{A_1} A_2 A_3 A_4) + P(A_1 \overline{A_2} A_3 A_4) + P(A_1 A_2 \overline{A_3} A_4) + P(A_1 A_2 A_3 \overline{A_4}) =\\
+            = 0,1 \cdot 0,85 \cdot 0,7 \cdot 0,65 + 0,9 \cdot 0,15 \cdot 0,7 \cdot 0,65 + 0,9 \cdot 0,85 \cdot 0,3 \cdot 0,65 + 0,9 \cdot 0,85 \cdot 0,7 \cdot 0,35 =\\
+            = 0,4367
+        \end{gather*}
+    \end{enumerate}
+    \hspace{290pt}\textbf{Ответ:} $P(A) = 0,4367$
+
+    \newpage
+
+    \section*{Тема 2. Геометрические вероятности}
+
+    \subsection*{Задача 21}
+    \subsubsection*{Условие}
+
+    Из отрезка $[0,1]$ наудачу выбираются три числа.
+    Какова вероятность того, что их сумма не будет превышать единицу?
+
+    \subsubsection*{Решение}
+    \begin{enumerate}[wide, labelwidth=!, labelindent=0pt]
+        \item Областью Лебега $\Omega$ является куб со стороной $1$:
+            \[\mu(\Omega) = 1\]
+        \item Обозначим три числа $x$, $y$ и $z$, а интересующую нас область $A$:
+            \begin{gather*}
+                A =
+                \begin{cases}
+                    x + y + z \leq 1 \\
+                    0 \leq x \leq 1 \\
+                    0 \leq y \leq 1 \\
+                    0 \leq z \leq 1 \\
+                \end{cases}
+            \end{gather*}
+        \item Найдём объём области $A$:
+            \begin{gather*}
+                \mu(A) = \iiint \limits_{A} \,dx \, dy \, dz =  \int \limits_0^1 \, dx \int \limits_0^{1 - x} \, dy \int \limits_0^{1 - x - y} \, dz = \\
+                = \int \limits_0^1 \, dx \int \limits_0^{1 - x} (1 - x - y) \, dy = \frac{1}{2} \int \limits_0^1  (x - 1)^2 \, dx = \frac{1}{6}
+            \end{gather*}
+        \item Таким образом, искомая вероятность будет равна:
+            \[P(A) = \frac{\mu(A)}{\mu(\Omega)} = \frac{1/6}{1} = \frac{1}{6}\]
+    \end{enumerate}
+    \hspace{290pt}\textbf{Ответ:} $P(A) = \frac{1}{6}$
+
+    \newpage
+
+    \section*{Тема 3. Формула полной вероятности. Формула Байеса}
+
+    \subsection*{Задача 21}
+    \subsubsection*{Условие}
+
+    На шахматную доску $4 \times 4$ ставят два ферзя.
+    Какова вероятность того, что они бьют друг друга?
+
+    \subsubsection*{Решение}
+
+    \begin{enumerate}[wide, labelwidth=!, labelindent=0pt]
+        \item Пусть $H_г$ --- событие, состоящее в том, что ферзи расположились на одной горизонтали; $H_в$ --- одной вертикали; $H_д$ --- одной диагонали.
+            Найдём их вероятности:
+            \begin{gather*}
+                P(H_г) = P(H_в) = 4 \cdot \frac{C_4^2}{C_{16}^2} = \frac{1}{5}\\
+                P(H_д) = 2 \cdot \frac{C_4^2 + 2 \cdot C_3^2 + 2 \cdot C_2^2}{C_{16}^2} = \frac{4}{15}\\
+                P(A|H_г) = P(A|H_в) = P(A|H_д) = 1
+            \end{gather*}
+        \item Таким образом:
+            \begin{gather*}
+                P(A) = P(A|H_г) \cdot P(H_г) + P(A|H_в) \cdot P(H_в) + P(A|H_д) \cdot P(H_д) =\\
+                = 1 \cdot \frac{1}{5} + 1 \cdot \frac{1}{5} + 1 \cdot \frac{4}{15} = \frac{2}{3}\\
+            \end{gather*}
+    \end{enumerate}
+    \hspace{290pt}\textbf{Ответ:} $P(A) = \frac{2}{3}$
+
+    \section*{Тема 4. Схема Бернулли}
+
+    \subsection*{Задача 21}
+    \subsubsection*{Условие}
+
+    Вероятность того, что покупателю потребуется обувь $40\text{-го}$ размера равна $0,4$.
+    В обувной отдел вошли пять покупателей.
+    Найти вероятность того, что по крайней мере двум из них потребуется обувь $40\text{-го}$ размера.
+
+    \subsubsection*{Решение}
+
+    \begin{enumerate}[wide, labelwidth=!, labelindent=0pt]
+        \item Пусть $A$ --- событие того, что в обувной отдел вошёл покупатель, которому требуется обувь $40\text{-го}$ размера:
+            \begin{gather*}
+                p = P(A) = 0,6 \\
+                q = 1 - p = 0,4 \\
+                n = 5
+            \end{gather*}
+        \item Найдём вероятность $P_5(2, 5)$ того, что количество покупателей, которым нужна обувь $40\text{-го}$ размера заключено между $2$ и $5$:
+            \begin{gather*}
+                P_5(2, 5) = C_5^2 \cdot 0,6^2 \cdot 0,4^3 + C_5^3 \cdot 0,6^3 \cdot 0,4^2 + C_5^4 \cdot 0,6^4 \cdot 0,4^1 + C_5^5 \cdot 0,6^5 = \\
+                = 10 \cdot 0,36 \cdot 0,064 + 10 \cdot 0,216 \cdot 0,16 + 5 \cdot 0,1296 \cdot 0,4 + 1 \cdot 0,07776 = 0,91296
+            \end{gather*}
+    \end{enumerate}
+    \hspace{290pt}\textbf{Ответ:} $P_5(2, 5) = 0,91296$
+\end{document}\
