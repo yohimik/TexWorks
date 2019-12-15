@@ -18,9 +18,9 @@
 % \graphicspath{{pictures/}}
 % \DeclareGraphicsExtensions{.pdf,.png,.jpg}
 
-% \usepackage{tikz}
-% \usetikzlibrary{patterns}
-% \usepackage{pgfplots}
+\usepackage{tikz}
+\usetikzlibrary{patterns}
+\usepackage{pgfplots}
 % \pgfplotsset{compat=1.9}
 % \usepgfplotslibrary{fillbetween}
 
@@ -69,11 +69,11 @@
         \vspace{175pt}
 
         \begin{tabular}{lll}
-            Проверил:                                                                                   & \hspace{70pt} & Выполнил:                                             \\
-            Хартов А. А.                            \rule[0.66\baselineskip]{2.3cm}{0.4pt}              &               & Студент группы P3355                                  \\
-            «\rule[0.66\baselineskip]{1cm}{0.4pt}»  \rule[0.66\baselineskip]{2cm}{0.4pt} \the\year г.   &               & Федюкович С. А. \rule[0.66\baselineskip]{2cm}{0.4pt}  \\
-            &               & Вариант 21                                                     \\
-            Оценка          \hspace{12pt}           \rule[0.66\baselineskip]{2.7cm}{0.4pt}              &               &                                                       \\
+            Проверил: & \hspace{70pt} & Выполнил:                                             \\
+            Хартов А. А.                            \rule[0.66\baselineskip]{2.3cm}{0.4pt}              & & Студент группы P3355                                  \\
+            «\rule[0.66\baselineskip]{1cm}{0.4pt}»  \rule[0.66\baselineskip]{2cm}{0.4pt} \the\year г. & & Федюкович С. А. \rule[0.66\baselineskip]{2cm}{0.4pt}  \\
+            & & Вариант 21                                                     \\
+            Оценка          \hspace{12pt}           \rule[0.66\baselineskip]{2.7cm}{0.4pt}              & &                                                       \\
         \end{tabular}
 
         \vspace*{\fill}
@@ -98,13 +98,13 @@
 
     \begin{enumerate}[wide, labelwidth=!, labelindent=0pt]
         \item Пространство элементарных событий $\omega$ состоит из множества четырёхзначных чисел $\{1000, 1001, ... 9999\}$.
-            Его мощность равна:
-            \[card (\omega)= 9 \cdot 10 \cdot 10 \cdot 10 = 9000 \]
+        Его мощность равна:
+        \[card (\omega)= 9 \cdot 10 \cdot 10 \cdot 10 = 9000 \]
         \item Событие $A$, вероятность которого нам нужно найти, состоит из множества четырёхзначных чисел, в которых цифры числа не повторяюстя.
-            Тогда:
-            \[card (A) = 9 \cdot 9 \cdot 8 \cdot 7 = 4536\]
+        Тогда:
+        \[card (A) = 9 \cdot 9 \cdot 8 \cdot 7 = 4536\]
         \item Таким образом, искомая вероятность события $A$ будет равна:
-            \[P(A) = \frac{card(A)}{card(\omega)} = \frac{4536}{9000} = \frac{63}{125} = 0,504\]
+        \[P(A) = \frac{card(A)}{card(\omega)} = \frac{4536}{9000} = \frac{63}{125} = 0,504\]
     \end{enumerate}
 
     \hspace{290pt}\textbf{Ответ:} $P(A) = 0,504$
@@ -119,15 +119,15 @@
 
     \begin{enumerate}[wide, labelwidth=!, labelindent=0pt]
         \item Пространство элементарных событий $\omega$ состоит из всех сочетаний множества $\{1, 2, ..., 20\}$ по $3$.
-            Его мощность равна числу этих сочетаний:
-            \[card (\omega)= C_{20}^3 = \frac{20!}{(20 - 3)!3!} = 1140\]
+        Его мощность равна числу этих сочетаний:
+        \[card (\omega)= C_{20}^3 = \frac{20!}{(20 - 3)!3!} = 1140\]
         \item Пусть $A$ --- искомое событие. Найдём вероятность $\overline{A}$, которое будет состоять из всех сочетаний множества $\{1,2,...8\}$ по $3$.
-            Тогда:
-            \[card (\overline{A}) = C_{8}^3 = \frac{8!}{(8 - 3)!3!} = 56\]
+        Тогда:
+        \[card (\overline{A}) = C_{8}^3 = \frac{8!}{(8 - 3)!3!} = 56\]
         \item Тогда вероятность события $\overline{A}$ будет равна:
-            \[P(\overline{A}) = \frac{card(\overline{A})}{card(\omega)} = \frac{56}{1140} = \frac{14}{285}\]
+        \[P(\overline{A}) = \frac{card(\overline{A})}{card(\omega)} = \frac{56}{1140} = \frac{14}{285}\]
         \item Таким образом, вероятность события $A$ будет равна:
-            \[P(A) = 1 - P(\overline{A}) = 1 - \frac{14}{285} = \frac{271}{285}\]
+        \[P(A) = 1 - P(\overline{A}) = 1 - \frac{14}{285} = \frac{271}{285}\]
     \end{enumerate}
     \hspace{290pt}\textbf{Ответ:} $P(A) = \frac{271}{285}$
 
@@ -206,24 +206,24 @@
     \subsubsection*{Решение}
     \begin{enumerate}[wide, labelwidth=!, labelindent=0pt]
         \item Областью Лебега $\Omega$ является куб со стороной $1$:
-            \[\mu(\Omega) = 1\]
+        \[\mu(\Omega) = 1\]
         \item Обозначим три числа $x$, $y$ и $z$, а интересующую нас область $A$:
-            \begin{gather*}
-                A =
-                \begin{cases}
-                    x + y + z \leq 1 \\
-                    0 \leq x \leq 1 \\
-                    0 \leq y \leq 1 \\
-                    0 \leq z \leq 1 \\
-                \end{cases}
-            \end{gather*}
+        \begin{gather*}
+            A =
+            \begin{cases}
+                x + y + z \leq 1 \\
+                0 \leq x \leq 1 \\
+                0 \leq y \leq 1 \\
+                0 \leq z \leq 1 \\
+            \end{cases}
+        \end{gather*}
         \item Найдём объём области $A$:
-            \begin{gather*}
-                \mu(A) = \iiint \limits_{A} \,dx \, dy \, dz =  \int \limits_0^1 \, dx \int \limits_0^{1 - x} \, dy \int \limits_0^{1 - x - y} \, dz = \\
-                = \int \limits_0^1 \, dx \int \limits_0^{1 - x} (1 - x - y) \, dy = \frac{1}{2} \int \limits_0^1  (x - 1)^2 \, dx = \frac{1}{6}
-            \end{gather*}
+        \begin{gather*}
+            \mu(A) = \iiint \limits_{A} \,dx \, dy \, dz =  \int \limits_0^1 \, dx \int \limits_0^{1 - x} \, dy \int \limits_0^{1 - x - y} \, dz = \\
+            = \int \limits_0^1 \, dx \int \limits_0^{1 - x} (1 - x - y) \, dy = \frac{1}{2} \int \limits_0^1  (x - 1)^2 \, dx = \frac{1}{6}
+        \end{gather*}
         \item Таким образом, искомая вероятность будет равна:
-            \[P(A) = \frac{\mu(A)}{\mu(\Omega)} = \frac{1/6}{1} = \frac{1}{6}\]
+        \[P(A) = \frac{\mu(A)}{\mu(\Omega)} = \frac{1/6}{1} = \frac{1}{6}\]
     \end{enumerate}
     \hspace{290pt}\textbf{Ответ:} $P(A) = \frac{1}{6}$
 
@@ -241,17 +241,17 @@
 
     \begin{enumerate}[wide, labelwidth=!, labelindent=0pt]
         \item Пусть $H_г$ --- событие, состоящее в том, что ферзи расположились на одной горизонтали; $H_в$ --- одной вертикали; $H_д$ --- одной диагонали.
-            Найдём их вероятности:
-            \begin{gather*}
-                P(H_г) = P(H_в) = 4 \cdot \frac{C_4^2}{C_{16}^2} = \frac{1}{5}\\
-                P(H_д) = 2 \cdot \frac{C_4^2 + 2 \cdot C_3^2 + 2 \cdot C_2^2}{C_{16}^2} = \frac{4}{15}\\
-                P(A|H_г) = P(A|H_в) = P(A|H_д) = 1
-            \end{gather*}
+        Найдём их вероятности:
+        \begin{gather*}
+            P(H_г) = P(H_в) = 4 \cdot \frac{C_4^2}{C_{16}^2} = \frac{1}{5}\\
+            P(H_д) = 2 \cdot \frac{C_4^2 + 2 \cdot C_3^2 + 2 \cdot C_2^2}{C_{16}^2} = \frac{4}{15}\\
+            P(A|H_г) = P(A|H_в) = P(A|H_д) = 1
+        \end{gather*}
         \item Таким образом:
-            \begin{gather*}
-                P(A) = P(A|H_г) \cdot P(H_г) + P(A|H_в) \cdot P(H_в) + P(A|H_д) \cdot P(H_д) =\\
-                = 1 \cdot \frac{1}{5} + 1 \cdot \frac{1}{5} + 1 \cdot \frac{4}{15} = \frac{2}{3}\\
-            \end{gather*}
+        \begin{gather*}
+            P(A) = P(A|H_г) \cdot P(H_г) + P(A|H_в) \cdot P(H_в) + P(A|H_д) \cdot P(H_д) =\\
+            = 1 \cdot \frac{1}{5} + 1 \cdot \frac{1}{5} + 1 \cdot \frac{4}{15} = \frac{2}{3}\\
+        \end{gather*}
     \end{enumerate}
     \hspace{290pt}\textbf{Ответ:} $P(A) = \frac{2}{3}$
 
@@ -268,16 +268,142 @@
 
     \begin{enumerate}[wide, labelwidth=!, labelindent=0pt]
         \item Пусть $A$ --- событие того, что в обувной отдел вошёл покупатель, которому требуется обувь $40\text{-го}$ размера:
-            \begin{gather*}
-                p = P(A) = 0,6 \\
-                q = 1 - p = 0,4 \\
-                n = 5
-            \end{gather*}
+        \begin{gather*}
+            p = P(A) = 0,6 \\
+            q = 1 - p = 0,4 \\
+            n = 5
+        \end{gather*}
         \item Найдём вероятность $P_5(2, 5)$ того, что количество покупателей, которым нужна обувь $40\text{-го}$ размера заключено между $2$ и $5$:
-            \begin{gather*}
-                P_5(2, 5) = C_5^2 \cdot 0,6^2 \cdot 0,4^3 + C_5^3 \cdot 0,6^3 \cdot 0,4^2 + C_5^4 \cdot 0,6^4 \cdot 0,4^1 + C_5^5 \cdot 0,6^5 = \\
-                = 10 \cdot 0,36 \cdot 0,064 + 10 \cdot 0,216 \cdot 0,16 + 5 \cdot 0,1296 \cdot 0,4 + 1 \cdot 0,07776 = 0,91296
-            \end{gather*}
+        \begin{gather*}
+            P_5(2, 5) = C_5^2 \cdot 0,6^2 \cdot 0,4^3 + C_5^3 \cdot 0,6^3 \cdot 0,4^2 + C_5^4 \cdot 0,6^4 \cdot 0,4^1 + C_5^5 \cdot 0,6^5 = \\
+            = 10 \cdot 0,36 \cdot 0,064 + 10 \cdot 0,216 \cdot 0,16 + 5 \cdot 0,1296 \cdot 0,4 + 1 \cdot 0,07776 = 0,91296
+        \end{gather*}
     \end{enumerate}
     \hspace{290pt}\textbf{Ответ:} $P_5(2, 5) = 0,91296$
+
+    \newpage
+
+    \section*{Тема 5. Дискретные случайные величины}
+
+    \subsection*{Задача 21}
+    \subsubsection*{Условие}
+
+    Батарея состоит из четырёх орудий.
+    Вероятность попадания в мишень при одном выстреле равна $0,9$ для первого орудья, для второго такая вероятность равна $0,8$, для третьего и четвертого $0,6$.
+    Наугад выбирают три орудия, и каждое из них стреляет один раз.
+    Построить ряд распределения, найти функцию распределения, математическое ожидание, среднее квадратичное отклонение, моду и медиану числа попаданий в мишень.
+    Найти вероятность хотя-бы одного попадания и хотя бы одного непопадания в мишень.
+    \subsubsection*{Решение}
+
+    \begin{enumerate}[wide, labelwidth=!, labelindent=0pt]
+        \item Для построения ряда распределения найдём вероятности количества попаданий в мишень.
+        Пусть $A_x$ --- вероятность $x$ попаданий в мишень, тогда:
+        \begin{gather*}
+            P(A_0) = \frac{1}{4} ( 0,1 \cdot 0,2 \cdot 0,4 + 0,1 \cdot 0,2 \cdot 0,4 + 0,2 \cdot 0,4 \cdot 0,4 + 0,1 \cdot 0,4 \cdot 0,4 ) = 0.016  \\
+            P(A_1) = \frac{1}{4} ( 0,9 \cdot 0,2 \cdot 0,4 + 0,1 \cdot 0,8 \cdot 0,4 + 0,1 \cdot 0,2 \cdot 0,6
+            + 0,9 \cdot 0,2 \cdot 0,4 + 0,1 \cdot 0,8 \cdot 0,4 + 0,1 \cdot 0,2 \cdot 0,6 + \\
+            + 0,8 \cdot 0,4 \cdot 0,4 + 0,2 \cdot 0,6 \cdot 0,4 + 0,2 \cdot 0,4 \cdot 0,6
+            + 0,9 \cdot 0,4 \cdot 0,4 + 0,1 \cdot 0,6 \cdot 0,4 + 0,1 \cdot 0,4 \cdot 0,6 ) = 0,162 \\
+            P(A_2) = \frac{1}{4} ( 0,9 \cdot 0,8 \cdot 0,4 + 0,1 \cdot 0,8 \cdot 0,6 + 0,9 \cdot 0,2 \cdot 0,6
+            + 0,9 \cdot 0,8 \cdot 0,4 + 0,1 \cdot 0,8 \cdot 0,6 + 0,9 \cdot 0,2 \cdot 0,6 + \\
+            + 0,8 \cdot 0,6 \cdot 0,4 + 0,2 \cdot 0,6 \cdot 0,6 + 0,8 \cdot 0,4 \cdot 0,6
+            + 0,9 \cdot 0,6 \cdot 0,4 + 0,1 \cdot 0,6 \cdot 0,6 + 0,9 \cdot 0,4 \cdot 0,6 ) = 0.453 \\
+            P(A_3) = \frac{1}{4} ( 0,9 \cdot 0,8 \cdot 0,6 + 0,9 \cdot 0,8 \cdot 0,6 + 0,8 \cdot 0,6 \cdot 0,6 + 0,9 \cdot 0,6 \cdot 0,6 ) = 0,369 \\
+        \end{gather*}
+        \item Получаем закон распределения:
+
+        \begin{center}
+            \begin{tabular}{|c|c|c|c|c|}
+                \hline
+                $x$     & $0$       & $1$       & $2$       & $3$ \\
+                \hline
+                $x^2$   & $0$       & $1$       & $4$       & $9$ \\
+                \hline
+                $P$     & $0,016$   & $0,162$   & $0,453$   & $0,369$ \\
+                \hline
+            \end{tabular}
+        \end{center}
+        \item Построим функцию распределения:
+
+        \begin{center}
+            \begin{tikzpicture}
+                \begin{axis}[height=10cm,
+                axis lines = center,
+                ylabel = {$F(x)$},
+                xlabel = {$x$},
+                xtick={0,1,2,3},
+                ytick={0.016, 0.178, 0.631, 1},
+                yticklabels={$0\text{,}016$, $0\text{,}178$, $0\text{,}631$, $1\text{,}000$},
+                ymin=-0.1, ymax=1.1,
+                xmin=-1, xmax=4]
+                    \addplot[very thick,black] coordinates {(-1,0) (0,0)};
+
+                    \addplot[very thick,black] coordinates {(0,0.016) (1,0.016)};
+                    \addplot[mark=*,black,mark options={fill=black}] coordinates {(0,0.016)};
+
+                    \addplot[very thick,black] coordinates {(1,0.178) (2,0.178)};
+                    \addplot[mark=*,black,mark options={fill=black}] coordinates {(1,0.178)};
+
+                    \addplot[very thick,black] coordinates {(2,0.631) (3,0.631)};
+                    \addplot[mark=*,black,mark options={fill=black}] coordinates {(2,0.631)};
+
+                    \addplot[very thick,black] coordinates {(3,1) (4,1)};
+                    \addplot[mark=*,black,mark options={fill=black}] coordinates {(3,1)};
+                \end{axis}
+            \end{tikzpicture}
+        \end{center}
+
+        \newpage
+        \item Найдём математическое ожидание:
+        \begin{gather*}
+            M(X) = 0 \cdot 0,016 + 1 \cdot 0,162 + 2 \cdot 0,453 + 3 \cdot 0,369 = 2,175
+        \end{gather*}
+
+        \item Найдём среднее квадратическое отклонение:
+        \begin{gather*}
+            \sigma(X) = \sqrt{0 \cdot 0,016 + 1 \cdot 0,162 + 4 \cdot 0,453 + 9 \cdot 0,369 - 2,175^2} = \sqrt{0.564375}
+        \end{gather*}
+
+        \item Мода и медиана будут равны $2$.
+        \item Вероятность хотя-бы одного попадания будет равна $1 - P(A_0) = 1 - 0,016 = 0,984$; хотя бы одного непопадания $1 - P(A_3) = 1 - 0,369 = 0,613$.
+    \end{enumerate}
+    \hspace{200pt}\textbf{Ответ:} $M(X) = 2,175$; $\sigma(X)= \sqrt{0.564375}$.
+    Вероятность хотя-бы одного попадания равна $0,984$; хотя бы одного непопадания $0,613$
+
+    \newpage
+
+    \section*{Тема 6. Непрерывные случайные величины}
+
+    \subsection*{Задача 21}
+    \subsubsection*{Условие}
+
+    Дана плотность распределения случайной величины $X$:
+    \begin{gather*}
+        f(x) = \frac{a}{e^x + e^{-x}}
+    \end{gather*}
+    Найти коэффициент $a$, функцию распределения $F(x)$, вероятность $P\{X \geq 0 \}$, моду $mod(X)$ и медиану $med(X)$.
+    \subsubsection*{Решение}
+    \begin{enumerate}[wide, labelwidth=!, labelindent=0pt]
+        \item Для нахождения коэффициента $a$ возьмём интеграл;
+        \begin{gather*}
+            \int_{-\infty}^{\infty} f(x) \, dx = a \int_{-\infty}^{\infty} \frac{dx}{e^x + e^{-x}} = a \cdot (\lim_{t\rightarrow\infty} arctg(e^x)\big|_{-t}^{t}) = a \cdot \frac{\pi}{2} = 1
+            \Rightarrow a = \frac{2}{\pi}
+        \end{gather*}
+        \item Найдём функцию $F(x)$:
+        \begin{gather*}
+            F(x) = \int_{-\infty}^{x} f(x) \, dx = \frac{2}{\pi} \int_{-\infty}^{x} \frac{dx}{e^x + e^{-x}} = \frac{2}{\pi} \cdot (\lim_{t\rightarrow\infty} arctg(e^x)\big|_{-t}^{x}) = \frac{2 \cdot arctg(e^x)}{\pi}
+        \end{gather*}
+        \item Найдём вероятность $P\{X \geq 0 \}$:
+        \begin{gather*}
+            F(0) = \frac{2 \cdot arctg(e^0)}{\pi} = \frac{1}{2}
+        \end{gather*}
+        \item Мода $mod(X) = 0$(максимум плотности распределения).
+        \item Найдём медиану $med(X)$:
+        \begin{gather*}
+            F(med(X)) = \frac{1}{2} \Rightarrow  \frac{2 \cdot arctg(e^{med(X)})}{\pi} = \frac{1}{2} \Rightarrow med(X) = 0
+        \end{gather*}
+    \end{enumerate}
+
+    \hspace{150pt}\textbf{Ответ:} $a = \frac{2}{\pi}$; $F(x) = \frac{2 \cdot arctg(e^x)}{\pi}$; $P\{X \geq 0 \} = \frac{1}{2}$; $mod(X) = 0$; $med(X) = 0$.
+
 \end{document}\
