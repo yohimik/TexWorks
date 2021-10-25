@@ -2,6 +2,7 @@
 *.bbl
 *.log
 *.blg
+*.out
 *.gz
 out
 .idea

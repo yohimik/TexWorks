@@ -1,0 +1,109 @@
+\documentclass[12pt]{article}
+\usepackage{mathtext}
+\usepackage{amsmath}
+\usepackage{multirow}
+\usepackage{hhline}
+
+\usepackage[english, russian]{babel}
+\usepackage[TS1, T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{pscyr}
+
+\usepackage{fp}
+%\usepackage{pgfplots}
+%\pgfplotsset{compat=1.9}
+\usepackage{circuitikz}
+
+\usepackage{siunitx}
+\sisetup{output-decimal-marker={,}}
+
+\usepackage[left=2cm,right=2cm, top=1cm,bottom=1.5cm,bindingoffset=0cm]{geometry}
+
+\usepackage{graphicx}
+\graphicspath{{pictures/}}
+\DeclareGraphicsExtensions{.pdf,.png,.jpg}
+
+\begin{document}
+    \pagestyle{empty}
+    \begin{center}
+        \normalsize
+        \textbf{Федеральное государственное автономное образовательное учреждение высшего образования}
+
+        \small
+        \medskip
+        \textbf{САНКТ-ПЕТЕРБУРГСКИЙ НАЦИОНАЛЬНЫЙ ИССЛЕДОВАТЕЛЬСКИЙ  УНИВЕРСИТЕТ ИНФОРМАЦИОННЫХ ТЕХНОЛОГИЙ, МЕХАНИКИ И ОПТИКИ}
+
+        \medskip
+        \textbf{ФАКУЛЬТЕТ ПРОГРАММНОЙ ИНЖЕНЕРИИ И КОМПЬЮТЕРНОЙ ТЕХНИКИ}
+        \bigskip\bigskip\bigskip\bigskip\bigskip\bigskip\bigskip\bigskip\bigskip\bigskip\bigskip\bigskip
+        \par\medskip\par\smallskip\par\smallskip
+        \Large
+        \textbf{Основы электротехники}
+
+        \textbf{Домашняя работа №2}
+
+        \large
+        \par\bigskip
+        \textbf{«Расчет цепей синусоидального тока методом комплексных амплитуд»}
+        \par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip
+        \par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip
+        \par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip
+        \normalsize
+        \begin{tabular}{lllll}
+            \hspace{170pt}	 							& \hspace{80pt}	&	Выполнил:								&\\
+            &			&	Студент группы P3255					&\\
+            & 			&	Федюкович С. А. \_\_\_\_\_\_\_\_\_\_\_\_\_\_	&\\
+            &			&										&\\
+            &			&										&\\
+        \end{tabular}
+        \par\bigskip\par\bigskip\par\bigskip
+        \par\bigskip \par\bigskip
+        \par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip\par\bigskip
+
+        Санкт-Петербург
+        \par\bigskip
+        2018
+    \end{center}
+    \newpage
+    \pagestyle{plain}
+    \setcounter{page}{1}
+    \section*{Задание}
+    \begin{center}
+        \begin{circuitikz} \draw
+        (0,0) to[american current source, l=$e(t)$ , i=$i_1$]
+        (0,4) to[generic, l=$R_1$, a=$\rightarrow U_1$]
+        (4,4) to[capacitor, l=$C_4$, a=$\rightarrow U_4$,i=$i_3$]
+        (8,4) --
+        (8,0) to[generic,l=$R_5$,a=$\leftarrow U_5$]
+        (4,0) -- (0,0)
+
+        (4,4)to[inductor,*-*, l=$L_3$,a=$U_3 \downarrow$,i=$i_2$] (4,0);
+
+            %	\draw (1,1) -- (1,3) -- (3,3) -- (3,1) -- (1,1);
+        \end{circuitikz}
+    \end{center}
+
+    \FPset{\rOne}{2}
+    \FPset{\lThree}{25}
+    \FPset{\cFour}{1000}
+    \FPset{\rFive}{2}
+    \textbf{Дано:}
+
+    \par\bigskip
+    $R_1= R_5=\num\rFive[Ом];$
+
+    $L_3=\num\lThree[мГн]; C_4=\num\cFour[мкФ];$
+
+    $i_2=3,861sin(200t-87,199^{\circ})$
+
+    \par\bigskip
+    \textbf{Задания:}
+
+    \begin{enumerate}
+        \item Методом комплексных амплитуд рассчитать мгновенные значения ЭДС источника, токов в ветвях и напряжений на элементах.
+        \item Построить векторные диаграммы для любого контура и любого узла.
+        \item Осуществить проверку, составив баланс мощностей.
+    \end{enumerate}
+
+    \section*{Решение}
+\end{document}
