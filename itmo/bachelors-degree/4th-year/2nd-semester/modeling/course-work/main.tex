@@ -1,0 +1,600 @@
+\documentclass[14pt]{extarticle}
+\usepackage[activate={true,nocompatibility},final,tracking=true,kerning=true,spacing=true,factor=1100,stretch=10,shrink=10]{microtype}
+\usepackage[english, russian]{babel}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[
+    a4paper,
+    left=3cm,
+    right=2cm,
+    top=2cm,
+    bottom=3cm,
+]{geometry}
+\setlength{\parskip}{0.3cm}
+
+\setlength{\parindent}{0cm}
+
+\linespread{1.3}
+
+
+\usepackage{caption}
+\captionsetup[figure]{name={Рисунок}}
+
+% \usepackage{amsmath}
+
+% \usepackage{multirow}
+% \usepackage{hhline}
+
+\usepackage{indentfirst}
+
+% \usepackage{enumitem,kantlipsum}
+
+\usepackage{graphicx}
+\graphicspath{{images/}}
+\DeclareGraphicsExtensions{.pdf,.png,.jpg}
+
+\usepackage{tikz}
+% \usetikzlibrary{patterns}
+% \usepackage{pgfplots}
+% \pgfplotsset{compat=1.9}
+% \usepgfplotslibrary{fillbetween}
+
+% \usepackage{ulem}
+
+% \usepackage{hyperref}
+
+% \usepackage{circuitikz}
+
+% \usepackage{fp}
+% \usepackage{xfp}
+
+% \usepackage{siunitx}
+% \sisetup{output-decimal-marker={,}}
+
+\usepackage{amsmath}
+
+\usepackage{minted}
+\setminted[javascript]{
+    breaklines=true,
+    encoding=utf8,
+}
+\usepackage{etoolbox}
+\makeatletter
+\AtBeginEnvironment{minted}{\dontdofcolorbox}
+\def\dontdofcolorbox{\renewcommand\fcolorbox[4][]{##4}}
+\makeatother
+
+% \let\oldref\ref
+% \renewcommand{\ref}[1]{(\oldref{#1})}
+
+\begin{document}
+    \newgeometry{
+        left=3cm,
+        right=2cm,
+        top=2cm,
+        bottom=1.5cm,
+    }
+    \thispagestyle{empty}
+    \begin{center}
+        МИНИСТЕРСТВО ОБРАЗОВАНИЯ И НАУКИ РОССИЙСКОЙ ФЕДЕРАЦИИ
+
+        САНКТ-ПЕТЕРБУРГСКИЙ НАЦИОНАЛЬНЫЙ ИССЛЕДОВАТЕЛЬСКИЙ УНИВЕРСИТЕТ ИТМО
+
+        ФАКУЛЬТЕТ ПРОГРАММНОЙ ИНЖЕНЕРИИ И КОМПЬЮТЕРНОЙ ТЕХНИКИ
+
+        КАФЕДРА АППАРАТНО-ПРОГРАММНЫХ КОМПЛЕКСОВ ВЫЧИСЛИТЕЛЬНОЙ ТЕХНИКИ
+
+        \vspace{2cm}
+
+        \textbf{Курсовая работа}
+
+        по дисциплине
+
+        «Моделирование»
+
+        на тему
+
+        «Компьютерный расчёт показателей разомкнутой системы массового обслуживания с неограниченным временем ожидания»
+
+        \vspace{2cm}
+
+        \begin{flushright}
+            Выполнил: студент группы P3455
+
+            Федюкович С. А.,\par
+            \rule[0.66\baselineskip]{3cm}{0.4pt}
+
+            \par
+
+            Проверил: Сентерев Ю. А.
+
+            \par\par
+
+            \rule[0.66\baselineskip]{3cm}{0.4pt}
+        \end{flushright}
+
+        \vspace*{\fill}
+
+        Санкт-Петербург
+
+        \the\year г.
+    \end{center}
+
+    \newpage
+    \restoregeometry
+    \pagestyle{plain}
+    \setcounter{page}{1}
+
+    \tableofcontents
+
+    \newpage
+
+    \section*{Задание}
+    \addcontentsline{toc}{section}{Задание}
+
+    В пункте химчистки имеется три аппарата для чистки, $r = 3$.   Интенсивность потока посетителей $\lambda  = 6$ (чел./ ч). Интенсивность обслуживания посетителей одним аппаратом $\mu = 3$ (чел./ч). Среднее число посетителей, покидающих очередь, не дождавшись обслуживания, $\nu = 1$ (чел./ ч). Найти абсолютную пропускную способность пункта химчистки.
+
+    \newpage
+
+    \section*{Введение}
+    \addcontentsline{toc}{section}{Введение}
+
+    Теория массового обслуживания --- область прикладной математики, занимающаяся анализом процессов в системах производства, обслуживания, управления, в которых однородные события повторяются многократно, например, на предприятиях бытового обслуживания; в системах приема, переработки и передачи информации; автоматических линиях производства и др.
+
+    Предметом теории массового обслуживания является установление зависимостей между характером потока заявок, числом каналов обслуживания, производительностью отдельного канала и эффективным обслуживанием с целью нахождения наилучших путей управления этими процессами. Задачи теории массового обслуживания носят оптимизационный характер и в конечном итоге включают экономический аспект по определению такого, варианта системы, при котором будет обеспечен минимум суммарных затрат от ожидания обслуживания, потерь времени и ресурсов на обслуживание и от простоев каналов обслуживания.
+
+    \newpage
+
+    \section{Теоретические аспекты СМО}
+
+    \subsection{Системы массового обслуживания с отказами}
+
+    СМО с отказами является такая система, в которой приходящие для обслуживания требования, в случае занятости всех каналов обслуживания, сразу её покидают.
+
+    Вероятности состояний системы определяются из Выражения (1):
+    \begin{equation} P_k = \frac{\rho^k}{k!} P_0, \end{equation}
+    $$ \text{ где } k = 1, 2, ..., N \text{ --- общее число каналов;}$$
+    \begin{equation} \rho = \frac{\lambda}{\nu} \text{ --- нагрузка; } \end{equation}
+    $\lambda$ --- интенсивность входящего потока требований, $\nu$ --- интенсивность (производительность) одного канала (прибора) обслуживания, а вероятность отсутствия требований из Выражения (3):
+    \begin{equation} P_0 = \Bigg[ \sum_{ i = 0 }^N \frac{\rho^i}{i!} \Bigg]^{-1}. \end{equation}
+
+    К основным характеристикам качества обслуживания рассматриваемой СМО относятся:
+    \begin{enumerate}
+        \item Вероятность отказа $P_\text{отк}$ из Выражения (4):
+        \begin{equation}
+            P_\text{отк} = P_N = \frac{\rho^N / N!}{\sum_{i = 0}^N \rho^i / i!}.
+        \end{equation}
+
+        \item Среднее число занятых узлов обслуживания $M_\text{зан}$ из Выражения (5):
+        \begin{equation}
+            M_\text{зан} = \rho (1 - P_N)
+        \end{equation}
+
+        \item Среднее число свободных узлов обслуживания $M_\text{св}$ из Выражения (6):
+        \begin{equation}
+            M_\text{св} = N - M_\text{зан}.
+        \end{equation}
+
+        \item В системах с отказами события отказа и обслуживания составляют полную группу событий из Выражения (7):
+        \begin{equation}
+            P_\text{отк} + P_\text{обс} = 1.
+        \end{equation}
+
+        \item Относительная пропускная способность определяется по Выражению (8):
+        \begin{equation}
+            Q = P_\text{обс} = 1 - P_\text{отк} = 1 - P_N.
+        \end{equation}
+
+        \item Абсолютная пропускная способность СМО с отказами считается по Выражению (9):
+        \begin{equation}
+            A = \lambda P_\text{обс}.
+        \end{equation}
+
+        \item Коэффициент занятости узлов обслуживания определяется отношением средним числом занятых каналов к общему числу каналов по Выражению (10):
+        \begin{equation}
+            K_\text{з} = \frac{M_\text{зан}}{N}.
+        \end{equation}
+    \end{enumerate}
+
+    \subsection{Система массового обслуживания с ограниченной длиной очереди}
+
+    СМО с ограниченной длиной очереди является такой системой, в которой требование, поступающее на обслуживание, покидает систему, если заняты все каналы обслуживания, и в накопителе заняты все места.
+
+    Вероятности состояний $S_0$, $S_1$, ... , $S_N$ находятся по Выражению (11):
+    \begin{equation}
+        P_k = \frac{\rho^k}{k!}\text{, где }(k = 1, 2, ..., N).
+    \end{equation}
+
+    А вероятности состояний $S_{N+1}$, $S_{N+2}$, ..., $S_{N + l}$ находятся  по Выражению (12):
+    \begin{equation}
+        P_k = \frac{\rho^k}{N^{k - N} N!}\text{, где }(k = N + 1, ..., N + l), l\text{ --- максимальная длина очереди}.
+    \end{equation}
+
+    Вероятность $P_0$ рассчитывается  по Выражению (13):
+    \begin{equation}
+        P_0 = \Bigg[ \sum_{k = 0}^N \frac{\rho^k}{k!} + \sum_{k = N + 1}^{N + l} \frac{\rho^i}{N^{k - N} N!} \Bigg]^{-1}
+    \end{equation}
+
+    В большинстве практических задач должно соблюдаться отношение $\frac{\rho}{N} < 1$, тогда выражение для $P_0$ можно переписать в следующем виде  по Выражению (14):
+    \begin{equation}
+        P_0 = \Bigg[ \sum_{k = 0}^N \frac{\rho^k}{k!} + \frac{\rho^{N+1}}{N \cdot N!} \frac{1 - (\frac{\rho}{N})^l}{1 - \frac{\rho}{N}} \Bigg]^{-1}.
+    \end{equation}
+
+    Вероятность отказа в обслуживании определяется из Выражения (15):
+    \begin{equation}
+        P_{\text{отк}} = P_{N+l} = \frac{\rho^N}{N!} \Bigg( \frac{\rho}{N} \Bigg)^l P_0.
+    \end{equation}
+
+    Среднее число каналов, занятых в обслуживании, и коэффициент занятости определяются  по Выражению (16):
+    \begin{equation}
+        M_{\text{зан}} = \sum_{k = 1}^N k P_k + N \sum_{i = 1}^l P_{N + i}; K_{\text{з}} = \frac{M_{\text{зан}}}{N}.
+    \end{equation}
+
+    Среднее число свободных аппаратов и коэффициент простоя определяются  по Выражению (17):
+    \begin{equation}
+        M_0 = N - M_{\text{зан}}; K_0 = \frac{M_0}{N}.
+    \end{equation}
+
+    Средняя длина очереди определяется с помощью Выражения (18):
+    \begin{equation}
+        M_{\text{оч}} = \sum_{k = 1}^l k P_{N + k} = \frac{\rho^N}{N!} P_0 \sum_{k = 1}^l k \Bigg( \frac{\rho}{N} \Bigg)^k.
+    \end{equation}
+
+    \subsection{Системы массового обслуживания с ожиданием}
+
+    СМО с ожиданием аналогична системе массового обслуживания с ограниченной длиной очереди при условии, что граница очереди отодвигается в бесконечность.
+
+    Вероятность состояний СМО с ожиданием находят по формулам Выражений (19) и (20):
+    \begin{equation}
+        P_k = \frac{\rho^k}{k!} P_0\text{, для }(k = 1, 2, ..., N),
+    \end{equation}
+    \begin{equation}
+        P_k = \frac{\rho^k}{N! N^{k - N}} P_0\text{, для } (k = N + 1, ..., N + k, ..., N + \infty).
+    \end{equation}
+
+    При $\rho / N > 1$ наблюдается явление «взрыва» --- неограниченный рост средней длины очереди, поэтому для определения $P_0$ должно выполняться ограничивающее условие $ \rho / N < 1 $, и с учетом его запишем Выражение (21):
+    \begin{equation}
+        P_0 = \Bigg[ \sum_{k = 0}^N \frac{\rho^k}{k!} + \frac{\rho^{N + 1}}{N!(N - \rho)}  \Bigg]^{-1}.
+    \end{equation}
+
+    К основным характеристикам качества обслуживания СМО с ожиданием относят:
+    \begin{enumerate}
+        \item Вероятность наличия очереди $P_\text{оч}$, т.е. вероятность того, что число требований в системе больше числа узлов по Выражению (22):
+        \begin{equation}
+            P_\text{оч} = \frac{\rho^{N + 1}}{N!(N - \rho)} P_0.
+        \end{equation}
+
+        \item Вероятность занятости всех узлов системы $P_\text{зан}$ по Выражению (23):
+        \begin{equation}
+            P_\text{зан} = \frac{\rho^N}{(N - 1)!(N - \rho)} P_0.
+        \end{equation}
+
+        \item Среднее число требований в системе $M_\text{ТР}$ по Выражению (24):
+        \begin{equation}
+            M_\text{ТР} = P_0 \Bigg( \rho \sum_{k = 0}^{N - 1} \frac{\rho^k}{k!} + \frac{\rho^{N + 1} (N + 1 - \rho)}{(N - 1)!(N - \rho)^2} \Bigg).
+        \end{equation}
+
+        \item Средняя длина очереди $M_\text{оч}$ по Выражению (25):
+        \begin{equation}
+            M_\text{оч} = \frac{\rho^{N + 1} P_0}{(N - 1)!(N - \rho)^2}.\end{equation}
+
+        \item Среднее число свободных каналов обслуживания $M_\text{св}$ по Выражению (26):
+        \begin{equation}
+            M_\text{св} = P_0 \sum_{k = 1}^N k \frac{\rho^k}{(N - k)!}.
+        \end{equation}
+
+        \item Среднее число занятых каналов обслуживания $M_\text{зан}$ по Выражению (27):
+        \begin{equation}
+            M_\text{зан} = N - M_\text{св}.
+        \end{equation}
+
+        \item Коэффициент простоя $K_0$ и коэффициент загрузки $K_\text{з}$ каналов обслуживания системы по Выражению (28):
+        \begin{equation}
+            K_0 = \frac{M_\text{св}}{N}; K_\text{з} = \frac{M_\text{зан}}{N}.
+        \end{equation}
+
+        \item Среднее время ожидания начала обслуживания $T_\text{ож}$ для требования, поступившего в систему по Выражению (29):
+        \begin{equation}
+            T_\text{ож} = \frac{\rho^N}{\mu (N - 1)!(N - \rho)^2} P_0.
+        \end{equation}
+
+        \item Общее время, которое проводят в очереди все требования, поступившие в систему за единицу времени $T_\text{оож}$ по Выражению (30):
+        \begin{equation}
+            T_\text{оож} = \frac{\rho^{N + 1}}{(N - 1)!(N - \rho)^2} P_0.
+        \end{equation}
+
+        \item Среднее время $T_\text{тр}$, которое требование проводит в системе обслуживания  по Выражению (31):
+        \begin{equation}
+            T_\text{тр} = T_\text{ож} + \mu^{-1}.
+        \end{equation}
+
+        \item Суммарное время, которое в среднем проводят в системе все требования, поступившие за единицу времени $T_\text{стр}$  по Выражению (32):
+        \begin{equation}
+            T_\text{стр} = T_\text{оож} + \rho.
+        \end{equation}
+    \end{enumerate}
+
+    \subsection{Система массового обслуживания с ограниченным временем ожидания}
+
+    В системах массового обслуживания с ограниченным временем ожидания время ожидания в очереди каждого требования ограничено случайной величиной $ t_\text{ож} $, среднее значение которого $ \overline{t_\text{ож}} $.
+
+    Величина, обратная среднему времени ожидания, означает среднее количество требований, покидающих очередь в единицу времени, вызванное появлением в очереди одного требования: $ \nu = 1\ /\  \overline{t_\text{ож}} $.
+
+    При наличии в очереди $k$ требований интенсивность потока покидающих очередь требований составляет $ k \nu $.
+
+    Для дальнейшего рассмотрения СМО с ограниченным временем ожидания введём новый параметр $\beta = \frac{\nu}{\mu}$, означающий среднее число требований, покидающих систему не обслуженными,  приходящиеся на среднюю скорость обслуживания требований.
+
+    Формулы для определения вероятностей состояний такой системы имеют вид  по Выражениям (33) и (34):
+    \begin{equation}
+        P_k = \frac{\rho^k}{k!} \cdot P_0\text{, при }k = 1, 2,..., N;
+    \end{equation}
+    \begin{equation}
+        P_{N + l} = P_N \cdot \frac{\rho^l}{\prod_{i = 1}^l (N + i \beta) } \text{, при }i = N + 1,...,N + l.
+    \end{equation}
+
+    Вероятность $P_0$ определяют по Выражению (35):
+    \begin{equation}
+        P_0 = \Bigg[ \sum_{k = 0}^N \frac{\rho^k}{k!} + \frac{\rho^N}{N!} \sum_{l = 1}^\infty \frac{\rho^l}{\prod_{i = 1}^l (N + i \beta)} \Bigg]^{-1},
+    \end{equation}
+    $$
+    \text{где } \prod_{i = 1}^l ( N + i \beta) \text { --- произведение сомножителей } N + i \beta .
+    $$
+    В практических задачах сумму бесконечного ряда вычислить достаточно просто, так как члены ряда быстро убывают с увеличением номера.
+
+    Средняя длина очереди по Выражению (36):
+    \begin{equation}
+        M_\text{оч} = \frac{\rho^N}{N!} P_0 \sum_{l = 1}^\infty l \frac{\rho^l}{\prod_{i = 1}^l (N + i \beta)}.
+    \end{equation}
+
+    Вероятность отказа по Выражению (37):
+    \begin{equation}
+        P_\text{отк} = \frac{\beta}{\rho} M_\text{оч}.
+    \end{equation}
+
+    Среднее число занятых каналов обслуживания и коэффициент загрузки по Выражениям (38) и (39):
+    \begin{equation}
+        M_\text{зан} = \sum_{k = 1}^N k P_k + N \sum_{l = 1}^\infty P_{N + l};
+    \end{equation}
+    \begin{equation}
+        K_\text{з} = \frac{M_\text{зан}}{N}.
+    \end{equation}
+
+    Среднее число свободных каналов обслуживания и коэффициент простоя по Выражению (40):
+    \begin{equation}
+        M_\text{св} = N - M_\text{зан}; K_0 = \frac{M_\text{зан}}{N}.
+    \end{equation}
+
+    Относительная пропускная способность по Выражению (41):
+    \begin{equation}
+        Q = 1 - P_\text{отк}.
+    \end{equation}
+
+    \newpage
+    \section{Практическая реализация СМО}
+
+    \subsection{Решение задачи}
+
+    Сперва необходимо решить поставленную в работе задачу на бумаге.
+
+    Имеем: $ r = 3, \lambda = 6, \mu = 3, \nu = 1 $. Находим: $ \rho = \lambda / \mu = 6 / 3 = 2$,
+    $$ P_0 = \Bigg[ 1 + \frac{2}{1!} + \frac{2^2}{2!} + \frac{2^3}{3!} + \frac{2^3}{3!} \cdot 1,219 \Bigg]^{-1} \approx 0,126. $$
+
+    Вероятность занятости всех приборов равна $P_\text{зан} = 1 - P_0 = 0,874$. Тогда абсолютная пропускная способность может быть получена как произведение: $ A = NP_\text{зан} = 3 \cdot 0,874 = 2,622 $. Таким образом, $ A =  2,622 $ посетителя в час.
+
+    \subsection{Расчёт показателей}
+
+    Следующим шагом рассчитаем все основные показатели СМО для последующей проверки:
+    \begin{enumerate}
+        \item Вероятности состояний системы:
+        $$ P_1 = \frac{2^1}{1!} \cdot 0,126 = 0,252;\ \rho_1 = \frac{0,252 \cdot 1!}{0,126} = 2; $$
+        $$ P_2 = \frac{2^2}{2!} \cdot 0,126 = 0,252;\ \rho_1 = \frac{0,252 \cdot 2!}{0,126} = 4; $$
+        $$ P_3 = \frac{2^3}{3!} \cdot 0,126 = 0,168;\ \rho_1 = \frac{0,168 \cdot 3!}{0,126} = 8. $$
+
+        \item Средняя длина очереди:
+        $$ M_\text{оч} = \frac{2^3}{3!} \cdot 0,126 \cdot 2,343 \approx 0,392 $$
+
+        \item Среднее число требований:
+        $$ \beta = \frac{1}{3} $$
+
+        \item Вероятность отказа:
+        $$ P_\text{отк} = \frac{1}{3} \cdot \frac{1}{2} \cdot 0,392 = 0,065 $$
+
+        \item Среднее число занятых каналов обслуживания и коэффициент загрузки:
+        $$ M_\text{зан} = 1 \cdot 0,252 + 2 \cdot 0,252 + 3 \cdot 0,168 + 3 \cdot 0,461 \approx 1,869; $$
+        $$ K_\text{З} = \frac{1,721}{3} \approx 0,623. $$
+
+        \item Среднее число свободных каналов обслуживания и коэффициент простоя:
+        $$ M_\text{св} = 3 - 1,869 = 1,131; $$
+        $$ K_0 = \frac{1,721}{3} = K_\text{З} = 0,623.$$
+
+        \item Относительная пропускная способность:
+        $$ Q = 1 - P_\text{отк} = 0,935. $$
+    \end{enumerate}
+
+    \subsection{Расчёт показателей при помощи электронных таблиц}
+
+    Электронная таблица --- компьютерная программа, позволяющая проводить вычисления с данными, представленными в виде двумерных массивов, имитирующих бумажные таблицы.
+
+    В данной работе в качестве электронной таблицы будет использоваться Google Sheets.
+
+    Для расчёта была создана новая таблица и введена информация о характеристиках СМО в колонки на Рисунке \ref{fig:chars}:
+    \begin{figure}[!ht]
+        \centering
+        \includegraphics[scale=2]{f1.png}
+        \caption{Характеристики СМО}
+        \label{fig:chars}
+    \end{figure}
+
+    Следующим шагом рассчитаем значение $\rho$, введя нужную формулу в ячейку $E2$ на Рисунке \ref{fig:rho}:
+    \begin{figure}[!ht]
+        \centering
+        \includegraphics[scale=2]{f2.png}
+        \caption{Расчёт $\rho$ СМО}
+        \label{fig:rho}
+    \end{figure}
+
+    Дальше рассчитаем значение $\beta$, введя формулу в ячейку $E3$ на Рисунке \ref{fig:beta}:
+    \begin{figure}[!ht]
+        \centering
+        \includegraphics[scale=2]{f4.png}
+        \caption{Расчёт $\beta$ СМО}
+        \label{fig:beta}
+    \end{figure}
+
+    После пишем формулу для вероятности того, что все каналы свободны на Рисунке \ref{fig:p_0}:
+    \begin{figure}[!ht]
+        \centering
+        \includegraphics[scale=2]{f5.png}
+        \caption{Расчёт $P_0$ СМО}
+        \label{fig:p_0}
+    \end{figure}
+
+    В данном случае функция $P\_0$ является макросом, написанным на языке JavaScript, код которого приведён ниже.
+
+    Находим вероятность того, что все каналы заняты на Рисунке \ref{fig:p_b}:
+    \begin{figure}[!ht]
+        \centering
+        \includegraphics[scale=2]{f6.png}
+        \caption{Расчёт $P_\text{зан}$ СМО}
+        \label{fig:p_b}
+    \end{figure}
+
+    В итоге, находим абсолютную пропускную способность пункта химчистки на Рисунке \ref{fig:a}:
+    \begin{figure}[!ht]
+        \centering
+        \includegraphics[scale=2]{f7.png}
+        \caption{Расчёт $A$ СМО}
+        \label{fig:a}
+    \end{figure}
+
+    Находим вероятности состояний системы, написав формулу один раз и перенеся её на три строчки ниже, на Рисунке \ref{fig:P_k}:
+    \begin{figure}[!ht]
+        \centering
+        \includegraphics[scale=2]{f8.png}
+        \caption{Расчёт вероятностей СМО}
+        \label{fig:P_k}
+    \end{figure}
+
+    Аналогично добавим формулы вероятностей на Рисунке \ref{fig:p_k}:
+    \begin{figure}[!ht]
+        \centering
+        \includegraphics[scale=2]{f9.png}
+        \caption{Расчёт вероятностей СМО}
+        \label{fig:p_k}
+    \end{figure}
+
+    Дальше добавим формулу $M_\text{оч}$ на Рисунке \ref{fig:p_m_q}:
+    \begin{figure}[!ht]
+        \centering
+        \includegraphics[scale=2]{f10.png}
+        \caption{Расчёт $M_\text{оч}$ СМО}
+        \label{fig:p_m_q}
+    \end{figure}
+
+    \newpage
+
+    Следующим шагом рассчитаем вероятность отказа $P_\text{отк}$ на Рисунке \ref{fig:p_c}:
+    \begin{figure}[!ht]
+        \centering
+        \includegraphics[scale=2]{f11.png}
+        \caption{Расчёт $P_\text{отк}$ СМО}
+        \label{fig:p_c}
+    \end{figure}
+
+    После рассчитаем $M_\text{зан}$ на Рисунке \ref{fig:m_b}:
+    \begin{figure}[!ht]
+        \centering
+        \includegraphics[scale=2]{f12.png}
+        \caption{Расчёт $M_\text{зан}$ СМО}
+        \label{fig:m_b}
+    \end{figure}
+
+    Дальше найдём коэффициент загрузки $K_\text{з}$ на Рисунке \ref{fig:k_b}:
+    \begin{figure}[!ht]
+        \centering
+        \includegraphics[scale=2]{f13.png}
+        \caption{Расчёт $K_\text{з}$ СМО}
+        \label{fig:k_b}
+    \end{figure}
+
+    \newpage
+
+    Последней характеристикой рассчитаем относительную пропускную способность $Q$ на Рисунке \ref{fig:q}:
+    \begin{figure}[!ht]
+        \centering
+        \includegraphics[scale=2]{f15.png}
+        \caption{Расчёт $Q$ СМО}
+        \label{fig:q}
+    \end{figure}
+
+    В итоге, получаем таблицу со всеми характеристиками СМО на Рисунке \ref{fig:all-chars}:
+    \begin{figure}[!ht]
+        \centering
+        \includegraphics[scale=2]{f16.png}
+        \caption{Таблица с характеристиками СМО}
+        \label{fig:all-chars}
+    \end{figure}
+
+    Код макроса для расчёта характеристик:
+    \begin{minted}{javascript}
+/** @OnlyCurrentDoc */
+
+function factorial (n) {
+  if (n <= 1)
+    return 1;
+  return factorial(n - 1) * n;
+}
+
+function P_0(rho, n, beta) {
+  return 1 / (
+      Array(n + 1).fill(0).reduce(
+        (res, v, k) => res + Math.pow(rho, k) / factorial(k), 0)
+       + (
+        Math.pow(rho, n) / factorial(n))
+      * Array(1000).fill(0).reduce(
+        (res, v, l) => res + Math.pow(rho, l + 1) / Array(l + 1).fill(0).reduce((resi, v, i) => resi * ( n + (i + 1) * beta), 1),
+      0)
+  );
+}
+
+function M_Q(rho, n, p_0, beta) {
+  return (Math.pow(rho, n) / factorial(n)) * p_0 * Array(1000).fill(0).reduce(
+    (res, v, l) => res + (l + 1) * Math.pow(rho, l + 1) / Array(l + 1).fill(0).reduce((resi, v, i) => resi * ( n + (i + 1) * beta), 1),
+  0);
+}
+
+function M_B(p_n, rho, beta) {
+  const n = p_n.length ? p_n.length * p_n[0].length : 0;
+  if (!n) return 0;
+
+  return p_n.reduce((res, p_k, k) => res + (k + 1) * p_k[0], 0) + n * Array(1000).fill(0).reduce(
+    (res, v, l) => res + p_n[p_n.length - 1][0] * Math.pow(rho, l + 1) / Array(l + 1).fill(0).reduce((resi, v, i) => resi * ( n + (i + 1) * beta), 1),
+  0);
+}
+    \end{minted}
+
+    Все найденные характеристики сходятся с вычислительными значениями, а это значит, что всё выполнено верно.
+
+    \newpage
+    \section*{Заключение}
+    \addcontentsline{toc}{section}{Заключение}
+
+    Теория массового обслуживания для химчистки --- это, по сути, средство анализа затрат. Для отдела было бы непомерно дорого или свидетельствовало бы о том, что у них не так много клиентов, чтобы никому из их клиентов никогда не приходилось стоять в очереди. В качестве упрощенного примера, для химчистки, чтобы исключить обстоятельства, когда людям приходится стоять в очереди, чтобы постирать одежду. Таким образом, химчистка может использовать информацию, полученную из теории очередей, чтобы настроить свои операционные функции таким образом, чтобы найти баланс между стоимостью обслуживания клиентов и неудобствами для клиентов, вызванными простоями в очереди.
+
+    Работа химчистке отличается достаточно большим потоком информации от клиентов и сотрудников, которая достаточно быстро распределяется. При помощи имитационного моделирования, осуществлен расчёт основных характеристик СМО.
+
+    \newpage
+    \section*{Список литературы}
+    \addcontentsline{toc}{section}{Список литературы}
+
+    \begin{enumerate}
+        \item Головко Николай Иванович. Исследование моделей систем массового обслуживания в информационных сетях : диссертация ... доктора технических наук : 05.13.18 / Головко Николай Иванович; [Место защиты: Ин-т автоматики и процессов управления ДВО РАН].- Владивосток, 2007.- 404 с.;
+        \item Климов Г.П. Теория массового обслуживания. / 2-е издание, переработанное. – М.: Издательство Московского университета. – 2011. – 312с.
+        \item Mosquera, A., Olarte Pascual, C. y Juaneda Ayensa , E. (2017): Under-standing the customer experience in the age of omni-channel shopping, Icono 14, volumen 15 (2), pp. 235-255. doi: 10.7195/ri14.v15i2.1070;
+        \item Ngai, E. W. T., Moon, K. K., Lam, S. S., Chin, E. S. K., \& Tao, S. S. C. (2015). Social media models, technologies, and applications. Industrial Management \& Data Systems, 115(5), 769–802;
+        \item Кетокиви  М.А.,  Шредер  Р.Г.  (2004)  Стратегические,  структурные непредвиденные обстоятельства и институциональные объяснения в принятии инновационных методов производства. Дж Опер Манаг 22: 63–89;
+        \item Pourkhani, A. \& Abdipour, Khadije \& Baher, B. \& Moslehpour, Massoud. (2019). The impact of social media in business growth and performance: A scien-tometrics analysis. International Journal of Data and Network Science;
+        \item Астахова Н.И. Менеджмент : учебник для прикладного бакалавриата / Н. И. Астахова [и др.] ; ответственный редактор Н. И. Астахова, Г. И. Моск-витин. — Москва : Издательство Юрайт, 2020. — 422 с;
+    \end{enumerate}
+
+\end{document}

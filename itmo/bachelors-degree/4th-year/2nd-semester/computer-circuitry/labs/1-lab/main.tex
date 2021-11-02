@@ -1,0 +1,303 @@
+\documentclass[12pt]{article}
+
+
+\usepackage[english, russian]{babel}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[left=2cm,right=2cm, top=1cm,bottom=1.5cm,bindingoffset=0cm]{geometry}
+
+\usepackage{amsmath}
+
+% \usepackage{multirow}
+% \usepackage{hhline}
+
+% \usepackage{indentfirst}
+
+% \usepackage{enumitem,kantlipsum}
+
+\usepackage{graphicx}
+\graphicspath{{pictures/}}
+\DeclareGraphicsExtensions{.pdf,.png,.jpg}
+
+\usepackage{tikz}
+\usetikzlibrary{patterns}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.9}
+% \usepgfplotslibrary{fillbetween}
+
+% \usepackage{ulem}
+
+% \usepackage{hyperref}
+
+% \usepackage{circuitikz}
+
+% \usepackage{fp}
+% \usepackage{xfp}
+
+% \usepackage{siunitx}
+% \sisetup{output-decimal-marker={,}}
+
+% \usepackage{minted}
+
+% \let\oldref\ref
+% \renewcommand{\ref}[1]{(\oldref{#1})}
+
+\begin{document}
+    \pagestyle{empty}
+    \begin{center}
+        \textbf{Федеральное государственное автономное образовательное учреждение высшего образования}
+
+        \vspace{5pt}
+
+        {\small
+        \textbf{САНКТ-ПЕТЕРБУРГСКИЙ НАЦИОНАЛЬНЫЙ}
+
+        \textbf{ИССЛЕДОВАТЕЛЬСКИЙ УНИВЕРСИТЕТ ИТМО}
+
+        \textbf{ФАКУЛЬТЕТ ПРОГРАММНОЙ ИНЖЕНЕРИИ И КОМПЬЮТЕРНОЙ ТЕХНИКИ}%
+        }
+
+        \vspace{140pt}
+
+        {\Large
+        \textbf{ЛАБОРАТОРНАЯ}
+
+        \vspace{7pt}
+
+        \textbf{РАБОТА №1}%
+        }
+
+        \vspace{10pt}
+
+        {\large
+        \textbf{Схемотехника ЭВМ}
+
+        \vspace{5pt}
+
+        \textbf{«Полупроводниковый диод»}%
+        }
+
+        \vspace{170pt}
+
+        \begin{tabular}{lll}
+            Проверил:                                                                                   & \hspace{70pt} & Выполнил:                                             \\
+            ........................                \rule[0.66\baselineskip]{2cm}{0.4pt}                &               & Студент группы P3455                                  \\
+            «\rule[0.66\baselineskip]{1cm}{0.4pt}»  \rule[0.66\baselineskip]{2cm}{0.4pt} \the\year г.   &               & Федюкович С. А. \rule[0.66\baselineskip]{2cm}{0.4pt}  \\
+            &               &                                                       \\
+            Оценка          \hspace{12pt}           \rule[0.66\baselineskip]{2.7cm}{0.4pt}              &               &                                                       \\
+        \end{tabular}
+
+        \vspace*{\fill}
+
+        Санкт-Петербург
+
+        \the\year
+    \end{center}
+
+    \newpage
+
+    \pagestyle{plain}
+    \setcounter{page}{1}
+
+    \section*{Цель}
+
+    Изучить полупроводниковой диод:
+
+    \begin{enumerate}
+        \item Исследовать напряжение и силу тока диода при прямом и обратном смещении $p-n$ перехода.
+        \item Построить и исследовать вольтамперную характеристику (ВАХ) для полупроводникового диода.
+        \item Исследовать сопротивление диода при прямом и обратном смещении по вольтамперной характеристике.
+        \item Провести анализ сопротивления диода (прямое и обратное смещение) на переменном и постоянном токе.
+    \end{enumerate}
+
+    \section*{Задачи}
+
+    \subsection*{Эксперимент 1}
+
+    \begin{enumerate}
+        \item Построить схему, изображенную на Рис. \ref{fig:s:1}, в программе Multisim.
+        \item Измерить напряжение на диоде при прямом смещении.
+        \item Перевернуть диод, чтобы получилась схема, как на Рис. \ref{fig:s:2}.
+        \item Измерить напряжение на диоде при обратном смещении.
+        \item Вычислить силу тока диода при прямом и обратном смещении.
+    \end{enumerate}
+
+    \subsection*{Эксперимент 2}
+
+    \begin{enumerate}
+        \item Построить схему, изображенную на Рис. \ref{fig:s:1}, в программе Multisim.
+        \item Измерить силу тока на диоде при прямом смещении.
+        \item Перевернуть диод, чтобы получилась схема, как на Рис. \ref{fig:s:2}.
+        \item Измерить силу тока на диоде при обратном смещении.
+    \end{enumerate}
+
+    \subsection*{Эксперимент 3}
+
+    \begin{enumerate}
+        \item Построить схему, изображенную на Рис. \ref{fig:s:1}, в программе Multisim.
+        \item Измерить силу тока и напряжение на диоде при прямом смещении на разных значениях ЭДС (0; 0,5; 1; 2; 3; 4; 5), занести данные в таблицу и построить график.
+        \item Перевернуть диод, чтобы получилась схема, как на Рис. \ref{fig:s:2}.
+        \item Измерить силу тока на диоде при обратном смещении на разных значениях ЭДС (0; 0,5; 1; 2; 3; 4; 5), занести данные в таблицу и построить график.
+    \end{enumerate}
+
+    \newpage
+
+    \section*{Схемы}
+
+    \begin{figure}[ht]
+        \centering
+        \includegraphics[scale=0.5]{images/s1.jpg}
+        \caption{Схема 1}
+        \label{fig:s:1}
+    \end{figure}
+
+    \begin{figure}[ht]
+        \centering
+        \includegraphics[scale=0.5]{images/s2.jpg}
+        \caption{Схема 2}
+        \label{fig:s:2}
+    \end{figure}
+
+    \newpage
+
+    \section*{Выводы}
+
+    \subsection*{Эксперимент 1}
+
+    В ходе работы были получены следующие данные:
+
+    $$ U_{\text{об}} = 9V; I_{\text{об}} = \frac{E - U_{\text{об}}}{R} = \frac{9 - 9}{100} = 0A$$
+
+    $$ U_{\text{пр}} = 769.17mV; I_{\text{пр}} = \frac{E - U_{\text{пр}}}{R} = \frac{9 - 0,76917}{100} = 0,0823083A$$
+
+    \subsection*{Эксперимент 2}
+
+    В ходе работы были получены следующие данные:
+
+    $$ I_{\text{об}} = 18.010pA$$
+
+    $$ I_{\text{пр}} = 82.308mA$$
+
+    \subsection*{Эксперимент 3}
+
+    В ходе работы при прямом смещении были получены следующие данные:
+
+    \begin{table}[ht]
+        \centering
+        \begin{tabular}{|c|c|c|}
+            \hline
+            $E, V$ & $U_{\text{пр}}, mV$ & $I_{\text{пр}}, mA$ \\
+            \hline
+            0,000 & 0,000 & 0,000 \\
+            \hline
+            0,500 & 499,750 & 0,002 \\
+            \hline
+            1,000 & 684,790 & 3,152 \\
+            \hline
+            2,000 & 721,020 & 12,790 \\
+            \hline
+            3,000 & 735,790 & 22,642 \\
+            \hline
+            4,000 & 745,180 & 32,548 \\
+            \hline
+            5,000 & 752,060 & 42,479 \\
+            \hline
+        \end{tabular}
+    \end{table}
+
+    \begin{figure}[ht]
+        \centering
+        \begin{tikzpicture}
+            \label{dsadsa}
+            \begin{axis}[
+            xmin = -20,
+            ymin = -2,
+            xmax = 800,
+            ymax = 50,
+            axis lines=left,
+            axis line style={->},
+            x label style={at={(axis description cs:0.7,-0.2)},anchor=east},
+            xlabel = {$U_{\text{пр}}, mV$},
+            y label style={at={(axis description cs:-0.2,0.5)},anchor=north},
+            ylabel = {$I_{\text{пр}}, mA$},
+            ]
+            \addplot[
+                mark=square,
+            ]
+            coordinates {
+                (0,0)
+                (499.75, 0.002)
+                (684.79, 3.152)
+                (721.02, 12.79)
+                (735.79, 22.642)
+                (745.18, 32.548)
+                (752.06, 42.479)
+            };
+            \end{axis}
+        \end{tikzpicture}
+    \end{figure}
+
+    \newpage
+
+    При обратном смещении были получены следующие данные:
+
+    \begin{table}[ht]
+        \centering
+        \begin{tabular}{|c|c|c|}
+            \hline
+            $E, V$ & $U_{\text{обр}}, V$ & $I_{\text{обр}}, pA$ \\
+            \hline
+            0,0 & 0,0 & 0,0 \\
+            \hline
+            0,500 & -0,500 & -1,010 \\
+            \hline
+            1,000 & -1,000 & -2,010 \\
+            \hline
+            2,000 & -2,000 & -4,010 \\
+            \hline
+            3,000 & -3,000 & -6,010 \\
+            \hline
+            4,000 & -4,000 & -8,010 \\
+            \hline
+            5,000 & -5,000 & -10,010 \\
+            \hline
+        \end{tabular}
+    \end{table}
+
+    \begin{figure}[ht]
+        \centering
+        \begin{tikzpicture}
+            \label{dsadsa}
+            \begin{axis}[
+            xmin = -6,
+            ymin = -11,
+            xmax = 1,
+            ymax = 1,
+            axis lines=left,
+            axis line style={->},
+            x label style={at={(axis description cs:0.7,-0.2)},anchor=east},
+            xlabel = {$U_{\text{обр}}, mV$},
+            y label style={at={(axis description cs:-0.2,0.5)},anchor=north},
+            ylabel = {$I_{\text{обр}}, mA$},
+            ]
+            \addplot[
+                mark=square,
+            ]
+            coordinates {
+                (0,0)
+                (-0.5, -1.010)
+                (-1 -2.01)
+                (-2, -4.01)
+                (-3, -6.01)
+                (-4, -8.01)
+                (-5, -10.01)
+            };
+            \end{axis}
+        \end{tikzpicture}
+    \end{figure}
+
+
+
+
+
+\end{document}

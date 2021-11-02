@@ -1,0 +1,191 @@
+\documentclass[12pt]{article}
+
+
+\usepackage[english, russian]{babel}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[left=2cm,right=2cm, top=1cm,bottom=1.5cm,bindingoffset=0cm]{geometry}
+
+\usepackage{amsmath}
+
+% \usepackage{multirow}
+% \usepackage{hhline}
+
+% \usepackage{indentfirst}
+
+% \usepackage{enumitem,kantlipsum}
+
+\usepackage{graphicx}
+\graphicspath{{pictures/}}
+\DeclareGraphicsExtensions{.pdf,.png,.jpg}
+
+% \usepackage{tikz}
+% \usetikzlibrary{patterns}
+% \usepackage{pgfplots}
+% \pgfplotsset{compat=1.9}
+% \usepgfplotslibrary{fillbetween}
+
+% \usepackage{ulem}
+
+% \usepackage{hyperref}
+
+% \usepackage{circuitikz}
+
+% \usepackage{fp}
+% \usepackage{xfp}
+
+% \usepackage{siunitx}
+% \sisetup{output-decimal-marker={,}}
+
+% \usepackage{minted}
+
+% \let\oldref\ref
+% \renewcommand{\ref}[1]{(\oldref{#1})}
+
+\begin{document}
+    \pagestyle{empty}
+    \begin{center}
+        \textbf{Федеральное государственное автономное образовательное учреждение высшего образования}
+
+        \vspace{5pt}
+
+        {\small
+        \textbf{САНКТ-ПЕТЕРБУРГСКИЙ НАЦИОНАЛЬНЫЙ}
+
+        \textbf{ИССЛЕДОВАТЕЛЬСКИЙ УНИВЕРСИТЕТ ИТМО}
+
+        \textbf{ФАКУЛЬТЕТ ПРОГРАММНОЙ ИНЖЕНЕРИИ И КОМПЬЮТЕРНОЙ ТЕХНИКИ}%
+        }
+
+        \vspace{140pt}
+
+        {\Large
+        \textbf{ЛАБОРАТОРНАЯ}
+
+        \vspace{7pt}
+
+        \textbf{РАБОТА №4}%
+        }
+
+        \vspace{10pt}
+
+        {\large
+        \textbf{Схемотехника ЭВМ}
+
+        \vspace{5pt}
+
+        \textbf{«Мультивибратор на операционном усилителе»}%
+        }
+
+        \vspace{170pt}
+
+        \begin{tabular}{lll}
+            Проверил:                                                                                   & \hspace{70pt} & Выполнил:                                             \\
+            ........................                \rule[0.66\baselineskip]{2cm}{0.4pt}                &               & Студент группы P3455                                  \\
+            «\rule[0.66\baselineskip]{1cm}{0.4pt}»  \rule[0.66\baselineskip]{2cm}{0.4pt} \the\year г.   &               & Федюкович С. А. \rule[0.66\baselineskip]{2cm}{0.4pt}  \\
+            &               &                                                       \\
+            Оценка          \hspace{12pt}           \rule[0.66\baselineskip]{2.7cm}{0.4pt}              &               &                                                       \\
+        \end{tabular}
+
+        \vspace*{\fill}
+
+        Санкт-Петербург
+
+        \the\year
+    \end{center}
+
+    \newpage
+
+    \pagestyle{plain}
+    \setcounter{page}{1}
+
+    \section*{Цель}
+
+    Изучить мультивибратор на операционном усилителе:
+
+    \begin{enumerate}
+        \item Используя пакет Multisim собрать мультивибратор, включив в нее модель 741 (или LF147 для симметричного мультивибратора).
+
+        \item Исследовать схему мультивибратора в режиме анализа переходных процессов.
+
+        \item Составить отчет, в который должны быть включены: схемы мультивибраторов и ВАХ для входного и выходного сигнала.
+    \end{enumerate}
+
+    \section*{Задачи}
+
+    \subsection*{Эксперимент 1}
+
+    \begin{enumerate}
+        \item Построить схему, изображенную на Рис. \ref{fig:s:1}, в программе Multisim.
+        \item Пронаблюдать временные диаграммы входного и выходного сигналов.
+    \end{enumerate}
+
+    \subsection*{Эксперимент 2}
+
+    \begin{enumerate}
+        \item Построить схему, изображенную на Рис. \ref{fig:s:2}, в программе Multisim.
+        \item Пронаблюдать временные диаграммы входного и выходного сигналов.
+    \end{enumerate}
+
+    \newpage
+
+    \section*{Схемы}
+
+    \begin{figure}[ht]
+        \centering
+        \includegraphics[scale=0.5]{images/s1.png}
+        \caption{Схема 1}
+        \label{fig:s:1}
+    \end{figure}
+
+    \begin{figure}[ht]
+        \centering
+        \includegraphics[scale=0.5]{images/s2.png}
+        \caption{Схема 2}
+        \label{fig:s:2}
+    \end{figure}
+
+    \newpage
+
+    \section*{Выводы}
+
+    \subsection*{Эксперимент 1}
+
+    В ходе работы на экране осциллографа были получены следующие ВАХ:
+
+    \begin{figure}[ht]
+        \centering
+        \includegraphics[scale=0.7]{images/o1.png}
+        \caption{ Осциллограмма входного сигнала}
+        \label{fig:o:1}
+    \end{figure}
+
+    \begin{figure}[ht]
+        \centering
+        \includegraphics[scale=0.7]{images/o2.png}
+        \caption{Осциллограмма выходного сигнала}
+        \label{fig:o:2}
+    \end{figure}
+
+    \newpage
+
+    \subsection*{Эксперимент 2}
+
+    В ходе работы на экране осциллографа была получена следующие ВАХ:
+
+    \begin{figure}[ht]
+        \centering
+        \includegraphics[scale=0.7]{images/o3.png}
+        \caption{Осциллограмма входного сигнала}
+        \label{fig:o:3}
+    \end{figure}
+
+    \begin{figure}[ht]
+        \centering
+        \includegraphics[scale=0.7]{images/o4.png}
+        \caption{Осциллограмма выходного сигнала}
+        \label{fig:o:4}
+    \end{figure}
+
+
+\end{document}

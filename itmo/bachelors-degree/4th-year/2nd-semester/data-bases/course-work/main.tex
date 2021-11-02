@@ -1,0 +1,1001 @@
+\documentclass[14pt]{extarticle}
+\usepackage[activate={true,nocompatibility},final,tracking=true,kerning=true,spacing=true,factor=1100,stretch=10,shrink=10]{microtype}
+\usepackage[english, russian]{babel}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[
+    a4paper,
+    left=3cm,
+    right=2cm,
+    top=2cm,
+    bottom=3cm,
+]{geometry}
+\setlength{\parskip}{0.3cm}
+
+\usepackage{caption}
+\captionsetup[figure]{name={Рисунок}}
+
+\setlength{\parindent}{0cm}
+
+\linespread{1.3}
+
+% \usepackage{amsmath}
+
+% \usepackage{multirow}
+% \usepackage{hhline}
+
+\usepackage{indentfirst}
+
+% \usepackage{enumitem,kantlipsum}
+
+% \usepackage{graphicx}
+% \graphicspath{{pictures/}}
+% \DeclareGraphicsExtensions{.pdf,.png,.jpg}
+
+\usepackage{tikz}
+% \usetikzlibrary{patterns}
+% \usepackage{pgfplots}
+% \pgfplotsset{compat=1.9}
+% \usepgfplotslibrary{fillbetween}
+
+% \usepackage{ulem}
+
+% \usepackage{hyperref}
+
+% \usepackage{circuitikz}
+
+% \usepackage{fp}
+% \usepackage{xfp}
+
+% \usepackage{siunitx}
+% \sisetup{output-decimal-marker={,}}
+
+\usepackage{minted}
+\setminted[sql]{
+    breaklines=true,
+    encoding=utf8,
+}
+\usepackage{etoolbox}
+\makeatletter
+\AtBeginEnvironment{minted}{\dontdofcolorbox}
+\def\dontdofcolorbox{\renewcommand\fcolorbox[4][]{##4}}
+\makeatother
+
+% \let\oldref\ref
+% \renewcommand{\ref}[1]{(\oldref{#1})}
+
+\begin{document}
+    \newgeometry{
+        left=3cm,
+        right=2cm,
+        top=2cm,
+        bottom=1.5cm,
+    }
+    \thispagestyle{empty}
+    \begin{center}
+        МИНИСТЕРСТВО ОБРАЗОВАНИЯ И НАУКИ РОССИЙСКОЙ ФЕДЕРАЦИИ
+
+        САНКТ-ПЕТЕРБУРГСКИЙ НАЦИОНАЛЬНЫЙ ИССЛЕДОВАТЕЛЬСКИЙ УНИВЕРСИТЕТ ИТМО
+
+        ФАКУЛЬТЕТ ПРОГРАММНОЙ ИНЖЕНЕРИИ И КОМПЬЮТЕРНОЙ ТЕХНИКИ
+
+        КАФЕДРА АППАРАТНО-ПРОГРАММНЫХ КОМПЛЕКСОВ ВЫЧИСЛИТЕЛЬНОЙ ТЕХНИКИ
+
+        \vspace{2cm}
+
+        \textbf{Курсовая работа}
+
+        по дисциплине
+
+        «Базы данных»
+
+        на тему
+
+        «Разработка базы данных "Банк"»
+
+        \vspace{2cm}
+
+        \begin{flushright}
+            Выполнил: студент группы P3455
+
+            Федюкович С. А.,\par
+            \rule[0.66\baselineskip]{3cm}{0.4pt}
+
+            \par
+
+            Проверил: Сентерев Ю. А.
+
+            \par\par
+
+            \rule[0.66\baselineskip]{3cm}{0.4pt}
+        \end{flushright}
+
+        \vspace*{\fill}
+
+        Санкт-Петербург
+
+        \the\year г.
+    \end{center}
+
+    \newpage
+    \restoregeometry
+    \pagestyle{plain}
+    \setcounter{page}{1}
+
+    \tableofcontents
+
+    \newpage
+
+    \section*{Задание}
+    \addcontentsline{toc}{section}{Задание}
+
+    Разработать базу данных, которая должна содержать следующие обязательные поля: Номер счёта клиента, Дата открытия счёта, ФИО клиента, Адрес клиента, Сумма на счету, Годовая ставка, Тип операции (приход, расход), Дата операции, ФИО оператора, Должность оператора.
+
+    Создать запрос, с помощью которого можно регистрировать приход и расход денежных средств со счёта клиента, с определением общей суммы с учетом процентов (вычисляемые поля). С помощью запросов: составить список операций для заданного клиента (ввод фамилии клиента) за определенный период; найти общее число клиентов, с которыми работал заданный оператор (ввод ФИО оператора) за заданный период; найти клиентов с минимальной и максимальной суммой на счетах.
+
+    Создать формы: для ввода информации о клиентах; для вывода информации о движении денежных средств клиента в разные периоды; для вывода информации об операторах и выполненных ими операциях.
+
+    Создать отчёт на основании любой таблицы и любого запроса.
+
+    \newpage
+
+    \section*{Введение}
+    \addcontentsline{toc}{section}{Введение}
+
+    В настоящее время информационные технологии играют далеко не последнюю роль практически во всех сферах деятельности человека. Финансы не исключение. Они буквально построены на информации. Платежи происходят на основе информации, клиент принимает решение о покупке благодаря предоставлению ему необходимой информации. Таким образом, просто необходимо уметь работать с информацией, уметь собирать ее и систематизировать. Компьютеризация банков необходима, чтобы упростить и упорядочить данную систему действий.
+
+    Разработка БД, как правило, выполняется для определённой предметной области. Чтобы учесть все ее особенности, проводится изучение предметной области и разрабатывается её формализованное описание. Затем проводится концептуальное моделирования моделирование. Исходя из полученных результатов производится логическое, а после физическое проектирование.
+    Следующим этапом Затем производится разработка и генерация форм, запросов и отчётов.
+
+    Предметом данной курсовой работы является разработка базы данных "Банк". Целью курсового проекта является разработка базы данных для автоматизации работы с данными с применением СУБД PostgreSQL 13.2.
+
+    \newpage
+
+    \section{Проектирование базы данных}
+
+    Сперва следует определиться с основными сущностями базы данных и чем они характеризуются:
+    \begin{enumerate}
+        \item Клиент --- ФИО и Адрес;
+        \item Счёт --- Номер, Дата открытия, Остаток и Годовая ставка;
+        \item Оператор --- ФИО и должность;
+        \item Операция --- Сумма (положительна или отрицательна в зависимости от прихода или расхода соответственно) и Дата.
+    \end{enumerate}
+
+    Итак, определившись с сущностями, начнём проектирование нашей базы данных с построения концептуальной модели.
+
+    \newpage
+    \subsection{Концептуальная модель БД}
+
+    Концептуальная модель базы данных --- это некая наглядная диаграмма, нарисованная в принятых обозначениях и подробно показывающая связь между объектами и их характеристиками. Создаётся концептуальная модель для дальнейшего проектирования базы данных и перевод её, например, в реляционную базу данных. На концептуальной модели в визуально удобном виде прописываются связи между объектами данных и их характеристиками.
+
+    Все объекты, обозначающие вещи, обозначаются в виде прямоугольника. Атрибуты, характеризующие объект --- в виде овала, а связи между объектами --- ромбами. Мощность связи обозначаются стрелками (в направлении, где мощность равна многим --- двойная стрелка, а со стороны, где она равна единице --- одинарная).
+
+    Концептуальная модель, выполненная по заданию, изображена на Рисунке \ref{fig:concept-model}.
+
+    \newpage
+
+    \begin{figure}[!ht]
+        \centering
+
+
+        \tikzset{every picture/.style={line width=0.75pt}} %set default line width to 0.75pt
+
+        \begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
+%uncomment if require: \path (0,1148); %set diagram left start at 0, and has height of 1148
+
+%Flowchart: Process [id:dp45713770550802924]
+            \draw   (200,110) -- (350,110) -- (350,140) -- (200,140) -- cycle ;
+
+%Shape: Ellipse [id:dp4472147939573604]
+            \draw   (0,125) .. controls (0,116.72) and (33.58,110) .. (75,110) .. controls (116.42,110) and (150,116.72) .. (150,125) .. controls (150,133.28) and (116.42,140) .. (75,140) .. controls (33.58,140) and (0,133.28) .. (0,125) -- cycle ;
+
+%Shape: Ellipse [id:dp031401379508930405]
+            \draw   (400,125) .. controls (400,116.72) and (433.58,110) .. (475,110) .. controls (516.42,110) and (550,116.72) .. (550,125) .. controls (550,133.28) and (516.42,140) .. (475,140) .. controls (433.58,140) and (400,133.28) .. (400,125) -- cycle ;
+
+%Flowchart: Process [id:dp3187538277436768]
+            \draw   (200,370) -- (350,370) -- (350,400) -- (200,400) -- cycle ;
+
+%Shape: Diamond [id:dp35963544903178557]
+            \draw   (275,190) -- (370,255) -- (275,320) -- (180,255) -- cycle ;
+%Straight Lines [id:da4487180837987863]
+            \draw    (275,140) -- (275,190) ;
+            \draw   (260,180) -- (275,150) -- (290,180) ;
+
+%Straight Lines [id:da8156471643627129]
+            \draw    (275,370) -- (275,320) ;
+            \draw   (260,330) -- (275,356) -- (290,330)(260,334) -- (275,360) -- (290,334) ;
+
+%Flowchart: Process [id:dp06405890124162272]
+            \draw   (200,890) -- (350,890) -- (350,920) -- (200,920) -- cycle ;
+
+%Shape: Diamond [id:dp25771108386773245]
+            \draw   (275,450) -- (370,515) -- (275,580) -- (180,515) -- cycle ;
+%Shape: Ellipse [id:dp28201848073289293]
+            \draw   (0,435) .. controls (0,426.72) and (33.58,420) .. (75,420) .. controls (116.42,420) and (150,426.72) .. (150,435) .. controls (150,443.28) and (116.42,450) .. (75,450) .. controls (33.58,450) and (0,443.28) .. (0,435) -- cycle ;
+
+%Shape: Ellipse [id:dp8188822164006774]
+            \draw   (0,335) .. controls (0,326.72) and (33.58,320) .. (75,320) .. controls (116.42,320) and (150,326.72) .. (150,335) .. controls (150,343.28) and (116.42,350) .. (75,350) .. controls (33.58,350) and (0,343.28) .. (0,335) -- cycle ;
+
+%Straight Lines [id:da15213871140379942]
+            \draw    (150,335) -- (200,385) ;
+%Shape: Ellipse [id:dp6562538138513802]
+            \draw   (400,335) .. controls (400,326.72) and (433.58,320) .. (475,320) .. controls (516.42,320) and (550,326.72) .. (550,335) .. controls (550,343.28) and (516.42,350) .. (475,350) .. controls (433.58,350) and (400,343.28) .. (400,335) -- cycle ;
+
+%Shape: Ellipse [id:dp17470436433046843]
+            \draw   (400,435) .. controls (400,426.72) and (433.58,420) .. (475,420) .. controls (516.42,420) and (550,426.72) .. (550,435) .. controls (550,443.28) and (516.42,450) .. (475,450) .. controls (433.58,450) and (400,443.28) .. (400,435) -- cycle ;
+
+%Flowchart: Process [id:dp15179531251035006]
+            \draw   (200,630) -- (350,630) -- (350,660) -- (200,660) -- cycle ;
+
+%Shape: Diamond [id:dp19058867179323824]
+            \draw   (275,710) -- (370,775) -- (275,840) -- (180,775) -- cycle ;
+%Straight Lines [id:da8984908899362724]
+            \draw    (275,660) -- (275,710) ;
+            \draw   (290,700) -- (275,674) -- (260,700)(290,696) -- (275,670) -- (260,696) ;
+
+%Shape: Ellipse [id:dp09473951861029939]
+            \draw   (0,645) .. controls (0,636.72) and (33.58,630) .. (75,630) .. controls (116.42,630) and (150,636.72) .. (150,645) .. controls (150,653.28) and (116.42,660) .. (75,660) .. controls (33.58,660) and (0,653.28) .. (0,645) -- cycle ;
+
+%Straight Lines [id:da4703142549170293]
+            \draw    (150,645) -- (200,645) ;
+%Shape: Ellipse [id:dp4472113551985055]
+            \draw   (400,645) .. controls (400,636.72) and (433.58,630) .. (475,630) .. controls (516.42,630) and (550,636.72) .. (550,645) .. controls (550,653.28) and (516.42,660) .. (475,660) .. controls (433.58,660) and (400,653.28) .. (400,645) -- cycle ;
+
+%Straight Lines [id:da1670249587795093]
+            \draw    (400,645) -- (350,645) ;
+%Shape: Ellipse [id:dp0210711375671091]
+            \draw   (0,905) .. controls (0,896.72) and (33.58,890) .. (75,890) .. controls (116.42,890) and (150,896.72) .. (150,905) .. controls (150,913.28) and (116.42,920) .. (75,920) .. controls (33.58,920) and (0,913.28) .. (0,905) -- cycle ;
+
+%Shape: Ellipse [id:dp07318330522083405]
+            \draw   (400,905) .. controls (400,896.72) and (433.58,890) .. (475,890) .. controls (516.42,890) and (550,896.72) .. (550,905) .. controls (550,913.28) and (516.42,920) .. (475,920) .. controls (433.58,920) and (400,913.28) .. (400,905) -- cycle ;
+
+%Straight Lines [id:da3653061152763857]
+            \draw    (275,630) -- (275,580) ;
+            \draw   (260,590) -- (275,616) -- (290,590)(260,594) -- (275,620) -- (290,594) ;
+
+%Straight Lines [id:da7213755162405303]
+            \draw    (400,905) -- (350,905) ;
+%Straight Lines [id:da7829911843317571]
+            \draw    (200,905) -- (150,905) ;
+%Straight Lines [id:da46336596718164635]
+            \draw    (150,125) -- (200,125) ;
+%Straight Lines [id:da21676609412780268]
+            \draw    (350,125) -- (400,125) ;
+%Straight Lines [id:da7716192354398745]
+            \draw    (400,335) -- (350,385) ;
+%Straight Lines [id:da7474148712291643]
+            \draw    (275,400) -- (275,450) ;
+            \draw   (260,440) -- (275,410) -- (290,440) ;
+
+%Straight Lines [id:da9759976620168842]
+            \draw    (275,890) -- (275,840) ;
+            \draw   (290,850) -- (275,880) -- (260,850) ;
+
+%Straight Lines [id:da0030178473195604516]
+            \draw    (400,435) -- (350,385) ;
+%Straight Lines [id:da6380203169506383]
+            \draw    (200,385) -- (150,435) ;
+%Shape: Ellipse [id:dp5524504330441126]
+            \draw   (400,385) .. controls (400,376.72) and (433.58,370) .. (475,370) .. controls (516.42,370) and (550,376.72) .. (550,385) .. controls (550,393.28) and (516.42,400) .. (475,400) .. controls (433.58,400) and (400,393.28) .. (400,385) -- cycle ;
+
+%Straight Lines [id:da6693426696467791]
+            \draw    (400,385) -- (350,385) ;
+
+% Text Node
+            \draw (275,125) node   [align=left] {\begin{minipage}[lt]{102pt}\setlength\topsep{0pt}
+            \begin{center}
+                Клиент
+            \end{center}
+
+            \end{minipage}};
+% Text Node
+            \draw (75,125) node   [align=left] {\begin{minipage}[lt]{102pt}\setlength\topsep{0pt}
+            \begin{center}
+                ФИО
+            \end{center}
+
+            \end{minipage}};
+% Text Node
+            \draw (475,125) node   [align=left] {\begin{minipage}[lt]{102pt}\setlength\topsep{0pt}
+            \begin{center}
+                Адрес
+            \end{center}
+
+            \end{minipage}};
+% Text Node
+            \draw (275,385) node   [align=left] {\begin{minipage}[lt]{102pt}\setlength\topsep{0pt}
+            \begin{center}
+                Счёт
+            \end{center}
+
+            \end{minipage}};
+% Text Node
+            \draw (275,245) node   [align=left] {\begin{minipage}[lt]{129.2pt}\setlength\topsep{0pt}
+            \begin{center}
+                Владеет/\\Принадлежит
+            \end{center}
+
+            \end{minipage}};
+% Text Node
+            \draw (275,505) node   [align=left] {\begin{minipage}[lt]{129.2pt}\setlength\topsep{0pt}
+            \begin{center}
+                Владеет/\\Принадлежит
+            \end{center}
+
+            \end{minipage}};
+% Text Node
+            \draw (275,905) node   [align=left] {\begin{minipage}[lt]{102pt}\setlength\topsep{0pt}
+            \begin{center}
+                Оператор
+            \end{center}
+
+            \end{minipage}};
+% Text Node
+            \draw (75,435) node   [align=left] {\begin{minipage}[lt]{102pt}\setlength\topsep{0pt}
+            \begin{center}
+                Номер
+            \end{center}
+
+            \end{minipage}};
+% Text Node
+            \draw (75,335) node   [align=left] {\begin{minipage}[lt]{102pt}\setlength\topsep{0pt}
+            \begin{center}
+                Дата откр.
+            \end{center}
+
+            \end{minipage}};
+% Text Node
+            \draw (475,335) node   [align=left] {\begin{minipage}[lt]{102pt}\setlength\topsep{0pt}
+            \begin{center}
+                Остаток
+            \end{center}
+
+            \end{minipage}};
+% Text Node
+            \draw (475,435) node   [align=left] {\begin{minipage}[lt]{102pt}\setlength\topsep{0pt}
+            \begin{center}
+                Год. ставка
+            \end{center}
+
+            \end{minipage}};
+% Text Node
+            \draw (275,785) node   [align=left] {\begin{minipage}[lt]{129.2pt}\setlength\topsep{0pt}
+            \begin{center}
+                Принаддежит/\\Владеет
+            \end{center}
+
+            \end{minipage}};
+% Text Node
+            \draw (475,645) node   [align=left] {\begin{minipage}[lt]{102pt}\setlength\topsep{0pt}
+            \begin{center}
+                Дата
+            \end{center}
+
+            \end{minipage}};
+% Text Node
+            \draw (75,645) node   [align=left] {\begin{minipage}[lt]{102pt}\setlength\topsep{0pt}
+            \begin{center}
+                Сумма
+            \end{center}
+
+            \end{minipage}};
+% Text Node
+            \draw (275,645) node   [align=left] {\begin{minipage}[lt]{102pt}\setlength\topsep{0pt}
+            \begin{center}
+                Операция
+            \end{center}
+
+            \end{minipage}};
+% Text Node
+            \draw (475,905) node   [align=left] {\begin{minipage}[lt]{102pt}\setlength\topsep{0pt}
+            \begin{center}
+                Должность
+            \end{center}
+
+            \end{minipage}};
+% Text Node
+            \draw (75,905) node   [align=left] {\begin{minipage}[lt]{102pt}\setlength\topsep{0pt}
+            \begin{center}
+                ФИО
+            \end{center}
+
+            \end{minipage}};
+% Text Node
+            \draw (475,385) node   [align=left] {\begin{minipage}[lt]{102pt}\setlength\topsep{0pt}
+            \begin{center}
+                Расч. дата
+            \end{center}
+
+            \end{minipage}};
+
+
+        \end{tikzpicture}
+        \caption{Схема концептуальной модели базы данных "Банк"}
+        \label{fig:concept-model}
+    \end{figure}
+
+    Следующим этапом после построения концептуальной модели является логическое проектирование.
+
+    \newpage
+    \subsection{Логическая модель БД}
+
+    На этом этапе мы получаем модель данных.
+
+    Логическая модель --- графическое представление структуры базы данных с учетом принимаемой модели данных (иерархической, сетевой, реляционной и т. д.), независимое от конечной реализации базы данных и аппаратной платформы. Иными словами, она показывает, ЧТО хранится в базе данных (объекты предметной области, их атрибуты и связи между ними), но не отвечает на вопрос КАК.
+
+    Для любой предметной области существует множество вариантов проектных решений её отображения в логической модели. Методика проектирования должна обеспечивать выбор наиболее подходящего проектного решения.
+
+    Этап создания логической модели называется логическим проектированием. При переходе от концептуальной (инфологической) модели к логической (даталогической) следует иметь в виду, что концептуальная модель должна включать в себя всю информацию о предметной области, необходимую для проектирования базы данных. Преобразование концептуальной модели в логическую, осуществляется по формальным правилам. Логическая модель базы данных строится в терминах информационных единиц, допустимых в той конкретной СУБД, в среде которой мы проектируем базу данных.
+
+    Описание логической структуры базы данных на языке СУБД называется схемой данных.
+
+    Спроектировать логическую структуру базы данных означает определить все информационные единицы и связи между ними, задать их имена; если для информационных единиц возможно использование разных типов, то определить их тип. Следует также задать некоторые количественные характеристики, например длину поля.
+
+    После определения структуры системы (БД): объектов (таблиц), состава их полей (структуры таблиц) и связей между таблицами приступают к непосредственному формированию структуры таблиц и определяют ключевые поля в них.
+
+    Связь «один-к-многим» в реляционной модели реализуется с помощью полей внешнего ключа. В нашем случае это таблицы:
+    \begin{enumerate}
+        \item «Клиенты-Счета» --- в ней колонка таблицы «Счета» ClientId ссылается на колонку id таблицы «Клиенты» с помощью внешнего ключа.
+        \item «Счета-Операции» --- в ней колонка таблицы «Операции» Accoun- tId ссылается на колонку id таблицы «Счета» с помощью внешнего ключа.
+        \item «Операторы-Операции» --- в ней колонка таблицы «Операции» O- peratorId ссылается на колонку id таблицы «Операторы» с помощью внешнего ключа.
+    \end{enumerate}
+
+    Приведём характеристики полей таблиц всех сущностей.
+
+    \begin{table}[!ht]
+        \centering
+        \begin{tabular}{|l|l|l|}
+            \hline
+            \multicolumn{3}{|l|}{Таблица «Клиенты»} \\
+            \hline
+            Имя поля & Тип данных & Размер поля \\
+            \hline
+            Id & Числовой & Целые \\
+            ФИО & Текстовый & 50 \\
+            Адрес & Текстовый & 100 \\
+            \hline
+        \end{tabular}
+        \caption{Характеристика полей таблицы «Клиенты»}
+    \end{table}
+
+    \begin{table}[!ht]
+        \centering
+        \begin{tabular}{|l|l|l|}
+            \hline
+            \multicolumn{3}{|l|}{Таблица «Счета»} \\
+            \hline
+            Имя поля & Тип данных & Размер поля \\
+            \hline
+            id & Числовой & Целые \\
+            client\_id & Числовой & Целые \\
+            Дата открытия & Дата & - \\
+            Расчётная дата & Дата & - \\
+            Номер & Текстовый & 10 \\
+            Остаток & Числовой & Дробные \\
+            Годовая ставка & Числовой & Дробные \\
+            \hline
+        \end{tabular}
+        \caption{Характеристика полей таблицы «Счета»}
+    \end{table}
+
+    \begin{table}[!ht]
+        \centering
+        \begin{tabular}{|l|l|l|}
+            \hline
+            \multicolumn{3}{|l|}{Таблица «Операции»} \\
+            \hline
+            Имя поля & Тип данных & Размер поля \\
+            \hline
+            id & Числовой & Целые \\
+            account\_id & Числовой & Целые \\
+            operator\_id & Числовой & Целые \\
+            Сумма & Числовой & Дробные \\
+            Дата & Дата & - \\
+            \hline
+        \end{tabular}
+        \caption{Характеристика полей таблицы «Операции»}
+    \end{table}
+
+    \newpage
+
+    \begin{table}[!ht]
+        \centering
+        \begin{tabular}{|l|l|l|}
+            \hline
+            \multicolumn{3}{|l|}{Таблица «Операторы»} \\
+            \hline
+            Имя поля & Тип данных & Размер поля \\
+            \hline
+            Id & Числовой & Целые \\
+            ФИО & Текстовый & 50 \\
+            Должность & Дата & 30 \\
+            \hline
+        \end{tabular}
+        \caption{Характеристика полей таблицы «Операторы»}
+    \end{table}
+
+    \newpage
+    \subsection{Физическая модель}
+
+    Для привязки логической модели к среде хранения используется модель данных физического уровня, для краткости часто называемая физической моделью. Эта модель определяет способы физической организации данных в среде хранения. Модель физического уровня строится с учётом возможностей, предоставляемых СУБД. Описание физической структуры базы данных называется схемой хранения. Соответствующий этап проектирования БД называется физическим проектированием.
+
+    Физическая модель данных описывает данные средствами конкретной СУБД. На этапе физического проектирования учитывается специфика конкретной модели данных и специфика конкретной СУБД. Отношения, разработанные на стадии формирования логической модели данных, преобразуются в таблицы, атрибуты становятся столбцами таблиц, для ключевых атрибутов создаются уникальные индексы, домены преображаются в типы данных, принятые в используемой СУБД. Ограничения, имеющиеся в логической модели данных, реализуются различными средствами СУБД, например при помощи индексов, ограничений целостности, триггеров, хранимых процедур. При этом решения, принятые на уровне логического моделирования, определяют некоторые границы, в пределах которых можно развивать физическую модель данных. Точно также в пределах этих границ можно принимать различные решения.
+
+    \newpage
+
+    Следующий SQL код создаст данную схему в базе данных:
+
+    \begin{minted}{sql}
+CREATE TABLE Клиенты
+(
+    id    SERIAL PRIMARY KEY,
+    ФИО   VARCHAR(50)  NOT NULL,
+    Адрес VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE Счета
+(
+    id               SERIAL PRIMARY KEY,
+    client_id        INT            NOT NULL REFERENCES Клиенты ON DELETE CASCADE,
+    "Дата открытия"  TIMESTAMP      NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "Расчётная дата" TIMESTAMP      NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    Номер            VARCHAR(10)    NOT NULL,
+    Остаток          numeric(17, 2) NOT NULL DEFAULT 0,
+    "Годовая ставка" numeric(4, 2)  NOT NULL DEFAULT 0
+);
+
+CREATE TABLE Операторы
+(
+    id        SERIAL PRIMARY KEY,
+    ФИО       VARCHAR(50)  NOT NULL,
+    Должность VARCHAR(30) NOT NULL
+);
+
+CREATE TABLE Операции
+(
+    id          SERIAL PRIMARY KEY,
+    account_id  INT            NOT NULL REFERENCES Счета ON DELETE CASCADE,
+    operator_id INT            NULL REFERENCES Операторы ON DELETE CASCADE,
+    Сумма       numeric(16, 2) NOT NULL,
+    Дата        TIMESTAMP      NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+    \end{minted}
+
+    \newpage
+    \section{Нормализация данных}
+    Нормализация представляет собой процесс разделения данных по отдельным связанным таблицам. Нормализация устраняет избыточность данных (data redundancy) и тем самым позволяет избежать нарушения целостности данных при их изменении, то есть избежать аномалий изменения (update anomaly).
+    В ненормализованной форме таблица может хранить информацию о двух и более сущностях. Также она может содержать повторяющиеся столбцы. Также столбцы могут хранить повторяющиеся значения. В нормализованной же форме каждая таблица хранит информацию только об одной сущности.
+
+    В нашем случае присутствует избыточность, так как остаток на счету хранится, как сумма операций и как поле счёта, но данная избыточность сделана намеренно в целях оптимизации, потому что каждый раз считать сумму операций будет дорого, особенно с ростом количества операций. Для избежания аномалий (сумма операций не равна остатку), все операции над остатком будут проводиться внутри транзакций.
+
+    \newpage
+    \section{Работа с базой данных с помощью CLI psql}
+
+    CLI программа psql --- это терминальный клиент для работы с PostgreSQL. Она позволяет интерактивно вводить запросы, передавать их в PostgreSQL и видеть результаты. Также запросы могут быть получены из файла или из аргументов командной строки. Кроме того, psql предоставляет ряд метакоманд и различные возможности, подобные тем, что имеются у командных оболочек, для облегчения написания скриптов и автоматизации широкого спектра задач.
+
+    \newpage
+    \subsection{Подключение к базе данных}
+
+    psql это клиент для PostgreSQL. Для подключения к базе данных нужно указать имя базы данных, имя сервера, номер порта сервера и имя пользователя через аргументы командной строки -d, -h, -p и -U соответственно. Если в командной строке есть аргумент, который не относится к параметрам psql, то он используется в качестве имени базы данных (или имени пользователя, если база данных уже задана). У всех аргументов есть значения по умолчанию. Если опустить имя сервера, psql будет подключаться через Unix-сокет к локальному серверу, либо подключаться к localhost по TCP/IP в системах, не поддерживающих UNIX-сокеты. Номер порта по умолчанию определяется автоматически. Имя пользователя по умолчанию, как и имя базы данных по умолчанию, совпадает с именем пользователя в операционной системе.
+
+    Пример подключения к базе данных:
+    \begin{minted}{console}
+$ psql -H 127.0.0.1 -U root course
+    \end{minted}
+
+    \newpage
+    \subsection{Ввод SQL-команд}
+
+    Как правило, приглашение psql состоит из имени базы данных, к которой psql в данный момент подключён, а затем строки =>. Например:
+    \begin{minted}{console}
+$ psql course
+psql (9.6.22)
+Type "help" for help.
+
+root=>
+    \end{minted}
+
+    В командной строке пользователь может вводить команды SQL. Обычно введённые строки отправляются на сервер, когда встречается точка с запятой, завершающая команду. Конец строки не завершает команду. Это позволяет разбивать команды на несколько строк для лучшего понимания. Если команда была отправлена и выполнена без ошибок, то результат команды выводится на экран.
+
+    Пример команды:
+    \begin{minted}{sql}
+root => CREATE TABLE Клиенты(
+        Id      SERIAL PRIMARY KEY,
+        ФИО     VARCHAR(50) NOT NULL,
+        Адрес   VARCHAR(100) NOT NULL
+    );
+CREATE TABLE
+root =>
+    \end{minted}
+
+    \newpage
+    \subsection{Определение функций и процедур}
+
+    Далее будут использоваться функции и процедуры для описания всех операций над сущностями в базе.
+
+    Для объявления процедур используется следующий синтаксис:
+    \begin{minted}{sql}
+CREATE [OR REPLAСE] PROCEDURE name(...arguments)
+    LANGUAGE plpgsql
+AS
+$$
+DECLARE
+    ...
+BEGIN
+    ...
+END;
+$$
+    \end{minted}
+
+    А для объявление функций, которые отличаются от процедур только наличием возможности вернуть какое-либо значение, будет использоваться следующий синтаксис:
+    \begin{minted}{sql}
+CREATE [OR REPLAСE] FUNCTION name(...arguments) RETURNS value
+    LANGUAGE plpgsql
+AS
+$$
+DECLARE
+    ...
+BEGIN
+    ...
+END;
+$$
+    \end{minted}
+
+    \newpage
+    \subsection{Работа с операциями и счётом}
+
+    Для регистрации пополнений и списаний со счёта была написана следующая процедура:
+    \begin{minted}{sql}
+CREATE OR REPLACE PROCEDURE charge(account_id_to_charge INT, amount numeric, charge_operator_id INT)
+    LANGUAGE plpgsql
+AS
+$$
+DECLARE
+BEGIN
+    INSERT INTO "Операции"(account_id, operator_id, "Сумма", "Дата")
+    VALUES (account_id_to_charge, charge_operator_id, amount, CURRENT_TIMESTAMP);
+    UPDATE "Счета" SET "Остаток" = "Остаток" + amount WHERE id = account_id_to_charge;
+    COMMIT;
+END;
+$$
+    \end{minted}
+    Данная процедура принимает несколько аргументов: идентификатор счёта, над которым необходимо провести операцию; сумма операции (отрицательна для списаний или положительна для пополнений); идентификатор оператора, который проводит операцию (null если операцию проводит банк);
+
+    Для получения остатка по счёту в конкретный момент времени была написана следующая функция:
+    \begin{minted}{sql}
+CREATE OR REPLACE FUNCTION get_total_for_period(id_account INT, total_date TIMESTAMP) RETURNS numeric
+    LANGUAGE plpgsql
+AS
+$$
+DECLARE
+    result numeric;
+BEGIN
+    SELECT COALESCE(SUM("Сумма"), 0)
+    INTO result
+    FROM "Операции"
+    WHERE "Дата" <= total_date
+      AND account_id = id_account;
+    RETURN result;
+END;
+$$
+    \end{minted}
+    Данная функция принимает два аргумента: идентификатор счёта и момент времени, в который необходимо получить остаток.
+
+    Для начисления процентов по остатку была написана следующая процедура:
+    \begin{minted}{sql}
+CREATE PROCEDURE charge_interests()
+    LANGUAGE plpgsql
+AS
+$$
+DECLARE
+    cur_accounts         REFCURSOR;
+    cur_operations       REFCURSOR;
+    account_to_charge_id INT;
+    months_to_charge     INT;
+    period               INT;
+    now                  TIMESTAMP;
+    charge_day           TIMESTAMP;
+    next_charge_day      TIMESTAMP;
+    start_period         TIMESTAMP;
+    operation_day        TIMESTAMP;
+    interests            numeric;
+    interests_per_second numeric;
+    operation_sum        numeric;
+    total                numeric;
+    percents_for_month   numeric;
+    total_percents       numeric;
+    percents             numeric;
+BEGIN
+    now := CURRENT_TIMESTAMP;
+    OPEN cur_accounts FOR SELECT id, "Расчётная дата", "Годовая ставка"
+                          FROM "Счета"
+                          WHERE (DATE_PART('year', AGE(now, "Расчётная дата")) * 12 +
+                                 DATE_PART('month', AGE(now, "Расчётная дата"))) > 1
+                              FOR UPDATE;
+    LOOP
+        FETCH cur_accounts INTO account_to_charge_id, charge_day, interests;
+        EXIT WHEN NOT FOUND;
+
+        months_to_charge := DATE_PART('year', AGE(now, charge_day)) * 12 +
+                            DATE_PART('month', AGE(now, charge_day));
+        next_charge_day := charge_day + interval '1 month';
+        total_percents := 0;
+        total := get_total_for_period(account_to_charge_id, charge_day);
+        interests_per_second := interests / 3153600000.0;
+
+        FOR i IN 1..months_to_charge
+            LOOP
+                start_period := charge_day;
+                percents_for_month := 0;
+                OPEN cur_operations FOR SELECT "Сумма", "Дата"
+                                        FROM "Операции"
+                                        WHERE account_id = account_to_charge_id
+                                          AND "Дата" > charge_day
+                                          AND "Дата" <= next_charge_day
+                                        ORDER BY "Дата";
+                LOOP
+                    FETCH cur_operations INTO operation_sum, operation_day;
+                    EXIT WHEN NOT FOUND;
+
+                    IF percents > 0 THEN
+                        percents_for_month := percents_for_month + percents;
+                    END IF;
+                    total := total + operation_sum;
+                    period := EXTRACT(EPOCH FROM (operation_day - start_period));
+                    percents := total * interests_per_second * period;
+                    start_period := operation_day;
+                END LOOP;
+                CLOSE cur_operations;
+
+                period := EXTRACT(EPOCH FROM (next_charge_day - start_period));
+                percents := total * interests_per_second * period;
+                IF percents > 0 THEN
+                    percents_for_month := percents_for_month + percents;
+                END IF;
+
+                charge_day := charge_day + interval '1 month';
+                next_charge_day := charge_day + interval '1 month';
+                total_percents := total_percents + percents_for_month;
+
+                INSERT INTO "Операции"(account_id, operator_id, "Сумма", "Дата")
+                VALUES (account_to_charge_id, null, percents_for_month, charge_day);
+            END LOOP;
+
+        UPDATE "Счета"
+        SET "Остаток"        = "Остаток" + total_percents,
+            "Расчётная дата" = next_charge_day
+        WHERE id = account_to_charge_id;
+    END LOOP;
+
+    CLOSE cur_accounts;
+END;
+$$
+    \end{minted}
+    Данная процедура не имеет аргументов. При запуске, процедура находит счета, которым необходимо начислить проценты, а дальше считает проценты для каждого месяца, учитывая, что остаток в каждый определённый день может быть разным. Такую процедуру необходимо запускать каждую минуту, чтобы остаток начислялся во время. Данная функция оптимизирована, а так же использует построчные блокировки, поэтому частый запуск не вызовет проблем при использовании.
+
+    \newpage
+    \subsection{Получение данных}
+
+    Для получения информации о движении средств клиента по ФИО, была разработана следующая функция:
+    \begin{minted}{sql}
+CREATE OR REPLACE FUNCTION get_client_operations(full_name VARCHAR, start_period TIMESTAMP, end_period TIMESTAMP) RETURNS setof "Операции"
+    LANGUAGE plpgsql
+AS
+$$
+DECLARE
+    r "Операции"%rowtype;
+BEGIN
+    FOR r IN SELECT "Операции".id, account_id, operator_id, "Сумма", "Дата"
+             FROM "Операции"
+                      LEFT JOIN "Счета" С on С.id = "Операции".account_id
+                      LEFT JOIN "Клиенты" К on К.id = С.client_id
+             WHERE "ФИО" = full_name
+               AND "Дата" >= start_period
+               AND "Дата" <= end_period
+        LOOP
+            RETURN NEXT r;
+        END LOOP;
+    RETURN;
+END;
+$$
+    \end{minted}
+    Данная функция имеет три аргумента: ФИО клиента и два аргумента даты для задания интервала.
+
+    Полностью аналогично была написана функция для вывода операций конкретного оператора по ФИО:
+    \begin{minted}{sql}
+CREATE OR REPLACE FUNCTION get_operator_operations(full_name VARCHAR, start_period TIMESTAMP, end_period TIMESTAMP) RETURNS setof "Операции"
+    LANGUAGE plpgsql
+AS
+$$
+DECLARE
+    r "Операции"%rowtype;
+BEGIN
+    FOR r IN SELECT "Операции".id, account_id, operator_id, "Сумма", "Дата"
+             FROM "Операции"
+                      LEFT JOIN "Операторы" О on О.id = "Операции".operator_id
+             WHERE "ФИО" = full_name
+               AND "Дата" >= start_period
+               AND "Дата" <= end_period
+        LOOP
+            RETURN NEXT r;
+        END LOOP;
+    RETURN;
+END;
+$$
+    \end{minted}
+
+    Для вывода всех клиентов, с которыми работал оператор, была разработана следующая функция с таким же набором аргументов:
+    \begin{minted}{sql}
+CREATE OR REPLACE FUNCTION get_clients(full_name VARCHAR, start_period TIMESTAMP, end_period TIMESTAMP) RETURNS setof "Клиенты"
+    LANGUAGE plpgsql
+AS
+$$
+DECLARE
+    r "Клиенты"%rowtype;
+BEGIN
+    FOR r IN SELECT *
+             FROM "Клиенты"
+             WHERE id IN (SELECT client_id
+                          FROM "Операторы"
+                                   LEFT JOIN "Операции" О on "Операторы".id = О.operator_id
+                                   LEFT JOIN "Счета" С on С.id = О.account_id
+                          WHERE "Операторы"."ФИО" = full_name
+                            AND "Дата" >= start_period
+                            AND "Дата" <= end_period
+             )
+        LOOP
+            RETURN NEXT r;
+        END LOOP;
+    RETURN;
+END;
+$$
+    \end{minted}
+
+    Для получения клиента с минимальным и максимальным остатком на счетах был написан следующий запрос:
+    \begin{minted}{sql}
+SELECT (SELECT client_id FROM "Счета" order by "Остаток" LIMIT 1),
+       (SELECT client_id FROM "Счета" order by "Остаток" desc LIMIT 1)
+    \end{minted}
+
+    Для добавления клиентов в базу была написана следующая функция, имеющая два аргумента ФИО и Адреса клиента:
+    \begin{minted}{sql}
+CREATE OR REPLACE PROCEDURE create_client(full_name VARCHAR, address VARCHAR)
+    LANGUAGE plpgsql
+AS
+$$
+DECLARE
+BEGIN
+    INSERT INTO "Клиенты"("ФИО", "Адрес") VALUES (full_name, address);
+END;
+$$
+    \end{minted}
+
+    \newpage
+    \subsection{Пример работы БД}
+
+    PostgreSQL не имеет форм и отчётов, поэтому дальше будет приведён пример работы с разработанной базой с использованием всех таблиц, функций и процедур, описанных ранее.
+
+    Сперва создадим несколько клиентов при помощи описанной ранее процедуры:
+    \begin{minted}{sql}
+postgres=# call create_client('Клиент 1', 'Адрес 1');
+CALL
+postgres=# call create_client('Клиент 2', 'Адрес 2');
+CALL
+postgres=# call create_client('Клиент 3', 'Адрес 3');
+CALL
+postgres=# call create_client('Клиент 4', 'Адрес 4');
+CALL
+postgres=# call create_client('Клиент 5', 'Адрес 5');
+CALL
+
+    \end{minted}
+    Далее добавим некоторым клиентам счета:
+    \begin{minted}{sql}
+postgres=# INSERT INTO "Счета"
+            (client_id, "Номер", "Годовая ставка")
+           VALUES
+            (1, '0000000001', 10.0),
+            (2, '0000000002', 25.0),
+            (3, '0000000003', 50.0);
+INSERT 0 3
+    \end{minted}
+    И так же создадим несколько операторов:
+    \begin{minted}{sql}
+postgres=# INSERT INTO "Операторы"
+            ("ФИО", "Должность")
+           VALUES
+            ('Оператор 1', 'Должность 1'),
+            ('Оператор 2', 'Должность 2');
+INSERT 0 2
+    \end{minted}
+    Дальше проведём несколько операций и проанализируем результаты:
+    \begin{minted}{sql}
+postgres=# call charge(1, 50, 1);
+CALL
+postgres=# call charge(1, 100, 1);
+CALL
+postgres=# call charge(1, -10, 1);
+CALL
+postgres=# call charge(1, 10, 2);
+CALL
+postgres=# call charge(2, 10, 2);
+CALL
+postgres=# SELECT *
+           FROM get_clients(
+            'Оператор 2',
+            '2021-06-19 15:19:20.0',
+            '2021-06-19 22:19:20.0'
+           );
+ id |   ФИО    |  Адрес
+----+----------+---------
+  1 | Клиент 1 | Адрес 1
+  2 | Клиент 2 | Адрес 2
+(2 rows)
+postgres=# SELECT (
+            SELECT client_id
+            FROM "Счета"
+            ORDER BY "Остаток"
+            LIMIT 1
+           ),
+           (
+            SELECT client_id
+            FROM "Счета"
+            ORDER BY "Остаток" DESC
+            LIMIT 1
+           );
+ client_id | client_id
+-----------+-----------
+         3 |         1
+(1 row)
+postgres=# SELECT id, "Сумма"
+           FROM get_client_operations('Клиент 1', '2021-06-19 15:19:20.0', '2021-06-19 22:19:20.0');
+ id | Сумма
+----+--------
+  4 |  10.00
+  3 | -10.00
+  2 | 100.00
+  1 |  50.00
+(4 rows)
+postgres=# SELECT id, "Сумма"
+           FROM get_operator_operations('Оператор 1', '2021-06-19 15:19:20.0', '2021-06-19 22:19:20.0');
+ id | Сумма
+----+--------
+  1 |  50.00
+  2 | 100.00
+  3 | -10.00
+(3 rows)
+postgres=# call charge_interests();
+CALL
+    \end{minted}
+    В результате, все операции сработали правильно.
+
+    \newpage
+
+    \section*{Заключение}
+    \addcontentsline{toc}{section}{Заключение}
+
+    Таким образом в данной работе была продемонстрирована разработка базы данных для конкретной предметной области. Были разобраны следующие аспекты: Определение таблиц, основные операции, а также было показано как можно связывать две сущности разными связями.
+
+    Реляционные СУБД всё ещё доминируют на рынке, поэтому велика вероятность того, что на сервере используется Реляционная СУБД, например PostgreSQL. Данная база данных хорошо показывает себя на практике и может использоваться почти в любой предметной области.
+
+    В разработке проектов PostgreSQL используется несколько реже, чем MySQL / MariaDB, но всё же эта пара с заметным отрывом опережает по частоте использования остальные системы управления базами данных. При этом в разработке больших приложений PostgreSQL опережает по использованию MySQL и MariaDB. Большинство фреймворков (например, Ruby on Rails, Yii, Symfony, Django) поддерживают использование PostgreSQL в разработке.
+
+    \newpage
+    \section*{Список литературы}
+    \addcontentsline{toc}{section}{Список литературы}
+
+    \begin{enumerate}
+        \item Архитектура и технологии IBM Server Series / В.А. Варфоломеев и др. - М.: Интернет-университет информационных технологий, 2015. - 640 c.
+        \item Владимир, Михайлович Илюшечкин Основы использования и проектирования баз данных / Владимир Михайлович Илюшечкин. - М.: Юрайт, 2015. - 516 c.
+        \item Ноубл, Дж., Андерсон, Т., Брэйтуэйт, Г., Казарио, М., Третола, Р. Flex 4. Рецепты программирования. — БХВ-Петербург, 2011. — С. 548. — 720 с.
+        \item Кузин, А.В. Базы данных: Учебное пособие для студ. высш. учеб. заведений / А.В. Кузин, С.В. Левонисова. - М.: ИЦ Академия, 2012. - 320 c.
+
+        \item Илюшечкин, В. М. Основы использования и проектирования баз данных / В.М. Илюшечкин. - М.: Юрайт, Юрайт, 2013. - 224 c.
+        \item Зубов, А. В. Основы искусственного интеллекта для лингвистов / А.В. Зубов, И.И. Зубова. - Москва: РГГУ, 2013. - 320 c.
+        \item Стружкин, Н. П. Базы данных.
+        Проектирование. Учебник / Н.П. Стружкин, В.В. Годин. - М.: Юрайт, 2016. - 478 c.
+        \item Моргунов, Е.П. PostgreSQL. Основы языка SQL: Учебно-практическое пособие, 2019. 336 с.
+        \item Голицына, О. Л. Базы данных / О.Л. Голицына, Н.В. Максимов, И.И. Попов. - М.: Форум, 2015. - 400 c.
+    \end{enumerate}
+
+\end{document}

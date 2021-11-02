@@ -1,0 +1,1761 @@
+\documentclass[12pt]{article}
+
+\usepackage[english, russian]{babel}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[left=2cm,right=2cm, top=1cm,bottom=1.5cm,bindingoffset=0cm]{geometry}
+\usepackage[explicit]{titlesec}
+\usepackage{amsmath}
+\usepackage{multirow}
+\usepackage{bookmark}
+\usepackage{minted}
+\usepackage{hyperref}
+
+\bookmarksetup{numbered,level=10}
+
+\titleformat{\subsection}{\normalfont\bfseries}{}{0em}{#1\ \thesubsection}
+
+\newenvironment{e}[1][dummy label]{
+    \subsection{Упражнение}\label{#1}
+    \subsubsection*{Условие}
+    }{
+    \subsubsection*{Ответ}
+}
+
+\newcommand{\eref}[1]{\hyperref[{e:#1}]{\nameref*{e:#1} \ref*{e:#1}}}
+
+
+\begin{document}
+    \pagestyle{empty}
+    \begin{center}
+        \textbf{Федеральное государственное автономное образовательное учреждение высшего образования}
+
+        \vspace{5pt}
+
+        {\small
+        \textbf{САНКТ-ПЕТЕРБУРГСКИЙ НАЦИОНАЛЬНЫЙ}
+
+        \textbf{ИССЛЕДОВАТЕЛЬСКИЙ УНИВЕРСИТЕТ ИТМО}
+
+        \textbf{ФАКУЛЬТЕТ ПРОГРАММНОЙ ИНЖЕНЕРИИ И КОМПЬЮТЕРНОЙ ТЕХНИКИ}%
+        }
+
+        \vspace{140pt}
+
+        {\Large
+        \textbf{ДОМАШНЯЯ РАБОТА}
+
+        \vspace{7pt}
+
+        \textbf{ПО ДИСЦИПЛИНЕ}%
+        }
+
+        \vspace{10pt}
+
+        {\large
+        \textbf{Схемотехника ЭВМ}
+
+        \vspace{5pt}
+
+        \textbf{Решение упражнений}%
+        }
+
+        \vspace{170pt}
+
+        \begin{tabular}{lll}
+            Проверил:                                                                                   & \hspace{70pt} & Выполнил:                                             \\
+            ........................                \rule[0.66\baselineskip]{2cm}{0.4pt}                &               & Студент группы P3455                                  \\
+            «\rule[0.66\baselineskip]{1cm}{0.4pt}»  \rule[0.66\baselineskip]{2cm}{0.4pt} \the\year г.   &               & Федюкович С. А. \rule[0.66\baselineskip]{2cm}{0.4pt}  \\
+            &               &                                                       \\
+            Оценка          \hspace{12pt}           \rule[0.66\baselineskip]{2.7cm}{0.4pt}              &               &                                                       \\
+        \end{tabular}
+
+        \vspace*{\fill}
+
+        Санкт-Петербург
+
+        \the\year
+    \end{center}
+    \newpage
+    \pagestyle{plain}
+    \setcounter{page}{1}
+
+    \setcounter{section}{5}
+    \section{Архитектура}
+
+    \begin{e}
+        Приведите три примера из архитектуры MIPS для каждого из принципов хорошей разработки:
+        \begin{enumerate}
+            \item Для простоты придерживайтесь единообразия;
+            \item Типичный сценарий должен быть быстрым;
+            \item Чем меньше, тем быстрее;
+            \item Хорошая разработка требует хороших компромиссов.
+        \end{enumerate}
+
+        Поясните, как каждый из ваших примеров иллюстрирует соответствующий принцип.
+    \end{e}
+
+    \begin{enumerate}
+        \item Для простоты придерживайтесь единообразия:
+
+        MIPS имеет только три типа инструкций(R, I и J).
+
+        Каждая инструкция имеет одинаковый номер и порядок операндов. А так же и одинаковый размер(6 бит), что делает процесс декодирования простым.
+
+        \item Типичный сценарий должен быть быстрым:
+
+        Благодаря регистрам доступ к часто используемым переменным осуществляется быстро. А благодаря RISC архитектуре ЭВМ работает только с небольшими и простыми инструкциями, что улучшает производительность.
+
+        Все инструкции в 32 битах. Данный размер специально выбран для ускорения типичных сценариев.
+
+        \item Чем меньше, тем быстрее:
+
+        В регистровом файле всего 32 регистра.
+
+        SPU ISA включает только небольшое количество инструкций, что позволяет сделать аппаратное обеспечение маленьким и соответственно быстрым. Сами же инструкции занимают небольшое количество памяти, что дает возможность загружать их быстрее.
+
+        \item Хорошая разработка требует хороших компромиссов:
+
+        MIPS использует три типа инструкций вместо одного.
+
+        По хорошему, все доступы должны выполняться так же быстро, как и доступ к регистру, но MIPS архитектура так же поддерживает доступ к ОЗУ, чтобы дать выбор между быстрым доступом и большим количеством памяти.
+
+        Та как MIPS это RSIC архитектура, то она включает только набор простых инструкций, она же предоставляет псевдокод и его компилятор для часто используемых операций(перемещение данных из одного в регистра в другой и загрузка 32 бит немедленно).
+
+    \end{enumerate}
+
+    \newpage
+
+    \begin{e}
+        Архитектура MIPS содержит набор 32-битных регистров. Можно ли создать компьютерную архитектуру без регистров? Если можно, кратко опишите такую архитектуру и её систему команд. Каковы преимущества и недостатки будут у этой архитектуры по сравнению с архитектурой MIPS?
+    \end{e}
+
+    Да, можно спроектировать компьютерную архитектуру без набора регистров. Например, архитектура может использовать память как очень большой набор регистров. Каждая инструкция потребует доступа к памяти. Например, инструкция сложения может выглядеть так: \texttt{add 0x10, 0x20, 0x24}.
+
+    Такая инструкция сложила бы значения, хранящиеся по адресам памяти \texttt{0x20} и \texttt{0x24}, и поместила бы результат в ячейку с адресом \texttt{0x10}. Другие инструкции будут иметь тот же шаблон, доступ к памяти вместо регистров. Некоторые преимущества архитектуры заключаются в том, что для неё требуется меньше инструкций. Загрузки и хранения операций теперь не нужны. Это упростит и ускорит аппаратное декодирование.
+
+    Некоторые недостатки этой архитектуры по сравнению с архитектурой MIPS заключаются в том, что каждая операция потребует доступа к памяти. Таким образом, либо процессор должен быть медленным, либо он должен иметь малый объем памяти. Кроме того, поскольку инструкции должны кодировать адреса памяти вместо номеров регистров, размер инструкций будет большим для доступа ко всем адресам памяти. Или, альтернативно, каждая инструкция может получить доступ только к меньшему количеству адресов памяти. Например, архитектура может требовать, чтобы один из исходных операндов также был операндом-адресатом, уменьшая количество адресов памяти, которые должны быть закодированными.
+
+    \newpage
+
+    \begin{e}[e:32b]
+        Представьте себе 32-битное слово, хранящееся в адресуемой побайтово памяти и имеющее порядковый номер 42.
+        \begin{enumerate}
+            \item Каков байтовый адрес у слова памяти с порядковым номером 42?
+            \item Каковы все байтовые адреса, занимаемые этим словом памяти?
+            \item Предположим, что в этом слове хранится значение \texttt{0xFF223344}. Изобразите графически, как это число хранится в байтах слова в случаях прямого и обратного порядка следования байтов. Отметьте байтовые адреса всех байтов данных.
+        \end{enumerate}
+    \end{e}
+
+    \begin{enumerate}
+        \item $42 \times 4 = 42 \times 2^2 = 101010_2 << 2 = 10101000_2 = \text{\texttt{0xA8}}$.
+        \item \texttt{0xA8} через \texttt{0xAB}.
+        \item ~
+        \begin{table}[h!]
+            \small
+            \setlength\tabcolsep{4pt}
+            \centering
+            \begin{tabular}{cccccccccccc}
+                & \multicolumn{4}{c}{Big-Endian} & & \multicolumn{4}{c}{Little-Endian} & \\
+                Byte Address & \texttt{A8} & \texttt{A9} & \texttt{AA} & \texttt{AB} & Word Address & \texttt{AB} & \texttt{AA} & \texttt{A9} & \texttt{A8} & Byte Address \\
+                Data Value & \texttt{FF} & \texttt{22} & \texttt{33} & \texttt{44} & \texttt{0x48} & \texttt{FF} & \texttt{22} & \texttt{33} & \texttt{44} & Data Value \\
+                & \multicolumn{2}{l}{MSB} & \multicolumn{2}{r}{LSB} & & \multicolumn{2}{l}{MSB} & \multicolumn{2}{r}{LSB} & \\
+            \end{tabular}
+        \end{table}
+    \end{enumerate}
+
+    \begin{e}
+        Повторите \eref{32b} для 32-битного слова, имеющего порядковый номер 15 в памяти.
+    \end{e}
+
+    \begin{enumerate}
+        \item $15 \times 4 = 15 \times 2^2 = 1111_2 << 2 = 111100_2 = \text{\texttt{0x3C}}$.
+        \item \texttt{0x3C} через \texttt{0x3F}.
+        \item ~
+        \begin{table}[h!]
+            \small
+            \setlength\tabcolsep{4pt}
+            \centering
+            \begin{tabular}{cccccccccccc}
+                & \multicolumn{4}{c}{Big-Endian} & & \multicolumn{4}{c}{Little-Endian} & \\
+                Byte Address & \texttt{3C} & \texttt{3D} & \texttt{3E} & \texttt{3F} & Word Address & \texttt{3F} & \texttt{3E} & \texttt{3D} & \texttt{3C} & Byte Address \\
+                Data Value & \texttt{FF} & \texttt{22} & \texttt{33} & \texttt{44} & \texttt{0x48} & \texttt{FF} & \texttt{22} & \texttt{33} & \texttt{44} & Data Value \\
+                & \multicolumn{2}{l}{MSB} & \multicolumn{2}{r}{LSB} & & \multicolumn{2}{l}{MSB} & \multicolumn{2}{r}{LSB} & \\
+            \end{tabular}
+        \end{table}
+    \end{enumerate}
+
+    \newpage
+
+    \begin{e}
+        Объясните, как использовать следующую программу, чтобы определить, является ли порядок следования байтов прямым или обратным:
+
+        \begin{verbatim}
+li $t0, 0xABCD9876
+sw $t0, 100($0)
+lb $s5, 101($0)
+        \end{verbatim}
+
+    \end{e}
+
+    \begin{verbatim}
+# Big-endian
+ li $t0, 0xABCD9876
+ sw $t0, 100($0)
+ lb $s5, 101($0) # LSB от $s5 = 0xCD
+# Little-endian
+ li $t0, 0xABCD9876
+ sw $t0, 100($0)
+ lb $s5, 101($0) # LSB от $s5 = 0x98
+    \end{verbatim}
+
+    В формате с прямым порядком байтов байты пронумерованы от 100 до 103 слева направо. верно. В обратом байты нумеруются от 100 до 103 справа налево. Таким образом, команда последнего байта загрузки (\texttt{lb}) возвращает другое значение в зависимости от порядка байтов машины.
+
+    \begin{e}[e:ascii]
+        Используя кодировку \texttt{ASCII}, запишите следующие строки в виде последовательностей шестнадцатеричных значений символов этих строк(прим. переводчика: вам, вероятно, потребуется транслитерировать ваше имя, используя латинский алфавит.
+        \begin{enumerate}
+            \item SOS
+            \item Cool!
+            \item Semyon
+        \end{enumerate}
+    \end{e}
+
+    \begin{enumerate}
+        \item \texttt{0x53 4F 53 00}
+        \item \texttt{0x43 6F 6F 6C 21 00}
+        \item \texttt{0x53 65 6D 79 6F 6E 00}
+    \end{enumerate}
+
+    \begin{e}[e:ascii2]
+        Повторите \eref{ascii} для следующих строк:
+        \begin{enumerate}
+            \item howdy
+            \item ions
+            \item To the rescue!
+        \end{enumerate}
+    \end{e}
+
+    \begin{enumerate}
+        \item \texttt{0x68 6F 77 64 79 00}
+        \item \texttt{0x6C 69 6F 6E 73 00}
+        \item \texttt{0x54 6F 20 74 68 65 20 72 65 73 63 75 65 21 00}
+    \end{enumerate}
+
+    \begin{e}[e:asciib]
+        Покажите, как строки из \eref{ascii} хранятся в адресуемой побайтово памяти, начиная с адреса \texttt{0x1000100C}:
+        \begin{enumerate}
+            \item на машине с прямым порядком следования байтов;
+            \item на машине с обратным порядком следования байтов.
+        \end{enumerate}
+        Отметьте байтовые адреса всех байтов данных в обоих случаях.
+    \end{e}
+
+    \begin{enumerate}
+        \item Big-Endian
+        \begin{table}[h!]
+            \small
+            \setlength\tabcolsep{2pt}
+            \centering
+            \begin{tabular}{ccccccccccccccc}
+                Word Address & \multicolumn{4}{c}{Data} & Word Address & \multicolumn{4}{c}{Data} & Word Address & \multicolumn{4}{c}{Data} \\
+                . & \multicolumn{4}{c}{.} & . & \multicolumn{4}{c}{.} & . & \multicolumn{4}{c}{.} \\
+                & & & & & \texttt{10001010} & \texttt{21} & \texttt{00} & & & \texttt{10001010} &\texttt{6F} & \texttt{6E} & \texttt{00} & \\
+                \texttt{1000100C} & \texttt{53} & \texttt{4F} & \texttt{53} & \texttt{00} & \texttt{1000100C} & \texttt{43} & \texttt{6F} & \texttt{6F} & \texttt{6С} & \texttt{1000100C} & \texttt{53} & \texttt{65} & \texttt{6D} & \texttt{79} \\
+                . & \multicolumn{1}{l}{ {\scriptsize Byte 0}} & \multicolumn{2}{c}{.} & \multicolumn{1}{r}{ {\scriptsize Byte 3}} & . & \multicolumn{1}{l}{ {\scriptsize Byte 0}} & \multicolumn{2}{c}{.} & \multicolumn{1}{r}{ {\scriptsize Byte 3}} & . & \multicolumn{1}{l}{ {\scriptsize Byte 0}} & \multicolumn{2}{c}{.} & \multicolumn{1}{r}{ {\scriptsize Byte 3}} \\
+                \multicolumn{5}{l}{(1)} & \multicolumn{5}{l}{(2)} & \multicolumn{5}{l}{(3)} \\
+            \end{tabular}
+        \end{table}
+        \item Little-Endian
+        \begin{table}[h!]
+            \small
+            \setlength\tabcolsep{2pt}
+            \centering
+            \begin{tabular}{ccccccccccccccc}
+                Word Address & \multicolumn{4}{c}{Data} & Word Address & \multicolumn{4}{c}{Data} & Word Address & \multicolumn{4}{c}{Data} \\
+                . & \multicolumn{4}{c}{.} & . & \multicolumn{4}{c}{.} & . & \multicolumn{4}{c}{.} \\
+                & & & & & \texttt{10001010} & & & \texttt{00} & \texttt{21} & \texttt{10001010} & & \texttt{00} & \texttt{6E} & \texttt{6F} \\
+                \texttt{1000100C} & \texttt{00} & \texttt{53} & \texttt{4F} & \texttt{53} & \texttt{1000100C} & \texttt{6C} & \texttt{6F} & \texttt{6F} & \texttt{43} & \texttt{1000100C} & \texttt{79} & \texttt{6D} & \texttt{65} & \texttt{53} \\
+                . & \multicolumn{1}{l}{ {\scriptsize Byte 3}} & \multicolumn{2}{c}{.} & \multicolumn{1}{r}{ {\scriptsize Byte 0}} & . & \multicolumn{1}{l}{ {\scriptsize Byte 3}} & \multicolumn{2}{c}{.} & \multicolumn{1}{r}{ {\scriptsize Byte 0}} & . & \multicolumn{1}{l}{ {\scriptsize Byte 3}} & \multicolumn{2}{c}{.} & \multicolumn{1}{r}{ {\scriptsize Byte 0}} \\
+                \multicolumn{5}{l}{(1)} & \multicolumn{5}{l}{(2)} & \multicolumn{5}{l}{(3)} \\
+            \end{tabular}
+        \end{table}
+    \end{enumerate}
+
+    \begin{e}
+        Повторите \eref{asciib} для строк из \eref{ascii2}.
+    \end{e}
+
+    \begin{enumerate}
+        \item Big-Endian
+        \begin{table}[h!]
+            \small
+            \setlength\tabcolsep{2pt}
+            \centering
+            \begin{tabular}{ccccccccccccccc}
+                Word Address & \multicolumn{4}{c}{Data} & Word Address & \multicolumn{4}{c}{Data} & Word Address & \multicolumn{4}{c}{Data} \\
+                . & \multicolumn{4}{c}{.} & . & \multicolumn{4}{c}{.} & . & \multicolumn{4}{c}{.} \\
+                . & \multicolumn{4}{c}{.} & . & \multicolumn{4}{c}{.} & \texttt{10001018} & \texttt{65} & \texttt{21} & \texttt{00} & \\
+                . & \multicolumn{4}{c}{.} & . & \multicolumn{4}{c}{.} & \texttt{10001014} & \texttt{65} & \texttt{73} & \texttt{63} & \texttt{75} \\
+                \texttt{10001010} & \texttt{79} & \texttt{00} & & & \texttt{10001010} & \texttt{73} & \texttt{00} & & & \texttt{10001010} &\texttt{68} & \texttt{65} & \texttt{20} & \texttt{72} \\
+                \texttt{1000100C} & \texttt{68} & \texttt{6F} & \texttt{77} & \texttt{64} & \texttt{1000100C} & \texttt{6C} & \texttt{69} & \texttt{6F} & \texttt{6E} & \texttt{1000100C} & \texttt{54} & \texttt{6F} & \texttt{20} & \texttt{74} \\
+                . & \multicolumn{1}{l}{ {\scriptsize Byte 0}} & \multicolumn{2}{c}{.} & \multicolumn{1}{r}{ {\scriptsize Byte 3}} & . & \multicolumn{1}{l}{ {\scriptsize Byte 0}} & \multicolumn{2}{c}{.} & \multicolumn{1}{r}{ {\scriptsize Byte 3}} & . & \multicolumn{1}{l}{ {\scriptsize Byte 0}} & \multicolumn{2}{c}{.} & \multicolumn{1}{r}{ {\scriptsize Byte 3}} \\
+                \multicolumn{5}{l}{(1)} & \multicolumn{5}{l}{(2)} & \multicolumn{5}{l}{(3)} \\
+            \end{tabular}
+        \end{table}
+        \item Little-Endian
+        \begin{table}[h!]
+            \small
+            \setlength\tabcolsep{2pt}
+            \centering
+            \begin{tabular}{ccccccccccccccc}
+                Word Address & \multicolumn{4}{c}{Data} & Word Address & \multicolumn{4}{c}{Data} & Word Address & \multicolumn{4}{c}{Data} \\
+                . & \multicolumn{4}{c}{.} & . & \multicolumn{4}{c}{.} & . & \multicolumn{4}{c}{.} \\
+                . & \multicolumn{4}{c}{.} & . & \multicolumn{4}{c}{.} & \texttt{10001018} & & \texttt{00} & \texttt{21} & \texttt{65} \\
+                . & \multicolumn{4}{c}{.} & . & \multicolumn{4}{c}{.} & \texttt{10001014} & \texttt{75} & \texttt{63} & \texttt{73} & \texttt{65} \\
+                \texttt{10001010} & & & \texttt{00} & \texttt{79} & \texttt{10001010} & & & \texttt{00} & \texttt{73} & \texttt{10001010} &\texttt{72} & \texttt{20} & \texttt{65} & \texttt{68} \\
+                \texttt{1000100C} & \texttt{64} & \texttt{77} & \texttt{6F} & \texttt{68} & \texttt{1000100C} & \texttt{6E} & \texttt{6F} & \texttt{69} & \texttt{6C} & \texttt{1000100C} & \texttt{74} & \texttt{20} & \texttt{6F} & \texttt{54} \\
+                . & \multicolumn{1}{l}{ {\scriptsize Byte 3}} & \multicolumn{2}{c}{.} & \multicolumn{1}{r}{ {\scriptsize Byte 0}} & . & \multicolumn{1}{l}{ {\scriptsize Byte 3}} & \multicolumn{2}{c}{.} & \multicolumn{1}{r}{ {\scriptsize Byte 0}} & . & \multicolumn{1}{l}{ {\scriptsize Byte 3}} & \multicolumn{2}{c}{.} & \multicolumn{1}{r}{ {\scriptsize Byte 0}} \\
+                \multicolumn{5}{l}{(1)} & \multicolumn{5}{l}{(2)} & \multicolumn{5}{l}{(3)} \\
+            \end{tabular}
+        \end{table}
+    \end{enumerate}
+
+    \begin{e}[e:asm]
+        Преобразуйте следующий код из языка ассемблера MIPS в машинный язык. Запишите инструкции в шестнадцатеричном формате.
+        \begin{minted}{asm}
+add  $t0, $s0, $s1
+lw   $t0, 0x20($t7)
+addi $s0, $0, -10
+        \end{minted}
+    \end{e}
+    \begin{verbatim}
+0x02114020
+0x8de80020
+0x2010fff6
+    \end{verbatim}
+
+    \newpage
+
+    \begin{e}[e:asm2]
+        Повторите \eref{asm} для следующего кода:
+        \begin{minted}{asm}
+addi $s0, $0, 73
+sw   $t1, -7($t2)
+sub  $t1, $s7, $s2
+        \end{minted}
+    \end{e}
+    \begin{verbatim}
+0x20100049
+0xad49fff9
+0x02f24822
+    \end{verbatim}
+
+    \begin{e}[e:l-type]
+        \begin{enumerate}
+            \item Какие инструкции из \eref{asm} являются инструкциями типа $I$?
+            \item Для каждой инструкции типа $I$ из \eref{asm} примените расширение знака к непосредственному 16-битному операнду так, чтобы получилось 32-битное число.
+        \end{enumerate}
+    \end{e}
+
+    \begin{enumerate}
+        \item
+        \begin{minted}{asm}
+lw   $t0, 0x20($t7)
+addi $s0, $0, -10
+        \end{minted}
+        \item
+        \begin{verbatim}
+0x8de80020     (lw)
+0x2010fff6     (addi)
+        \end{verbatim}
+    \end{enumerate}
+
+    \begin{e}
+        Повторите \eref{l-type} для инструкций из \eref{asm2}.
+    \end{e}
+
+    \begin{enumerate}
+        \item
+        \begin{minted}{asm}
+addi $s0, $0, 73
+sw   $t1, -7($t2)
+        \end{minted}
+        \item
+        \begin{verbatim}
+0x20100049    (addi)
+0xad49fff9    (sw)
+        \end{verbatim}
+    \end{enumerate}
+
+    \newpage
+
+    \begin{e}[e:ml]
+        Преобразуйте следующую программу из машинного языка в программу на языке ассемблера MIPS. Цифрами слева показаны адреса инструкций в памяти. Цифры справа --- это инструкции по соответствующим адресам. Объясните, что делает эта программа, предполагая, что перед началом её выполнения \texttt{\$a0} содержит некое положительное число n, а после завершения программы в \texttt{\$v0} получается некоторый результат. Также напишите эту программу на языке высокого уровня (например, С).
+        \begin{verbatim}
+0x00400004 0x20090001
+0x00400008 0x0089502A
+0x0040000C 0x15400003
+0x00400010 0x01094020
+0x00400014 0x21290002
+0x00400018 0x08100002
+0x0040001C 0x01001020
+0x00400020 0x03E00008
+        \end{verbatim}
+    \end{e}
+
+    Программа будет преобразована следующим образом:
+
+    \begin{minted}{asm}
+           addi $t0, $0, 0
+           addi $t1, $0, 1
+loop:   slt  $t2, $a0, $t1
+           bne  $t2, $0, finish
+           add  $t0, $t0, $t1
+           addi $t1, $t1, 2
+           j    loop
+  finish:  add  $v0, $t0, $0
+    \end{minted}
+
+    На C программу можно написать следующим образом(предполагая, что \texttt{temp = \$t0, i = \$t1, n = \$a0, result = \$v0}):
+    \begin{minted}{c++}
+temp = 0;
+for (i = 1; i <= n; i = i + 2)
+    temp = temp + i;
+result = temp;
+    \end{minted}
+
+    Программа находит сумму нечётных чисел и кладёт результат в возвращаемый регистр \texttt{\$v0}.
+
+    \newpage
+
+    \begin{e}
+        Повторите упражнение \eref{ml} для приведенного ниже машинного кода. Используйте значения \texttt{\$a0} и \texttt{\$a1} как входные данные. В начале программы \texttt{\$a0} содержит некоторое 32-битное число, а \texttt{\$a1} --- адрес некоторого массива из 32 символов (типа \texttt{char}).
+
+        \begin{verbatim}
+0x00400000 0x2008001F
+0x00400004 0x01044806
+0x00400008 0x31290001
+0x0040000C 0x0009482A
+0x00400010 0xA0A90000
+0x00400014 0x20A50001
+0x00400018 0x2108FFFF
+0x0040001C 0x0501FFF9
+0x00400020 0x03E00008
+        \end{verbatim}
+    \end{e}
+
+    Программа будет преобразована следующим образом:
+
+    \begin{minted}{asm}
+  addi $t0, $0, 31
+L1:
+  srlv $t1, $a0, $t0
+  andi $t1, $t1, 1
+  slt $t1, $0, $t1
+  sb $t1, 0($a1)
+  addi $a1, $a1, 1
+  addi $t0, $t0, -1
+  bgez $t0, L1
+  jr $ra
+    \end{minted}
+
+    На C программу можно написать следующим образом:
+    \begin{minted}{c++}
+void convert2bin(int num, char binarray[]) {
+    int i;
+    char tmp, val = 31;
+    for (i = 0; i < 32; i++) {
+        tmp = (num >> val) & 1;
+        binarray[i] = tmp;
+        val--;
+    }
+}
+    \end{minted}
+
+    Данная программа переводит число из десятичной системы в двоичную и сохраняет результат в массив.
+
+    \newpage
+
+    \begin{e}
+        В архитектуре MIPS имеется инструкция \texttt{nor}, но отсутствует её вариант с непосредственным операндом \texttt{nori}. Тем не менее, команда \texttt{nori} может быть реализована существующими инструкциями. Напишите на языке ассемблера код со следующей функциональностью: \texttt{\$t0= \$t1 NOR 0xF234}. Используйте наименьшее возможное число инструкций.
+    \end{e}
+
+    \begin{minted}{asm}
+ori $t0, $t1, 0xF234
+nor $t0, $t0, $0
+    \end{minted}
+
+    \begin{e}
+        Реализуйте следующие фрагменты кода высокого уровня на языке ассемблера MIPS, используя инструкцию \texttt{slt}. Значения целочисленных переменных \texttt{g} и \texttt{h} хранятся в регистрах \texttt{\$s0} и \texttt{\$s1} соответственно.
+        \begin{enumerate}
+            \item
+            \begin{minted}{c++}
+if (g > h)
+    g = g + h;
+else
+    g = g - h;
+            \end{minted}
+
+            \item
+            \begin{minted}{c++}
+if (g >= h)
+    g = g + 1;
+else
+    h = h - 1;
+            \end{minted}
+
+            \item
+            \begin{minted}{c++}
+if (g <= h)
+    g = 0;
+else
+    h = 0;
+            \end{minted}
+        \end{enumerate}
+    \end{e}
+
+    \begin{enumerate}
+        \item
+        \begin{minted}{asm}
+# $s0 = g, $s1 = h
+slt $t0, $s1, $s0      # if h < g, $t0 = 1
+beq $t0, $0, else      # if $t0 == 0, do else
+add $s0, $s0, $s1      # g = g + h
+j done                 # jump past else block
+else:sub $s0, $s0, $s1 # g = g - h
+done:
+        \end{minted}
+
+        \item
+        \begin{minted}{asm}
+slt  $t0, $s0, $s1        # if g < h, $t0 = 1
+bne  $t0, $0, else        # if $t0 != 0, do else
+addi $s0, $s0, 1          # g = g + 1
+j    done                 # jump past else block
+else:  addi $s1, $s1, -1  # h = h - 1
+done:
+        \end{minted}
+
+        \item
+        \begin{minted}{asm}
+slt $t0, $s1, $s0          # if h < g, $t0 = 1
+bne $t0, $0, else          # if $t0 != 0, do else
+add $s0, $0, $0            # g = 0
+j   done                   # jump past else block
+else:   sub $s1, $0, $0    # h = 0
+done:
+        \end{minted}
+    \end{enumerate}
+
+    \begin{e}[e:find42]
+        Напишите функцию на языке высокого уровня (например, С), имеющую следующий прототип: \mint{c++}|int find42(int array[], int size)| Здесь \texttt{array} задаёт базовый адрес некоторого массива целых чисел, а \texttt{size} содержит число элементов в этом массиве. Функция должна возвращать порядковый номер первого элемента массива, содержащего значение \texttt{42}. Если в массиве нет числа \texttt{42}, то функция должна вернуть \texttt{-1}.
+    \end{e}
+
+    \begin{minted}{c++}
+int find42(int array[], int size) {
+    int i;
+    for (i = 0; i < size; i = i + 1)
+        if (array[i] == 42)
+            return i;
+    return -1;
+}
+    \end{minted}
+
+    \newpage
+
+    \begin{e}
+        Функция \texttt{strcpy} копирует строку символов, расположенную в памяти по адресу \texttt{src}, в новое место с адресом \texttt{dst}.
+
+        \begin{minted}{c++}
+// C code
+void strcpy(char dst[], char src[]) {
+    int i = 0;
+    do {
+        dst[i] = src[i];
+    } while (src[i++]);
+}
+        \end{minted}
+
+        \begin{enumerate}
+            \item Реализуйте приведенную выше функцию \texttt{strcpy} на языке ассемблера MIPS. Используйте \texttt{\$s0} для \texttt{i}.
+            \item Изобразите стек до вызова, во время и после вызова функции \texttt{strcpy}. Считайте, что перед вызовом \texttt{strcpy \$sp = 0x7FFFFF00}.
+        \end{enumerate}
+    \end{e}
+
+    \begin{enumerate}
+        \item
+        \begin{minted}{asm}
+# MIPS assembly code
+# base address of array dst = $a0
+# base address of array src = $a1
+# i = $s0
+
+strcpy:
+    addi $sp, $sp, -4
+    sw   $s0, 0($sp)   # save $s0 on the stack
+    add  $s0, $0, $0   # i = 0
+
+loop:
+    add  $t1, $a1, $s0 # $t1 = address of src[i]
+    lb   $t2, 0($t1)   # $t2 = src[i]
+    add  $t3, $a0, $s0 # $t3 = address of dst[i]
+    sb   $t2, 0($t3)   # dst[i] = src[i]
+    beq  $t2, $0, done # check for null character
+    addi $s0, $s0, 1   # i++
+    j    loop
+
+done:
+    lw   $s0, 0($sp)   # restore $s0 from stack
+    addi $sp, $sp, 4   # restore stack pointer
+    jr   $ra# return
+        \end{minted}
+
+        \newpage
+
+        \item Стэк до(i), во время(ii) и после(iii) процедуры \texttt{strcpy}:
+
+        \begin{table}[h!]
+            \small
+            \setlength\tabcolsep{4pt}
+            \centering
+            \begin{tabular}{l|l|l|l|l|l|l|l|l}
+                Address & Data & & Address & Data & & Address & Data & \\
+                \texttt{0x7FFFFF00} & & $\leftarrow$ \texttt{\$sp} & \texttt{0x7FFFFF00} & & & \texttt{0x7FFFFF00} & & $\leftarrow$ \texttt{\$sp} \\
+                \texttt{0x7FFFFEFC} & & & \texttt{0x7FFFFEFC} & \texttt{\$s0} & $\leftarrow$ \texttt{\$sp} & \texttt{0x7FFFFEFC} & & \\
+                \texttt{0x7FFFFEF8} & & & \texttt{0x7FFFFEF8} & & & \texttt{0x7FFFFEF8} & & \\
+                \texttt{0x7FFFFEF4} & & & \texttt{0x7FFFFEF4} & & & \texttt{0x7FFFFEF4} & & \\
+                \multicolumn{3}{l}{(i)} & \multicolumn{3}{l}{(ii)} & \multicolumn{3}{l}{(iii)} \\
+            \end{tabular}
+        \end{table}
+    \end{enumerate}
+
+    \begin{e}
+        Реализуйте функцию из \eref{find42} на языке ассемблера MIPS.
+    \end{e}
+
+    \begin{minted}{asm}
+find42: addi $t0, $0, 0     # $t0 = i = 0
+        addi $t1, $0, 42    # $t1 = 42
+  loop: slt  $t3, $t0, $a1  # $t3 = 1 if i < size (not at end of array)
+        beq  $t3, $0, exit  # if reached end of array, return -1
+        sll  $t2, $t0, 2    # $t2 = i*4
+        add  $t2, $t2, $a0  # $t2 = address of array[i]
+        lw   $t2, 0($t2)    # $t2 = array[i]
+        beq  $t2, $t1, done # $t2 == 42?
+        addi $t0, $t0, 1    # i = i + 1
+        j    loop
+  done: add  $v0, $t0, $0   # $v0 = i
+        jr   $ra
+  exit: addi $v0, $0, -1    # $v0 = -1
+        jr   $ra
+    \end{minted}
+
+    \newpage
+
+    \begin{e}
+        Рассмотрим приведенный ниже код на языке ассемблера MIPS. Функции \texttt{func1}, \texttt{func2} и \texttt{func3} --- нелистовые (нетерминальные) функции, а \texttt{func4} --- листовая (терминальная). Полный код функций не показан, но в комментариях указаны регистры, используемые каждой из них.
+
+        \begin{verbatim}
+0x00401000   func1:...             # func1 uses $s0–$s1
+0x00401020          jal func2
+ ...
+0x00401100   func2:...             # func2 uses $s2–$s7
+0x0040117C          jal func3
+ ...
+0x00401400   func3:...             # func3 uses $s1–$s3
+0x00401704          jal func4
+ ...
+0x00403008   func4:...             # func4 uses no preserved
+0x00403118          jr $ra         # registers
+        \end{verbatim}
+
+        \begin{enumerate}
+            \item Сколько слов занимает кадр стека у каждой из этих функций?
+            \item Изобразите стек после вызова \texttt{func4}. Укажите, какие регистры хранятся в стеке и где именно. Отметьте каждый из кадров стека. Там, где это возможно, подпишите значения, сохранённые в стеке.
+        \end{enumerate}
+    \end{e}
+
+    \begin{enumerate}
+        \item Кадр стека для каждой процедуры:
+        \begin{verbatim}
+proc1: 3 words deep (for $s0 - $s1, $ra)
+proc2: 7 words deep (for $s2 - $s7, $ra)
+proc3: 4 words deep (for $s1 - $s3, $ra)
+proc4: 0 words deep
+        \end{verbatim}
+        \newpage
+        \item ~
+        \begin{table}[h!]
+            \small
+            \setlength\tabcolsep{2pt}
+            \centering
+            \begin{tabular}{c|c|c|c}
+                & Addresss & Data & \\
+                & . & . & \\
+                \hline
+                \multirow{3}{*}{Кадры стека \texttt{proc1}} & \texttt{7FFF FF00} & \texttt{\$ra} & \\
+                & \texttt{7FFF FEFC} & \texttt{\$s0} & \\
+                & \texttt{7FFF FEF8} & \texttt{\$s1} & \\
+                \hline
+                \multirow{7}{*}{Кадры стека \texttt{proc2}} & \texttt{7FFF FEF4} & \texttt{\$ra = 0x00401024} & \\
+                & \texttt{7FFF FEF0} & \texttt{\$s2} & \\
+                & \texttt{7FFF FEEC} & \texttt{\$s3} & \\
+                & \texttt{7FFF FEE8} & \texttt{\$s4} & \\
+                & \texttt{7FFF FEE4} & \texttt{\$s5} & \\
+                & \texttt{7FFF FEE0} & \texttt{\$s6} & \\
+                & \texttt{7FFF FEDC} & \texttt{\$s7} & \\
+                \hline
+                \multirow{4}{*}{Кадры стека \texttt{proc3}} & \texttt{7FFF FEE8} & \texttt{\$ra = 0x00401180} & \\
+                & \texttt{7FFF FEE4} & \texttt{\$s1} & \\
+                & \texttt{7FFF FEE0} & \texttt{\$s2} & \\
+                & \texttt{7FFF FEDC} & \texttt{\$s3} & $\leftarrow$ \texttt{\$sp} \\
+                \hline
+                & . & . & \\
+            \end{tabular}
+        \end{table}
+    \end{enumerate}
+
+    \begin{e}
+        Каждое число в последовательности Фибоначчи является суммой двух предыдущих чисел.
+        \begin{enumerate}
+            \item Чему равны значения \texttt{fib(n)} для \texttt{n = 0} и \texttt{n = –1}?
+            \item Напишите функцию с именем \texttt{fib} на языке высокого уровня (например, С). Функция должна возвращать число Фибоначчи для любого неотрицательного значения \texttt{n}. Прокомментируйте ваш код.
+            \item Преобразуйте функцию, написанную в части 2., в код на ассемблере MIPS. После каждой строки кода добавьте строку комментария, поясняющего, что она делает. Протестируйте код для случая \texttt{fib(9)} в симуляторе SPIM.
+        \end{enumerate}
+    \end{e}
+
+    \begin{enumerate}
+        \item
+        \begin{verbatim}
+fib(0) = 0
+fib(-1) = 1
+        \end{verbatim}
+        \item
+        \begin{minted}{c++}
+int fib(int n) {
+    int prevresult = 1; // fib(n-1)
+    int result = 0;     // fib(n)
+    while (n != 0) {    // вычисление нового значения
+        result = result + prevresult;     // fib(n) = fib(n-1) + fib(n-2)
+        prevresult = result - prevresult; // fib(n-1) = fib(n) - fib(n-2)
+        n = n - 1;
+    }
+    return result;
+}
+        \end{minted}
+        \newpage
+        \item
+        \begin{minted}{asm}
+# Процедура fib() вычисляет n-ое чисто Фибоначчи.
+# n передаётся в fib() через $a0, и fib() возвращает результат в $v0.
+main:  addi $a0,$0,9     # инициализация аргумента процедуры: n = 9
+       jal  fib          # вызов процедуры fibonacci
+       ...               # остальной код
+fib:  addi $t0,$0,1      # $t0 = fib(n-1) = fib(-1) = 1
+      addi $t1,$0,0      # $t1 = fib(n) = fib(0) = 0
+loop:  beq  $a0,$0, end  # конец?
+       add  $t1,$t1,$t0  # Вычисление следующего значения Fib #, fib(n)
+       sub  $t0,$t1,$t0  # Обновление fib(n-1)
+       addi $a0,$a0,-1   # уменьшение n
+       j    loop         # Повторение
+end:  add  $v0,$t1,$0    # Передача значения в $v0
+      jr   $ra           # возвращение результата
+        \end{minted}
+    \end{enumerate}
+
+    \begin{e}
+        Обратимся к примеру кода ниже. Предположим, что функция \texttt{factorial} вызывается с аргументом \texttt{n = 5}.
+        \begin{minted}{c++}
+// C code
+int factorial(int n) {
+    if (n <= 1)
+        return 1;
+    else
+        return (n * factorial(n - 1));
+}
+        \end{minted}
+        \begin{minted}{asm}
+# MIPS assembly code
+factorial: addi $sp, $sp, -8  # make room on stack
+           sw   $a0, 4($sp)   # store $a0
+           sw   $ra, 0($sp)   # store $ra
+           addi $t0, $0, 2    # $t0 = 2
+           slt  $t0, $a0, $t0 # n <= 1 ?
+           beq  $t0, $0, else # no: goto else
+           addi $v0, $0, 1    # yes: return 1
+           addi $sp, $sp, 8   # restore $sp
+           jr   $ra           # return
+else:      addi $a0, $a0, -1  # n = n - 1
+           jal  factorial     # recursive call
+           Iw   $ra, 0($sp)   # restore $ra
+           Iw   $a0, 4($sp)   # restore $a0
+           addi $sp, $sp, 8   # restore $sp
+           mul  $v0, $a0, $v0 # n * factorial(n-1)
+           jr   $ra           # return
+        \end{minted}
+
+        \newpage
+
+        \begin{enumerate}
+            \item Чему будет равен регистр \texttt{\$v0}, когда функция \texttt{factorial} завершится и управление будет возвращено вызвавшей ее функции?
+            \item Предположим, что инструкции, сохраняющие и восстанавливающие \texttt{\$ra}, расположенные по адресам \texttt{0x98} и \texttt{0xBC}, были убраны (например, заменены на \texttt{nop}). В этом случае программа (1) войдет в бесконечный цикл, но не завершится аварийно; (2) завершится аварийно (произойдет переполнение стека или счетчик команд выйдет за пределы программы); (3) вернет неправильное значение в \texttt{\$v0}(если да, то какое?); (4) продолжит работать правильно, несмотря на изменения?
+            \item Повторите часть 2., когда будут удалены инструкции по следующим адресам: (i) \texttt{0x94} и \texttt{0xC0} (инструкции, которые сохраняют и восстанавливают \texttt{\$а0}); (ii) \texttt{0x90} и \texttt{0xC4} (инструкции, которые сохраняют и восстанавливают \texttt{\$sp}); (iii) \texttt{0xAC} (инструкция, которая восстанавливает \texttt{\$sp})
+        \end{enumerate}
+    \end{e}
+
+    \begin{enumerate}
+        \item 120
+        \item 2
+        \item (i) 3 --- возвращаемое значение 1; (ii) 2; (iii) 4
+    \end{enumerate}
+
+    \begin{e}
+        Бен Битдидл попытался вычислить функцию \texttt{f(a,b) = 2 a + 3b} для положительного значения \texttt{b}, но переусердствовал с вызовами функций и рекурсией и написал вот такой код:
+        \begin{minted}{c++}
+// high-level code for functions f and f2
+int f(int a, int b) {
+    int j;
+    j = a;
+    return j + a + f2(b);
+}
+
+int f2(int x) {
+    int k;
+    k = 3;
+    if (x == 0)
+        return 0;
+    else
+        return k + f2(x - 1);
+}
+        \end{minted}
+        \newpage
+        После этого Бен транслировал эти две функции на язык ассемблера. Он также написал функцию \texttt{test}, которая вызывает функцию \texttt{f(5, 3)}.
+        \begin{minted}{asm}
+# MIPS assembly code # f: $a0 = a, $a1 = b, $s0 = j; f2: $a0 = x, $s0 = k
+test: addi $a0, $0, 5    # $a0 = 5 (a = 5)
+      addi $a1, $0, 3    # $a1 = 3 (b = 3)
+      jal  f             # call f(5, 3)
+loop: j    loop          # and loop forever
+f:    addi $sp, $sp, -16 # make room on the stack
+                         # for $s0, $a0, $a1, and $ra
+      sw   $a1, 12($sp)  # save $a1 (b)
+      sw   $a0, 8($sp)   # save $a0 (a)
+      sw   $ra, 4($sp)   # save $ra
+      sw   $s0, 0($sp)   # save $s0
+      add  $s0, $a0, $0  # $s0 = $a0 (j = a)
+      add  $a0, $a1, $0  # place b as argument for f2
+      jal  f2            # call f2(b)
+      lw   $a0, 8($sp)   # restore $a0 (a) after call
+      lw   $a1, 12($sp)  # restore $a1 (b) after call
+      add  $v0, $v0, $s0 # $v0 = f2(b) + j
+      add  $v0, $v0, $a0 # $v0 = (f2(b) + j) + a
+      lw   $s0, 0($sp)   # restore $s0
+      lw   $ra, 4($sp)   # restore $ra
+      addi $sp, $sp, 16  # restore $sp (stack pointer)
+      jr   $ra           # return to point of call
+f2:   addi $sp, $sp, -12 # make room on the stack for
+                         # $s0, $a0, and $ra
+      sw   $a0, 8($sp)   # save $a0 (x)
+      sw   $ra, 4($sp)   # save return address
+      sw   $s0, 0($sp)   # save $s0
+      addi $s0, $0, 3    # k = 3
+      bne  $a0, $0, else # x = 0?
+      addi $v0, $0, 0    # yes: return value should be 0
+      j    done          # and clean up 0x00400070
+else: addi $a0, $a0, -1  # no: $a0 = $a0 - 1 (x = x - 1)
+      jal  f2            # call f2(x - 1)
+      lw   $a0, 8($sp)   # restore $a0 (x)
+      add  $v0, $v0, $s0 # $v0 = f2(x - 1) + k0x00400080
+done: lw   $s0, 0($sp)   # restore $s0
+      lw   $ra, 4($sp)   # restore $ra
+      addi $sp, $sp, 12  # restore $sp
+      jr   $ra           # return to point of call
+        \end{minted}
+
+        \newpage
+
+        \begin{enumerate}
+            \item Если код выполнится, начиная с метки \texttt{test}, то какое значение окажется в регистре \texttt{\$v0}, когда программа дойдет до метки \texttt{loop}? Правильно ли программа вычислит \texttt{2а + 3b}?
+            \item Предположим, что Бен удалил инструкции по адресам \texttt{0x0040001C} и \texttt{0x00400044}, которые сохраняют и восстанавливают значение регистра \texttt{\$ra}. В этом случае программа (1) войдёт в бесконечный цикл, но не остановится; (2) завершится аварийно (произойдет переполнение стека или счетчик команд выйдет за пределы программы); (3) вернет неправильное значение в \texttt{\$v0} (если да, то какое?); (4) будет работать правильно, несмотря на изменения?
+            \item Повторите часть 2., когда будут удалены инструкции по следующим адресам: (i) \texttt{0x004} \texttt{00018} и \texttt{0x00400030}; (ii) \texttt{0x00400014} и \texttt{0x00400034}; (iii) \texttt{0x00400020} и \texttt{0x00400040}; (iv) \texttt{0x00400050} и \texttt{0x00400088}; (vi) \texttt{0x00400058} и \texttt{0x00400084}; (vii) \texttt{0x00400054} и \texttt{0x00400078}.
+        \end{enumerate}
+    \end{e}
+
+    \begin{enumerate}
+        \item \texttt{\$v0} выполнится как и задумано с результатом 19.
+        \item Программа завершится аварийно, поскольку стек переполнится.
+        \item (i) программа вернёт неправильное значение 17; (ii) будет работать правильно; (iii) будет работать правильно; (iv) войдёт в бесконечный цикл; (v) программа вернёт неправильное значение 17; (vi) программа завершится аварийно, счётчик команд выйдет за пределы; (vii) будет работать правильно.
+    \end{enumerate}
+
+    \newpage
+
+    \begin{e}
+        Переведите приведенные ниже инструкции \texttt{beq}, \texttt{j} и \texttt{jal} в машинный код. Адреса инструкций указаны слева от каждой из них:
+        \begin{verbatim}
+(1)
+0x00401000        beq $t0, $s1, Loop
+0x00401004        ...
+0x00401008        ...
+0x0040100C  Loop: ...
+(2)
+0x00401000        beq $t7, $s4, done
+...               ...
+0x00402040  done: ...
+(3)
+0x0040310C  back: ...
+...               ...
+0x00405000         beq $t9, $s7, back
+(4)
+0x00403000         jal func
+...                ...
+0x0041147C  func:  ...
+(5)
+0x00403004  back:  ...
+...                ...
+0x0040400C  j      back
+        \end{verbatim}
+    \end{e}
+
+    \begin{enumerate}
+        \item \texttt{000100 01000 10001 0000 0000 0000 0010 = 0x11110002}
+        \item \texttt{000100 01111 10100 0000 0100 0000 1111 = 0x11F4040F}
+        \item \texttt{000100 11001 10111 1111 1000 0100 0010 = 0x1337F842}
+        \item \texttt{000011 0000 0100 0001 0001 0100 0111 11 = 0x0C10451F}
+        \item \texttt{000010 00 0001 0000 0000 1100 0000 0001 = 0x08100C01}
+    \end{enumerate}
+
+    \newpage
+
+    \begin{e}
+        Рассмотрим следующий фрагмент кода на языке ассемблера MIPS:
+        \begin{minted}{asm}
+      add  $a0, $a1, $0
+      jal  f2
+f1:   jr   $ra
+f2:   sw   $s0,0($s2)
+      bne  $a0,$0, else
+      j    f1
+else: addi $a0, $a0, -1
+      j    f2
+        \end{minted}
+        \begin{enumerate}
+            \item Транслируйте последовательность инструкций в машинный код в шестнадцатеричном формате.
+            \item Сделайте список режимов адресации, которые были использованы для каждой строки кода.
+        \end{enumerate}
+    \end{e}
+
+    \begin{enumerate}
+        \item
+        \begin{minted}{asm}
+       add  $a0, $a1, $0    # 0x00a02020
+       jal  f2              # 0x0C10000D
+f1:    jr   $ra             # 0x03e00008
+f2:    sw   $s0, 0($s2)     # 0xae500000
+       bne  $a0, $0, else   # 0x14800001
+       cj    f1             # 0x0810000C
+else:  addi $a0, $a0, -1    # 0x2084FFFF
+       j     f2             # 0x0810000D
+        \end{minted}
+        \item
+        \begin{minted}{asm}
+       add  $a0, $a1, $0    # register only
+       jal  f2              # pseudo-direct
+f1:    jr   $ra             # register only
+f2:    sw   $s0, 0($s2)     # base addressing
+       bne  $a0, $0, else   # PC-relative
+       cj    f1             # pseudo-direct
+else:  addi $a0, $a0, -1    # immediate
+       j     f2             # pseudo-direct
+        \end{minted}
+    \end{enumerate}
+
+    \newpage
+
+    \begin{e}
+        Рассмотрим следующий фрагмент кода на C:
+        \begin{minted}{c++}
+void setArray(int num) {
+    int i;
+    int array[10];
+    for (i = 0; i < 10; i = i + 1) {
+        array[i] = compare(num, i);
+    }
+}
+
+int compare(int a, int b) {
+    if (sub(a, b) >= 0)
+        return 1;
+    else
+        return 0;
+}
+
+int sub(int a, int b) {
+    return a - b;
+}
+        \end{minted}
+        \begin{enumerate}
+            \item Перепишите этот фрагмент кода на языке ассемблера MIPS. Используйте регистр \texttt{\$s0} для хранения переменной \texttt{i}. Массив хранится в стеке функции \texttt{setArray}.
+            \item Предположим, что первой вызванной функцией будет \texttt{setArray}. Нарисуйте состояние стека перед вызовом \texttt{setArray} и во время каждого последующего вызова. Укажите имена регистров и переменных, хранящихся в стеке. Отметьте расположение \texttt{\$sp} и каждого кадра стека.
+            \item Как бы работал ваш код, если бы вы забыли сохранить в стеке регистр \texttt{\$ra}?
+        \end{enumerate}
+    \end{e}
+
+    \begin{enumerate}
+        \item
+        \begin{minted}{asm}
+set_array:  addi $sp,$sp,-52   # move stack pointer
+            sw   $ra,48($sp)   # save return address
+            sw   $s0,44($sp)   # save $s0
+            sw   $s1,40($sp)   # save $s1
+
+            add  $s0,$0,$0     # i = 0
+            addi $s1,$0,10     # max iterations = 10
+     loop:  add  $a1,$s0,$0    # pass i as parameter
+            jal  compare # call compare(num, i)
+            sll  $t1,$s0,2     # $t1 = i*4
+            add  $t2,$sp,$t1   # $t2 = address of array[i]
+            sw   $v0,0($t2)    # array[i] = compare(num, i);
+            addi $s0,$s0,1     # i++
+            bne  $s0,$s1,loop  # if i<10, goto loop
+
+            lw   $s1,40($sp)   # restore $s1
+            lw   $s0,44($sp)   # restore $s0
+            lw   $ra,48($sp)   # restore return address
+            addi $sp,$sp,52    # restore stack pointer
+            jr   $ra           # return to point of call
+
+  compare:  addi $sp,$sp,-4    # move stack pointer
+            sw   $ra,0($sp)    # save return address on the stack
+            jal  subtract      # input parameters already in $a0,$a1
+            slt  $v0,$v0,$0    # $v0=1 if sub(a,b) < 0 (return 0)
+            slti $v0,$v0,1     # $v0=1 if sub(a,b)>=0, else $v0 = 0
+            lw   $ra,0($sp)    # restore return address
+            addi $sp,$sp,4     # restore stack pointer
+            jr   $ra           # return to point of call
+
+ subtract:  sub  $v0,$a0,$a1   # return a-b
+            jr   $ra           # return to point of call
+        \end{minted}
+        \item ~
+        \begin{table}[h!]
+            \small
+            \setlength\tabcolsep{2pt}
+            \centering
+            \begin{tabular}{cccccc}
+                & До \texttt{setArray} & & Во время \texttt{setArray} & & Во время \texttt{compare/sub} \\
+                \hline
+                \texttt{\$sp} $\rightarrow$ & & & & & \\
+                \hline
+                & & & \texttt{\$ra} & & \texttt{\$ra} \\
+                & & & \texttt{\$s0} & & \texttt{\$s0} \\
+                & & & \texttt{\$s1} & & \texttt{\$s1} \\
+                & & & \texttt{array[9]} & & \texttt{array[9]} \\
+                & & & \texttt{array[8]} & & \texttt{array[8]} \\
+                & & & \texttt{array[7]} & & \texttt{array[7]} \\
+                & & & \texttt{array[6]} & & \texttt{array[6]} \\
+                & & & \texttt{array[5]} & & \texttt{array[5]} \\
+                & & & \texttt{array[4]} & & \texttt{array[4]} \\
+                & & & \texttt{array[3]} & & \texttt{array[3]} \\
+                & & & \texttt{array[2]} & & \texttt{array[2]} \\
+                & & & \texttt{array[1]} & & \texttt{array[1]} \\
+                & & \texttt{\$sp} $\rightarrow$  & \texttt{array[0]} & & \texttt{array[0]} \\
+                \hline
+                & & &  & \texttt{\$sp} $\rightarrow$  & \texttt{\$ra} \\
+            \end{tabular}
+        \end{table}
+        \item Если бы \texttt{\$ra} никогда не хранился в стеке, функция сравнения после вызова вернулась бы к инструкции вычитания \texttt{(slt \$v0, \$v0, \$0)} вместо возврата к функции \texttt{setArray}. Программа войдет в бесконечный цикл в функции сравнения между \texttt{jr \$ra} и \texttt{slt \$v0, \$v0, \$0}. Она будет увеличивать стек во время этого цикла до тех пор, пока пространство стека не будет превышено, и программа, скорее всего, выйдет из строя.
+    \end{enumerate}
+
+    \newpage
+
+    \begin{e}
+        Рассмотрим следующий фрагмент кода на C:
+        \begin{minted}{c++}
+int f(int n, int k) {
+    int b;
+    b = k + 2;
+    if (n == 0)
+        b = 10;
+    else
+        b = b + (n * n) + f(n - 1, k + 1);
+    return b * k;
+}
+        \end{minted}
+        \begin{enumerate}
+            \item Транслируйте функцию \texttt{f} на язык ассемблера MIPS. Обратите особое внимание на правильность сохранения и восстановления регистров между вызовами функций, а также на использование конвенций MIPS по сохранению регистров. Тщательно комментируйте ваш код. Вы можете использовать инструкцию \texttt{mul}. Функция начинается с адреса \texttt{0x00400100}. Храните локальную переменную \texttt{b} в регистре \texttt{\$s0}.
+            \item Пошагово выполните функцию из пункта 1. для случая \texttt{f(2, 4)}. Изобразите стек. Подпишите имена и значения регистров, хранящихся в каждом слове стека. Проследите за значением указателя стека (\texttt{\$sp}). Четко обозначьте каждый кадр стека. Предположим, что при вызове \texttt{f} значение \texttt{\$s0 = 0xABCD}, а \texttt{\$ra = 0x400004}. Каким будет конечный результат в регистре \texttt{\$v0}?
+        \end{enumerate}
+    \end{e}
+
+    \begin{enumerate}
+        \item
+        \begin{minted}{asm}
+# MIPS assembly code
+f:     addi $sp, $sp, -16  # decrement stack
+       sw   $a0, 0xc($sp)  # save registers on stack
+       sw   $a1, 0x8($sp)
+       sw   $ra, 0x4($sp)
+       sw   $s0, 0x0($sp)
+       addi $s0, $a1, 2     # b = k + 2
+       bne  $a0, $0, else   # if (n!=0) do else block
+       addi $s0, $0, 10     # b = 100x400120
+       j    done
+
+else:  addi $a0, $a0, -1    # update arguments
+       addi $a1, $a1, 1
+       jal  f               # call f()
+       lw   $a0, 0xc($sp)   # restore arguments
+       lw   $a1, 0x8($sp)
+       mult $a0, $a0        # {[hi],[lo]} = n*n
+       mflo $t0             # $t0 = lo  (assuming 32-bit result)
+       add  $s0, $s0, $t0   # b = b + n*n
+       add  $s0, $s0, $v0   # b = b + n*n  + f(n-1,k+1)
+
+done:  mult $s0, $a1        # {[hi],[lo]} = b * k
+       mflo $v0             # $v0 = lo (assuming 32-bit result)
+       lw   $ra, 0x4($sp)   # restore registers
+       lw   $s0, 0x0($sp)
+       addi $sp, $sp, 16    # restore stack pointer
+       jr   $ra             # return
+        \end{minted}
+
+        \item Стек (i) после последнего рекурсивного вызова и (ii) после возврата значения. Финальное значение \texttt{\$v0} будет 1400.
+
+        \begin{table}[h!]
+            \small
+            \setlength\tabcolsep{2pt}
+            \centering
+            \begin{tabular}{c|c|c|c|c|c}
+                Address & Data & & Address & Data & \\
+                . & . & & . & . & \\
+                . & . & $\leftarrow$ \texttt{\$sp} & . & . & \multicolumn{1}{l}{$\leftarrow$ \texttt{\$sp; \$v0 = 1400}} \\
+                \hline
+                \texttt{7FFF FF00} & \texttt{\$a0 = 2} & & \texttt{7FFF FF00} & \texttt{\$a0 = 2} & \\
+                \texttt{7FFF FEFC} & \texttt{\$a1 = 4} & & \texttt{7FFF FEFC} & \texttt{\$a1 = 4} & \\
+                \texttt{7FFF FEF8} & \texttt{\$ra = 0x400004} & & \texttt{7FFF FEF8} & \texttt{\$ra = 0x400004} & \\
+                \texttt{7FFF FEF4} & \texttt{\$s0 = 0xABCD} & $\leftarrow$ \texttt{\$sp} & \texttt{7FFF FEF4} & \texttt{\$s0 = 0xABCD} & \multicolumn{1}{l}{$\leftarrow$ \texttt{\$sp; \$s0 = 350; \$v0 = 1400}} \\
+                \hline
+                \texttt{7FFF FEF0} & \texttt{\$a0 = 1} & & \texttt{7FFF FEF0} & \texttt{\$a0 = 1} & \\
+                \texttt{7FFF FEFC} & \texttt{\$a1 = 5} & & \texttt{7FFF FEFC} & \texttt{\$a1 = 5} & \\
+                \texttt{7FFF FEF8} & \texttt{\$ra = 0x400130} & & \texttt{7FFF FEF8} & \texttt{\$ra = 0x400130} & \\
+                \texttt{7FFF FEF4} & \texttt{\$s0 = 6} & $\leftarrow$ \texttt{\$sp} & \texttt{7FFF FEF4} & \texttt{\$s0 = 6} & \multicolumn{1}{l}{$\leftarrow$ \texttt{\$sp; \$s0 = 68; \$v0 = 340}} \\
+                \hline
+                \texttt{7FFF FEF0} & \texttt{\$a0 = 0} & & \texttt{7FFF FEF0} & \texttt{\$a0 = 0} & \\
+                \texttt{7FFF FEFC} & \texttt{\$a1 = 6} & & \texttt{7FFF FEFC} & \texttt{\$a1 = 6} & \\
+                \texttt{7FFF FEF8} & \texttt{\$ra = 0x400130} & & \texttt{7FFF FEF8} & \texttt{\$ra = 0x400130} & \\
+                \texttt{7FFF FEF4} & \texttt{\$s0 = 7} & $\leftarrow$ \texttt{\$sp} & \texttt{7FFF FEF4} & \texttt{\$s0 = 7} & \multicolumn{1}{l}{$\leftarrow$ \texttt{\$sp; \$s0 = 10; \$v0 = 60}} \\
+                \hline
+                . & . & & . & . & \\
+                & (i) & & & (ii) & \\
+            \end{tabular}
+        \end{table}
+    \end{enumerate}
+
+    \begin{e}
+        Каков диапазон адресов, по которым инструкции ветвления, такие как \texttt{beq} и \texttt{bne}, могут выполнять переходы в MIPS? Дайте ответ в виде количества инструкций относительно адреса инструкции ветвления.
+    \end{e}
+
+    От \texttt{32 K - 1} инструкций до ветвления и \texttt{32 K} инструкций после ветвления.
+
+    \newpage
+
+    \begin{e}
+        Дайте ответы в виде количества инструкций относительно адреса инструкции безусловного перехода:
+        \begin{enumerate}
+            \item Как далеко вперед (то есть по направлению к большим адресам) может перейти команда безусловного перехода (\texttt{j}) в наихудшем случае? Наихудший случай --- это когда переход не может быть осуществлен далеко. Объясните словами, используя по необходимости примеры.
+            \item Как далеко вперед может перейти команда безусловного перехода (\texttt{j}) в наилучшем случае? Наилучший случай --- это когда переход может быть осуществлен дальше всего. Поясните ответ.
+            \item Как далеко назад (то есть по направлению к меньшим адресам) может перейти команда безусловного перехода (\texttt{j}) в наихудшем случае? Поясните ответ.
+            \item Как далеко назад может перейти команда безусловного перехода (\texttt{j}) в наилучшем случае? Поясните ответ.
+        \end{enumerate}
+    \end{e}
+
+    \begin{enumerate}
+        \item В худшем случае инструкция перехода может перейти только на одну инструкцию вперед. Например, следующий код невозможен. Приведенная ниже инструкция перехода (\texttt{j loop}) может выполнять переход только вперед на \texttt{0x0FFFFFFC}:
+        \begin{verbatim}
+0x0FFFFFF8         j    loop
+0x0FFFFFFC
+0x10000000  loop:  ...
+        \end{verbatim}
+
+        \item В лучшем случае инструкция перехода может выполнить переход на $2^{26}$ инструкций вперед:
+        \begin{verbatim}
+0x0FFFFFFC         j    loop
+0x10000000         ...
+0x1FFFFFFC  loop:  ...
+        \end{verbatim}
+
+        \item В худшем случае инструкция перехода не может выполнить переход назад. Например, следующий код невозможен. Поскольку инструкция перехода добавляет четыре старших значащих бита \texttt{PC + 4}, эта инструкция перехода не может даже перейти к самой себе, не говоря уже о назад:
+        \begin{verbatim}
+0x0FFFFFFC  loop:  j    loop
+0x10000000         ...
+        \end{verbatim}
+
+        \newpage
+
+        \item В лучшем случае инструкция перехода может выполнить переход назад максимум на $2^{26} - 2$ инструкций:
+        \begin{verbatim}
+0x10000000  loop:  ...
+...                ...
+0x1FFFFFF8         j    loop
+        \end{verbatim}
+    \end{enumerate}
+
+    \begin{e}
+        Объясните, почему выгодно иметь большое поле адреса (\texttt{addr}) в машинном формате команд безусловного перехода \texttt{j} и \texttt{jal}.
+    \end{e}
+
+    Выгодно иметь большое поле адреса в машинном формате для команд перехода, чтобы увеличить диапазон адресов команд, к которым инструкция может перейти.
+
+    \vspace{35pt}
+
+    \begin{e}
+        Напишите код на языке ассемблера, который переходит к инструкции, отстоящей на 64 мегаинструкции от начала этого кода. Предположим, что ваш код начинается с адреса \texttt{0x00400000}. Используйте минимальное количество инструкций.
+    \end{e}
+
+    \begin{verbatim}
+0x00400000    lui $t1, 0x1040
+0x00400004    jr  $t1
+    \end{verbatim}
+
+    \newpage
+
+    \begin{e}
+        Напишите функцию на языке высокого уровня, которая берет массив 32-разрядных целых чисел из 10 элементов, использующих прямой порядок следования байтов(от младшего к старшему, little-endian) и преобразует его в формат с обратным порядком (от старшего к младшего, big-endian). Перепишите код на языке ассемблера MIPS. Прокомментируйте весь ваш код и используйте минимальное количество инструкций.
+    \end{e}
+
+    \begin{minted}{c++}
+// high-level code
+void little2big(int[] array) {
+    int i;
+    for (i = 0; i < 10; i = i + 1) {
+        array[i] = ((array[i] << 24) |
+                    ((array[i] & 0xFF00) << 8) |
+                    ((array[i] & 0xFF0000) >> 8) |
+                    ((array[i] >> 24) & 0xFF));
+    }
+}
+    \end{minted}
+    \begin{minted}{asm}
+# MIPS assembly code
+# $a0 = base address of array
+little2big:
+            addi $t5, $0, 10  # $t5 = i = 10 (loop counter)
+      loop: lb   $t0, 0($a0)  # $t0 = array[i] byte 0
+            lb   $t1, 1($a0)  # $t1 = array[i] byte 1
+            lb   $t2, 2($a0)  # $t2 = array[i] byte 2
+            lb   $t3, 3($a0)  # $t3 = array[i] byte 3
+            sb   $t3, 0($a0)  # array[i] byte 0 = previous byte 3
+            sb   $t2, 1($a0)  # array[i] byte 1 = previous byte 2
+            sb   $t1, 2($a0)  # array[i] byte 2 = previous byte 1
+            sb   $t0, 3($a0)  # array[i] byte 3 = previous byte 0
+            addi $a0, $a0, 4  # increment index into array
+            addi $t5, $t5, -1 # decrement loop counter
+            beq  $t5, $0, done
+            j    loop
+      done: jr   $ra
+    \end{minted}
+
+    \newpage
+
+    \begin{e}
+        Рассмотрим две строки: \texttt{string1} и \texttt{string2}:
+        \begin{enumerate}
+            \item Напишите код на языке высокого уровня для функции под названием \texttt{concat}, которая соединяет их (склеивает их вместе): \mint{c++}|void concat(char string1[], char string2[], char stringconcat[])|
+            \item Перепишите код из части 1. на языке ассемблера MIPS.
+        \end{enumerate}
+    \end{e}
+    \begin{enumerate}
+        \item
+        \begin{minted}{c++}
+void concat(char[] string1, char[] string2, char[] stringconcat) {
+    int i, j;
+    i = 0;
+    j = 0;
+
+    while (string1[i] != 0) {
+        stringconcat[i] = string1[i];
+        i = i + 1;
+    }
+    while (string2[j] != 0) {
+        stringconcat[i] = string2[j];
+        i = i + 1;
+        j = j + 1;
+    }
+    stringconcat[i] = 0;
+}
+        \end{minted}
+        \item
+        \begin{minted}{asm}
+concat:  lb   $t0, 0($a0)      # $t0 = string1[i]
+         beq  $t0, $0, string2 # if end of string1, go to string2
+         sb   $t0, 0($a2)      # stringconcat[i] = string1[i]
+         addi $a0, $a0, 1      # increment index into string1
+         addi $a2, $a2, 1      # increment index into stringconcat
+         j    concat           # loop back
+string2: lb   $t0, 0($a1)      # $t0 = string2[j]
+         beq  $t0, $0, done    # if end of string2, return
+         sb   $t0, 0($a2)      # stringconcat[j] = string2[j]
+         addi $a1, $a1, 1      # increment index into string2
+         addi $a2, $a2, 1      # increment index into stringconcat
+         j    string2
+done:    sb   $0, 0($a2)       # append null to end of string
+         jr   $ra
+        \end{minted}
+
+    \end{enumerate}
+
+    \newpage
+
+    \begin{e}
+        Напишите программу на ассемблере MIPS, которая складывает два положительных числа с плавающей точкой одинарной точности, которые хранятся в регистрах \texttt{\$s0} и \texttt{\$s1}. Не используйте специальные инструкции для работы с плавающей точкой. Продемонстрируйте, что ваш код работает надежно.
+    \end{e}
+
+    \begin{minted}{asm}
+# определение масок в сегменте глобальных данных
+        .data
+mmask:  .word 0x007FFFFF
+emask:  .word 0x7F800000
+ibit:   .word 0x00800000
+obit:   .word 0x01000000
+
+        .text
+
+flpadd: lw $t4,mmask            # load mantissa mask
+        and $t0,$s0,$t4         # extract mantissa from $s0 (a)
+        and $t1,$s1,$t4         # extract mantissa from $s1 (b)
+        lw $t4,ibit             # load implicit leading 1
+        or $t0,$t0,$t4          # add the implicit leading 1 to mantissa
+        or $t1,$t1,$t4          # add the implicit leading 1 to mantissa
+        lw $t4,emask            # load exponent mask
+        and $t2,$s0,$t4         # extract exponent from $s0 (a)
+        srl $t2,$t2,23          # shift exponent right
+        and $t3,$s1,$t4         # extract exponent from $s1 (b)
+        srl $t3,$t3,23          # shift exponent right
+match:  beq $t2,$t3,addsig      # check whether the exponents match
+        bgeu $t2,$t3,shiftb     # determine which exponent is larger
+shifta: sub $t4,$t3,$t2         # calculate difference in exponents
+        srav $t0,$t0,$t4        # shift a by calculated difference
+        add $t2,$t2,$t4         # update a's exponent
+        j addsig                # skip to the add
+shiftb: sub $t4,$t2,$t3         # calculate difference in exponents
+        srav $t1,$t1,$t4        # shift b by calculated difference
+        add $t3,$t3,$t4         # update b's exponent (not necessary)
+addsig: add $t5,$t0,$t1         # add the mantissas
+norm:   lw $t4,obit             # load mask for bit 24 (overflow bit)
+        and $t4,$t5,$t4         # mask bit 24
+        beq $t4,$0,done         # right shift not needed because bit 24=0
+        srl $t5,$t5,1           # shift right once by 1 bit
+        addi $t2,$t2,1          # increment exponent
+        # continue on the next page
+    \end{minted}
+
+    \newpage
+
+    \begin{minted}{asm}
+done:   lw $t4,mmask            # load mask
+        and $t5,$t5,$t4         # mask mantissa
+        sll $t2,$t2,23          # shift exponent into place
+        lw $t4,emask            # load mask
+        and $t2,$t2,$t4         # mask exponent
+        or $v0,$t5,$t2          # place mantissa and exponent into $v0
+        jr $ra                  # return to caller
+    \end{minted}
+
+    \begin{e}[e:mips]
+        Покажите, как приведенная ниже программа MIPS загружается и выполняется в памяти.
+        \begin{minted}{asm}
+main:
+    addi  $sp, $sp, -4
+    sw    $ra, 0($sp)
+    lw    $a0, x
+    lw    $a1, y
+    jal   diff
+    lw    $ra, 0($sp)
+    addi  $sp, $sp, 4
+    jr    $ra
+diff:
+    sub   $v0, $a0, $a1
+    jr    $ra
+        \end{minted}
+
+        \begin{enumerate}
+            \item Сначала отметьте рядом с каждой инструкцией ее адрес.
+            \item Нарисуйте таблицы символов для меток и их адресов.
+            \item Сконвертируйте все инструкции в машинный код.
+            \item Укажите размер сегментов данных (\texttt{data}) и кода (\texttt{text}) в байтах.
+            \item Нарисуйте карту памяти и укажите, где хранятся данные и команды.
+        \end{enumerate}
+    \end{e}
+
+    \begin{enumerate}
+        \item
+        \begin{verbatim}
+0x00400000  main:   addi $sp, $sp, -4
+0x00400004  sw   $ra, 0($sp)
+0x00400008  lw   $a0, x
+0x0040000C  lw   $a1, y
+0x00400010  jal  diff
+0x00400014  lw   $ra, 0($sp)
+0x00400018  addi $sp, $sp, 4
+0x0040001C  jr   $ra
+
+0x00400020  diff:   sub  $v0, $a0, $a1
+0x00400024  jr   $ra
+        \end{verbatim}
+
+        \newpage
+
+        \item ~
+        \begin{table}[h!]
+            \centering
+            \begin{tabular}{|c|c|}
+                \hline
+                symbol & address \\
+                \hline
+                \texttt{x} & \texttt{0x10000000} \\
+                \hline
+                \texttt{y} & \texttt{0x10000004} \\
+                \hline
+                \texttt{main} & \texttt{0x00400000} \\
+                \hline
+                \texttt{diff} & \texttt{0x00400020} \\
+                \hline
+            \end{tabular}
+        \end{table}
+
+        \item ~
+        \begin{table}[h!]
+            \small
+            \setlength\tabcolsep{2pt}
+            \centering
+            \begin{tabular}{c|c|c|p{0.25\textwidth}}
+                \hline
+                Executable file header & Text Size & Data Size & \\
+                \hline
+                & \texttt{0x28 (40 bytes)} & \texttt{0x8 (8 bytes)} & \\
+                \hline
+                Text segment & Address & Instruction & \\
+                \hline
+                & \texttt{0x00400000} & \texttt{0x23BDFFFC} & \mintinline{asm}{addi $sp, $sp, -4} \\
+                & \texttt{0x00400004} & \texttt{0xAFBF0000} & \mintinline{asm}{sw   $ra, 0($sp)} \\
+                & \texttt{0x00400008} & \texttt{0x8F848000} & \mintinline{asm}{lw   $a0, 0x8000($gp)} \\
+                & \texttt{0x0040000C} & \texttt{0x8F858004} & \mintinline{asm}{lw   $a1, 0x8004($gp)} \\
+                & \texttt{0x00400010} & \texttt{0x0C100008} & \mintinline{asm}{jal  diff} \\
+                & \texttt{0x00400014} & \texttt{0x8FBF0000} & \mintinline{asm}{lw   $ra, 0($sp)} \\
+                & \texttt{0x00400018} & \texttt{0x23BD0004} & \mintinline{asm}{addi $sp, $sp, 4} \\
+                & \texttt{0x0040001C} & \texttt{0x03E00008} & \mintinline{asm}{jr   $ra} \\
+                & \texttt{0x00400020} & \texttt{0x00851022} & \mintinline{asm}{sub  $v0, $a0, $a1} \\
+& \texttt{0x00400024} & \texttt{0x03E00008} & \mintinline{asm}{jr   $ra} \\
+\hline
+Data segment & Address & Data & \\
+\hline
+& \texttt{0x10000000} & \texttt{x} & \\
+& \texttt{0x10000004} & \texttt{y} & \\
+\end{tabular}
+\end{table}
+
+\item Сегмент данных составляет 8 байтов, а текстовый сегмент --- 40 (\texttt{0x28}) байтов.
+
+\newpage
+
+\item ~
+\begin{table}[h!]
+\small
+\setlength\tabcolsep{2pt}
+\centering
+\begin{tabular}{c|c|c}
+Address & Memory & \\
+\hline
+& Reserved & \\
+\hline
+\texttt{0x7FFFFFFC} & Stack & $\leftarrow$ \texttt{\$sp = 0x7FFFFFFC} \\
+\hline
+& $\downarrow$ & \\
+&&\\
+& $\uparrow$ & \\
+\hline
+\texttt{0x10010000} & Heap & \\
+\hline
+&&\\
+&.&\\
+&.& $\leftarrow$ \texttt{\$gp = 0x10008000}\\
+&.&\\
+&&\\
+& x &\\
+\hline
+\texttt{0x10000000} & y &\\
+\hline
+&&\\
+&.&\\
+&.&\\
+&.&\\
+&&\\
+& \texttt{0x03E00008} &\\
+& \texttt{0x00851022} &\\
+& \texttt{0x03E00008} &\\
+& \texttt{0x23BD0004} &\\
+& \texttt{0x8FBF0000} &\\
+& \texttt{0x0C100008} &\\
+& \texttt{0x8F858004} &\\
+& \texttt{0x8F848000} &\\
+& \texttt{0xAFBF0000} &\\
+\texttt{0x00400000} & \texttt{0x23BDFFFC} & $\leftarrow$ \texttt{PC = 0x00400000}\\
+\hline
+& Reserved & \\
+\end{tabular}
+\end{table}
+\end{enumerate}
+
+\newpage
+
+\begin{e}
+Повторите \eref{mips} для следующего кода:
+\begin{minted}{asm}
+# MIPS assembly code
+main:
+addi  $sp, $sp, -4
+sw    $ra, 0($sp)
+addi  $t0, $0, 15
+sw    $t0, a
+addi  $a1, $0, 27
+sw    $a1, b
+lw    $a0, a
+jal   greater
+lw    $ra, 0($sp)
+addi  $sp, $sp, 4
+jr    $ra
+greater:
+slt   $v0, $a1, $a0
+jr    $ra
+\end{minted}
+\end{e}
+
+\begin{enumerate}
+\item
+\begin{verbatim}
+0x00400000  main:    addi $sp, $sp, -4
+0x00400004  sw   $ra, 0($sp)
+0x00400008  addi $t0, $0, 15
+0x0040000C  sw   $t0, 0x8000($gp)
+0x00400010  addi $a1, $0, 27
+0x00400014  sw   $a1, 0x8004($gp)
+0x00400018  lw   $a0, 0x8000($gp)
+0x0040001C  jal  greater
+0x00400020  lw   $ra, 0($sp)
+0x00400024  addi $sp, $sp, 4
+0x00400028  jr   $ra
+
+0x0040002C  greater: slt  $v0, $a1, $a0
+0x00400030           jr   $ra
+\end{verbatim}
+
+\item ~
+\begin{table}[h!]
+\centering
+\begin{tabular}{|c|c|}
+\hline
+symbol & address \\
+\hline
+\texttt{a} & \texttt{0x10000000} \\
+\hline
+\texttt{b} & \texttt{0x10000004} \\
+\hline
+\texttt{main} & \texttt{0x00400000} \\
+\hline
+\texttt{greater} & \texttt{0x00400020} \\
+\hline
+\end{tabular}
+\end{table}
+
+\newpage
+
+\item ~
+\begin{table}[h!]
+\small
+\setlength\tabcolsep{2pt}
+\centering
+\begin{tabular}{c|c|c|p{0.25\textwidth}}
+\hline
+Executable file header & Text Size & Data Size & \\
+\hline
+& \texttt{0x34 (52 bytes)} & \texttt{0x8 (8 bytes)} & \\
+\hline
+Text segment & Address & Instruction & \\
+\hline
+& \texttt{0x00400000} & \texttt{0x23BDFFFC} & \mintinline{asm}{addi $sp, $sp, -4} \\
+& \texttt{0x00400004} & \texttt{0xAFBF0000} & \mintinline{asm}{sw   $ra, 0($sp)} \\
+& \texttt{0x00400008} & \texttt{0x2008000F} & \mintinline{asm}{addi $t0, $0, 15} \\
+& \texttt{0x0040000C} & \texttt{0xAF888000} & \mintinline{asm}{sw   $t0, 0x8000($gp)} \\
+& \texttt{0x00400010} & \texttt{0x2005001B} & \mintinline{asm}{addi $a1, $0, 27} \\
+& \texttt{0x00400014} & \texttt{0xAF858004} & \mintinline{asm}{sw   $a1, 0x8004($gp)} \\
+& \texttt{0x00400018} & \texttt{0x8F848000} & \mintinline{asm}{lw   $a0, 0x8000($gp)} \\
+& \texttt{0x0040001C} & \texttt{0x0C10000B} & \mintinline{asm}{jal  greater} \\
+& \texttt{0x00400020} & \texttt{0x8FBF0000} & \mintinline{asm}{lw   $ra, 0($sp)} \\
+& \texttt{0x00400024} & \texttt{0x23BD0004} & \mintinline{asm}{addi $sp, $sp, 4} \\
+& \texttt{0x00400028} & \texttt{0x03E00008} & \mintinline{asm}{jr   $ra} \\
+& \texttt{0x0040002C} & \texttt{0x00A4102A} & \mintinline{asm}{slt  $v0, $a1, $a0} \\
+& \texttt{0x00400030} & \texttt{0x03E00008} & \mintinline{asm}{jr   $ra} \\
+\hline
+Data segment & Address & Data & \\
+\hline
+& \texttt{0x10000000} & \texttt{a} & \\
+& \texttt{0x10000004} & \texttt{b} & \\
+\end{tabular}
+\end{table}
+
+\item Сегмент данных составляет 8 байтов, а текстовый сегмент --- 52 (\texttt{0x34}) байтов.
+
+\newpage
+
+\item ~
+\begin{table}[h!]
+\small
+\setlength\tabcolsep{2pt}
+\centering
+\begin{tabular}{c|c|c}
+Address & Memory & \\
+\hline
+& Reserved & \\
+\hline
+\texttt{0x7FFFFFFC} & Stack & $\leftarrow$ \texttt{\$sp = 0x7FFFFFFC} \\
+\hline
+& $\downarrow$ & \\
+&&\\
+& $\uparrow$ & \\
+\hline
+\texttt{0x10010000} & Heap & \\
+\hline
+&&\\
+&.&\\
+&.& $\leftarrow$ \texttt{\$gp = 0x10008000}\\
+&.&\\
+&&\\
+& b &\\
+\hline
+\texttt{0x10000000} & a &\\
+\hline
+&&\\
+&.&\\
+&.&\\
+&.&\\
+&&\\
+& \texttt{0x03E00008} &\\
+& \texttt{0x00A4102A} &\\
+& \texttt{0x03E00008} &\\
+& \texttt{0x23BD0004} &\\
+& \texttt{0x8FBF0000} &\\
+& \texttt{0x0C10000B} &\\
+& \texttt{0x8f848000} &\\
+& \texttt{0xAF850004} &\\
+& \texttt{0x2005001B} &\\
+& \texttt{0xAF888000} &\\
+& \texttt{0x2008000F} &\\
+& \texttt{0xAFBF0000} &\\
+\texttt{0x00400000} & \texttt{0x23BDFFFC} & $\leftarrow$ \texttt{PC = 0x00400000}\\
+\hline
+& Reserved & \\
+\end{tabular}
+\end{table}
+\end{enumerate}
+
+\newpage
+
+\begin{e}[e:pseudo]
+Покажите инструкции MIPS, которые реализуют следующие псевдокоманды. Вы можете использовать регистр \texttt{\$at} для хранения временных данных, но вам запрещается портить содержимое (затирать) другие регистры.
+
+\begin{enumerate}
+\item \texttt{addi \$t0, \$s2, imm}$_{31:0}$.
+\item \texttt{lw \$t5, imm$_{31:0}$(\$s0)}.
+\item \texttt{rol \$t0, \$t1, 5}.
+\item \texttt{ror \$s4, \$t6, 31}.
+\end{enumerate}
+\end{e}
+
+\begin{enumerate}
+\item
+\begin{minted}{asm}
+addi $t0, $2, imm31:0
+
+lui $at, imm31:16
+ori $at, $at, imm15:0
+add $t0, $2, $at
+\end{minted}
+
+\item
+\begin{minted}{asm}
+lw $t5, imm31:0($s0)
+
+lui $at, imm31:16
+ori $at, $at, imm15:0
+add $at, $at, $s0
+lw  $t5, 0($at)
+\end{minted}
+
+\item
+\begin{minted}{asm}
+rol $t0, $t1, 5
+
+srl $at, $t1, 27
+sll $t0, $t1, 5
+or  $t0, $t0, $at
+\end{minted}
+
+\item
+\begin{minted}{asm}
+ror $s4, $t6, 31
+
+sll $at, $t6, 1
+srl $s4, $t6, 31
+or  $s4, $s4, $at
+\end{minted}
+
+\end{enumerate}
+
+\newpage
+
+\begin{e}
+Повторите \eref{pseudo} для следующих псевдокоманд:
+
+\begin{enumerate}
+\item \texttt{beq  \$t1, imm$_{31:0}$, L}.
+\item \texttt{ble  \$t3, \$t5, L}.
+\item \texttt{bgt  \$t3, \$t5, L}.
+\item \texttt{bge  \$t3, \$t5, L}.
+\end{enumerate}
+\end{e}
+
+\begin{enumerate}
+\item
+\begin{minted}{asm}
+beq $t1, imm31:0, L
+
+lui $at, imm31:16
+ori $at, $at, imm15:0
+beq $t1, $at, L
+\end{minted}
+
+\item
+\begin{minted}{asm}
+ble $t3, $t5, L
+
+slt $at, $t5, $t3
+beq $at, $0, L
+\end{minted}
+
+\item
+\begin{minted}{asm}
+bgt $t3, $t5, L
+
+slt $at, $t5, $t3
+bne $at, $0, L
+\end{minted}
+
+\item
+\begin{minted}{asm}
+bge $t3, $t5, L
+
+slt $at, $t3, $t5
+beq $at, $0, L
+\end{minted}
+\end{enumerate}
+\end{document}

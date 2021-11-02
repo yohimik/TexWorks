@@ -1,0 +1,204 @@
+\documentclass[12pt]{article}
+
+
+\usepackage[english, russian]{babel}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[left=2cm,right=2cm, top=1cm,bottom=1.5cm,bindingoffset=0cm]{geometry}
+
+\usepackage{amsmath}
+
+% \usepackage{multirow}
+% \usepackage{hhline}
+
+% \usepackage{indentfirst}
+
+% \usepackage{enumitem,kantlipsum}
+
+\usepackage{graphicx}
+\graphicspath{{pictures/}}
+\DeclareGraphicsExtensions{.pdf,.png,.jpg}
+
+\usepackage{tikz}
+\usetikzlibrary{patterns}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.9}
+% \usepgfplotslibrary{fillbetween}
+
+% \usepackage{ulem}
+
+% \usepackage{hyperref}
+
+% \usepackage{circuitikz}
+
+% \usepackage{fp}
+% \usepackage{xfp}
+
+% \usepackage{siunitx}
+% \sisetup{output-decimal-marker={,}}
+
+% \usepackage{minted}
+
+% \let\oldref\ref
+% \renewcommand{\ref}[1]{(\oldref{#1})}
+
+\begin{document}
+    \pagestyle{empty}
+    \begin{center}
+        \textbf{Федеральное государственное автономное образовательное учреждение высшего образования}
+
+        \vspace{5pt}
+
+        {\small
+        \textbf{САНКТ-ПЕТЕРБУРГСКИЙ НАЦИОНАЛЬНЫЙ}
+
+        \textbf{ИССЛЕДОВАТЕЛЬСКИЙ УНИВЕРСИТЕТ ИТМО}
+
+        \textbf{ФАКУЛЬТЕТ ПРОГРАММНОЙ ИНЖЕНЕРИИ И КОМПЬЮТЕРНОЙ ТЕХНИКИ}%
+        }
+
+        \vspace{140pt}
+
+        {\Large
+        \textbf{ЛАБОРАТОРНАЯ}
+
+        \vspace{7pt}
+
+        \textbf{РАБОТА №5}%
+        }
+
+        \vspace{10pt}
+
+        {\large
+        \textbf{Схемотехника ЭВМ}
+
+        \vspace{5pt}
+
+        \textbf{«Ждущий мультивибратор»}%
+        }
+
+        \vspace{170pt}
+
+        \begin{tabular}{lll}
+            Проверил:                                                                                   & \hspace{70pt} & Выполнил:                                             \\
+            ........................                \rule[0.66\baselineskip]{2cm}{0.4pt}                &               & Студент группы P3455                                  \\
+            «\rule[0.66\baselineskip]{1cm}{0.4pt}»  \rule[0.66\baselineskip]{2cm}{0.4pt} \the\year г.   &               & Федюкович С. А. \rule[0.66\baselineskip]{2cm}{0.4pt}  \\
+            &               &                                                       \\
+            Оценка          \hspace{12pt}           \rule[0.66\baselineskip]{2.7cm}{0.4pt}              &               &                                                       \\
+        \end{tabular}
+
+        \vspace*{\fill}
+
+        Санкт-Петербург
+
+        \the\year
+    \end{center}
+
+    \newpage
+
+    \pagestyle{plain}
+    \setcounter{page}{1}
+
+    \section*{Цель}
+
+    Экспериментально исследовать ждущий мультивибратор на операционных усилителях:
+
+    \begin{enumerate}
+        \item Используя пакет Multisim собрать схему ждущего мультивибратора.
+
+        \item Исследовать схему мультивибратора и его зависимость длительности импульса от сопротивления.
+
+        \item Составить отчет, в который должны быть включены: схема мультивибратора, таблица с данными и график.
+    \end{enumerate}
+
+    \section*{Задачи}
+
+    \subsection*{Эксперимент 1}
+
+    \begin{enumerate}
+        \item Построить схему, изображенную на Рис. \ref{fig:s:1}, в программе Multisim.
+        \item Измерить длительность импульса $T$ на выходе ждущего мультивибратора при помощи осциллографа.
+        \item Изменить сопротивление резистора $R_2$ так, чтобы получить длительности равные $0.3T$, $0.5T$, $0.7T$, $0.85T$, $1.5T$, $2T$, $2.5T$, $3T$.
+        \item Внести полученные данные в таблицу и построить график.
+    \end{enumerate}
+
+    \section*{Схемы}
+
+    \begin{figure}[ht]
+        \centering
+        \includegraphics[scale=0.6]{images/s1.png}
+        \caption{Схема 1}
+        \label{fig:s:1}
+    \end{figure}
+
+    \newpage
+
+    \section*{Выводы}
+
+    \subsection*{Эксперимент 1}
+
+    В ходе работы при помощи осциллографа было получено следующее значение $T$ (Рис. \ref{fig:o:1}):
+
+    $$ T = 13.636 \text{ мс} $$
+
+    \begin{figure}[ht]
+        \centering
+        \includegraphics[scale=0.75]{images/o1.png}
+        \caption{Длительность импульса $T$ на выходе ждущего мультивибратора}
+        \label{fig:o:1}
+    \end{figure}
+
+    \newpage
+
+    Изменяя сопротивление резистора $R_2$ были получены следующие значения длительности импульса:
+
+    \begin{table}[ht]
+        \centering
+        \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
+            \hline
+            & $0.3T$ & $0.5T$ & $0.7T$ & $0.85T$ & $T$ & $1.5T$ & $2T$ & $2.5T$ & $3T$ \\
+            \hline
+            $T, \text{мс}$ & $4.090$ & $6.818$ & $9.545$ & $11.590$ & $13.636$ & $20.454$ & $27.272$ & $34.090$ & $40.908$ \\
+            \hline
+            $R_2, k\Omega$ & $15.000$ & $25.000$ & $36.000$ & $44.000$ & $52.000$ & $78.000$ & $105.000$ & $134.000$ & $159.000$ \\
+            \hline
+        \end{tabular}
+    \end{table}
+
+    \begin{figure}[ht]
+        \centering
+        \begin{tikzpicture}
+            \begin{axis}[
+            xmin = 0,
+            ymin = 0,
+            xmax = 45,
+            ymax = 175,
+            grid = both,
+            axis lines=middle,
+            axis line style={->},
+            x label style={at={(axis description cs:0.5,-0.2)},anchor=east},
+            xlabel = {$T\text{, мс}$},
+            y label style={at={(axis description cs:-0.2,0.5)},anchor=north},
+            ylabel = {$R_2, k\Omega$},
+            width=10cm,
+            height=10cm
+            ]
+            \addplot[
+                mark=square,
+            ]
+            coordinates {
+                (4.0908, 15)
+                (6.818, 25)
+                (9.5452, 36)
+                (11.5906,44)
+                (13.636, 52)
+                (20.454, 78)
+                (27.272, 105)
+                (34.09, 134)
+                (40.908, 159)
+            };
+            \end{axis}
+        \end{tikzpicture}
+    \end{figure}
+
+\end{document}

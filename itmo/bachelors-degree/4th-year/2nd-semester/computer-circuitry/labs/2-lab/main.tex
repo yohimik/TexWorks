@@ -1,0 +1,311 @@
+\documentclass[12pt]{article}
+
+
+\usepackage[english, russian]{babel}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[left=2cm,right=2cm, top=1cm,bottom=1.5cm,bindingoffset=0cm]{geometry}
+
+\usepackage{amsmath}
+
+% \usepackage{multirow}
+% \usepackage{hhline}
+
+% \usepackage{indentfirst}
+
+% \usepackage{enumitem,kantlipsum}
+
+\usepackage{graphicx}
+\graphicspath{{pictures/}}
+\DeclareGraphicsExtensions{.pdf,.png,.jpg}
+
+\usepackage{tikz}
+\usetikzlibrary{patterns}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.9}
+% \usepgfplotslibrary{fillbetween}
+
+% \usepackage{ulem}
+
+% \usepackage{hyperref}
+
+% \usepackage{circuitikz}
+
+% \usepackage{fp}
+% \usepackage{xfp}
+
+% \usepackage{siunitx}
+% \sisetup{output-decimal-marker={,}}
+
+% \usepackage{minted}
+
+% \let\oldref\ref
+% \renewcommand{\ref}[1]{(\oldref{#1})}
+
+\begin{document}
+    \pagestyle{empty}
+    \begin{center}
+        \textbf{Федеральное государственное автономное образовательное учреждение высшего образования}
+
+        \vspace{5pt}
+
+        {\small
+        \textbf{САНКТ-ПЕТЕРБУРГСКИЙ НАЦИОНАЛЬНЫЙ}
+
+        \textbf{ИССЛЕДОВАТЕЛЬСКИЙ УНИВЕРСИТЕТ ИТМО}
+
+        \textbf{ФАКУЛЬТЕТ ПРОГРАММНОЙ ИНЖЕНЕРИИ И КОМПЬЮТЕРНОЙ ТЕХНИКИ}%
+        }
+
+        \vspace{140pt}
+
+        {\Large
+        \textbf{ЛАБОРАТОРНАЯ}
+
+        \vspace{7pt}
+
+        \textbf{РАБОТА №2}%
+        }
+
+        \vspace{10pt}
+
+        {\large
+        \textbf{Схемотехника ЭВМ}
+
+        \vspace{5pt}
+
+        \textbf{«Стабилитрон»}%
+        }
+
+        \vspace{170pt}
+
+        \begin{tabular}{lll}
+            Проверил:                                                                                   & \hspace{70pt} & Выполнил:                                             \\
+            ........................                \rule[0.66\baselineskip]{2cm}{0.4pt}                &               & Студент группы P3455                                  \\
+            «\rule[0.66\baselineskip]{1cm}{0.4pt}»  \rule[0.66\baselineskip]{2cm}{0.4pt} \the\year г.   &               & Федюкович С. А. \rule[0.66\baselineskip]{2cm}{0.4pt}  \\
+            &               &                                                       \\
+            Оценка          \hspace{12pt}           \rule[0.66\baselineskip]{2.7cm}{0.4pt}              &               &                                                       \\
+        \end{tabular}
+
+        \vspace*{\fill}
+
+        Санкт-Петербург
+
+        \the\year
+    \end{center}
+
+    \newpage
+
+    \pagestyle{plain}
+    \setcounter{page}{1}
+
+    \section*{Цель}
+
+    Изучить стабилитрон:
+
+    \begin{enumerate}
+        \item Построить обратную ветвь вольтамперной характеристики стабилитрона и определить напряжения стабилизации.
+        \item Вычислить ток и мощность, рассеиваемой стабилитроном.
+        \item Определить дифференциальное сопротивление стабилитрона по вольтамперной характеристике.
+        \item Исследовать изменения напряжения стабилитрона при изменении входного напряжения в схеме параметрического стабилизатора.
+        \item Исследовать изменения напряжения на стабилитроне при изменении сопротивления в схеме параметрического стабилизатора.
+    \end{enumerate}
+
+    \section*{Задачи}
+
+    \subsection*{Эксперимент 1}
+
+    \begin{enumerate}
+        \item Построить схему, изображенную на Рис. \ref{fig:s:1}, в программе Multisim.
+        \item Измерить силу тока и напряжение на диоде при разных значениях ЭДС, внести данные в таблицу и построить график.
+        \item По графику определить напряжение стабилизации, ток стабилизации и посчитать мощность стабилизации.
+    \end{enumerate}
+
+    \subsection*{Эксперимент 2}
+
+    \begin{enumerate}
+        \item Построить схему, изображенную на Рис. \ref{fig:s:2}, в программе Multisim.
+        \item Измерить силу тока и напряжение на диоде при коротком замыкании и при значениях резистора $R_1$(100, 300, 600, 1000 $\Omega$).
+    \end{enumerate}
+
+    \subsection*{Эксперимент 3}
+
+    \begin{enumerate}
+        \item Построить схему, изображенную на Рис. \ref{fig:s:3}, в программе Multisim.
+        \item Пронаблюдать ВАХ стабилитрона на экране осциллографа.
+    \end{enumerate}
+
+    \newpage
+
+    \section*{Схемы}
+
+    \begin{figure}[ht]
+        \centering
+        \includegraphics[scale=0.65]{images/s1.png}
+        \caption{Схема 1}
+        \label{fig:s:1}
+    \end{figure}
+
+    \begin{figure}[ht]
+        \centering
+        \includegraphics[scale=0.65]{images/s2.png}
+        \caption{Схема 2}
+        \label{fig:s:2}
+    \end{figure}
+
+    \begin{figure}[ht]
+        \centering
+        \includegraphics[scale=0.5]{images/s3.png}
+        \caption{Схема 3}
+        \label{fig:s:3}
+    \end{figure}
+
+    \newpage
+
+    \section*{Выводы}
+
+    \subsection*{Эксперимент 1}
+
+    В ходе работы были получены следующие данные:
+
+    \begin{table}[ht]
+        \centering
+        \begin{tabular}{|c|c|c|}
+            \hline
+            $E, V$ & $U, V$ & $I, mA$ \\
+            \hline
+            -30,00 & -5,11 & -100,00 \\
+            \hline
+            -25,00 & -5,11 & -83,33 \\
+            \hline
+            -20,00 & -5,10 & -66,67 \\
+            \hline
+            -15,00 & -5,09 & -50,00 \\
+            \hline
+            -10,00 & -5,07 & -33,34 \\
+            \hline
+            0,00 & 0,00 & 0,00 \\
+            \hline
+            4,00 & 0,56 & 13,34 \\
+            \hline
+            6,00 & 0,57 & 20,00 \\
+            \hline
+            10,00 & 0,58 & 33,33 \\
+            \hline
+            15,00 & 0,59 & 50,00 \\
+            \hline
+            20,00 & 0,60 & 66,67 \\
+            \hline
+            25,00 & 0,61 & 83,33 \\
+            \hline
+            30,00 & 0,61 & 100,00 \\
+            \hline
+            35,00 & 0,62 & 116,67 \\
+            \hline
+            36,00 & 0,62 & 120,00 \\
+            \hline
+            37,00 & 0,62 & 123,33 \\
+            \hline
+            40,00 & 0,62 & 133,33 \\
+            \hline
+            45,00 & 0,62 & 150,92 \\
+            \hline
+            50,00 & 0,63 & 166,67 \\
+            \hline
+        \end{tabular}
+    \end{table}
+
+    \newpage
+
+    \begin{figure}[ht]
+        \centering
+        \begin{tikzpicture}
+            \begin{axis}[
+            xmin = -5.5,
+            ymin = -110,
+            xmax = 1,
+            ymax = 170,
+            grid = both,
+            axis lines=middle,
+            axis line style={->},
+            x label style={at={(axis description cs:0.5,-0.2)},anchor=east},
+            xlabel = {$U, V$},
+            y label style={at={(axis description cs:-0.2,0.5)},anchor=north},
+            ylabel = {$I, mA$},
+            width=10cm,
+            height=10cm
+            ]
+            \addplot[
+                mark=square,
+            ]
+            coordinates {
+                (-5.11, -100)
+                (-5.11, -83.33)
+                (-5.1, -66.67)
+                (-5.09, -50)
+                (-5.07, -33.34)
+                (0, 0)
+                (0.56, 13.34)
+                (0.57, 20)
+                (0.58, 33.33)
+                (0.59, 50)
+                (0.6, 66.67)
+                (0.61, 83.33)
+                (0.61, 100)
+                (0.62, 116.67)
+                (0.62, 120)
+                (0.62, 123.33)
+                (0.62, 133.33)
+                (0.62, 150.92)
+                (0.63, 166.67)
+            };
+            \end{axis}
+        \end{tikzpicture}
+    \end{figure}
+
+    $$ U_{\text{min ст.}} = -5,07\ B$$
+
+    $$ U_{\text{max ст.}} = -5,11\ B;\ I_{\text{ст. ном.}} = -50,00\ mA$$
+
+    $$ I_{\text{max ст.}} = -100,00\ mA $$
+
+    $$ P_{\text{cт.}} = I_{\text{ст.}} \cdot U_{\text{ст.}} = 0,25\ B $$
+
+    \newpage
+
+    \subsection*{Эксперимент 2}
+
+    В ходе работы были получены следующие данные:
+
+    \begin{table}[ht]
+        \centering
+        \begin{tabular}{|c|c|c|}
+            \hline
+            $R,\ \Omega$ & $U,\ mV$ & $I,\ mA$ \\
+            \hline
+            100,00 & 599,55 & 66,67 \\
+            \hline
+            300,00 & 601,25 & 66,67 \\
+            \hline
+            600,00 & 601,66 & 66,67 \\
+            \hline
+            1000,00 & 601,82 & 66,67 \\
+            \hline
+        \end{tabular}
+    \end{table}
+
+    $$ U_{\text{ст.}} = 602,02\ mV $$
+
+    \subsection*{Эксперимент 3}
+
+    В ходе работы на экране осциллографа была получена следующая ВАХ:
+
+    \begin{figure}[ht]
+        \centering
+        \includegraphics[scale=0.9]{images/o1.png}
+        \caption{ВАХ стабилитрона}
+        \label{fig:o:1}
+    \end{figure}
+
+
+\end{document}
