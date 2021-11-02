@@ -1,0 +1,426 @@
+%%% Работа с русским языком
+\usepackage{cmap}                    % поиск в PDF
+\usepackage{mathtext}                % русские буквы в формулах
+\usepackage[T2A]{fontenc}            % кодировка
+\usepackage[utf8]{inputenc}            % кодировка исходного текста
+\usepackage[english,russian]{babel}    % локализация и переносы
+\usepackage{subcaption}
+\captionsetup{compatibility=false}
+%%% Дополнительная работа с математикой
+\usepackage{amsmath,amsfonts,amssymb,amsthm,mathtools} % AMS
+\usepackage{icomma} % "Умная" запятая: $0,2$ --- число, $0, 2$ --- перечисление
+
+%% Номера формул
+%\mathtoolsset{showonlyrefs=true} % Показывать номера только у тех формул, на которые есть \eqref{} в тексте.
+%\usepackage{leqno} % Нумерация формул слева
+
+% for tables added 12.11.18
+%\usepackage[format=simple,labelsep=space,tableposition=below]{caption}
+\usepackage{caption}
+\DeclareCaptionLabelSeparator{emdash}{ --- }
+\captionsetup{
+    justification=raggedright,
+    singlelinecheck=false,
+    labelsep=emdash
+}
+\usepackage{listings}
+\renewcommand\labelitemi{--}
+\setcounter{secnumdepth}{4}
+
+\usepackage[figurename=Рисунок]{caption}
+\newcommand{\programmingLanguage}[1]{
+    \lstset{language=#1}
+}
+
+\usepackage{titlesec}
+\usepackage{hyperref}
+\usepackage{etoolbox}
+\usepackage{lastpage}
+
+
+%% Перенос знаков в формулах (по Львовскому)
+\newcommand*{\hm}[1]{#1\nobreak\discretionary{}
+{\hbox{$\mathsurround=0pt #1$}}{}}
+\usepackage{indentfirst} % пакет для первой красной строки по ГОСТам РФ
+%%% Работа с картинками
+\usepackage{graphicx}  % Для вставки рисунков
+\graphicspath{{images/}{images2/}}  % папки с картинками
+\setlength\fboxsep{3pt} % Отступ рамки \fbox{} от рисунка
+\setlength\fboxrule{1pt} % Толщина линий рамки \fbox{}
+\usepackage{wrapfig} % Обтекание рисунков текстом
+
+%%% Работа с таблицами
+\usepackage{array,tabularx,tabulary,booktabs} % Дополнительная работа с таблицами
+\usepackage{longtable}  % Длинные таблицы
+\usepackage{multirow} % Слияние строк в таблице
+
+%%% Теоремы
+\theoremstyle{plain} % Это стиль по умолчанию, его можно не переопределять.
+\newtheorem{theorem}{Теорема}[section]
+\newtheorem{proposition}[theorem]{Утверждение}
+
+\theoremstyle{definition} % "Определение"
+\newtheorem{corollary}{Следствие}[theorem]
+\newtheorem{problem}{Задача}[section]
+
+\theoremstyle{remark} % "Примечание"
+\newtheorem*{nonum}{Решение}
+\usepackage{array} % aligning text inside the tabular
+
+%%% Программирование
+\usepackage{etoolbox} % логические операторы
+\usepackage{layout}
+%%% Страница
+\usepackage{extsizes} % Возможность сделать 14-й шрифт
+\usepackage{geometry} % Простой способ задавать поля
+\geometry{top=2cm}
+\geometry{bottom=20mm}
+\geometry{left=30mm}
+\geometry{right=15mm}
+\geometry{bindingoffset=0cm}
+\geometry{bottom = 1in}
+%
+\usepackage{fancybox}
+\usepackage{fancyhdr} % Колонтитулы
+\pagestyle{fancy}
+\renewcommand{\headrulewidth}{0mm}  % Толщина линейки, отчеркивающей верхний колонтитул
+%\lfoot{Нижний левый}
+%\rfoot{Нижний правый}
+%\rhead{Верхний правый}
+%\chead{Верхний в центре}
+%\lhead{Верхний левый}
+\cfoot{Москва \@year{}} % По умолчанию здесь номер страницы
+
+\usepackage{setspace} % Интерлиньяж
+%\onehalfspacing % Интерлиньяж 1.5
+%\doublespacing % Интерлиньяж 2
+\singlespacing % Интерлиньяж 1
+
+\usepackage{lastpage} % Узнать, сколько всего страниц в документе.
+
+\usepackage{soulutf8} % Модификаторы начертания
+
+\usepackage{hyperref}
+\usepackage[usenames,dvipsnames,svgnames,table,rgb]{xcolor}
+\hypersetup{                % Гиперссылки
+    unicode=true,           % русские буквы в раздела PDF
+    pdftitle={Заголовок},   % Заголовок
+    pdfauthor={Автор},      % Автор
+    pdfsubject={Тема},      % Тема
+    pdfcreator={Создатель}, % Создатель
+    pdfproducer={Производитель}, % Производитель
+    pdfkeywords={keyword1} {key2} {key3}, % Ключевые слова
+    colorlinks=true,        % false: ссылки в рамках; true: цветные ссылки
+    linkcolor=black,          % внутренние ссылки
+    citecolor=black ,        % на библиографию
+    filecolor=black ,      % на файлы
+    urlcolor=black           % на URL
+}
+
+% define year
+\newcommand{\@year}{2019}
+\renewcommand{\year}[1]{
+    \renewcommand{\@year}{#1}
+}
+
+% define doc number
+\newcommand{\@docNumber}{{\color{red}{TODO}}}
+\newcommand{\docNumber}[1]{
+    \renewcommand{\@docNumber}{#1}
+}
+
+% define doc number
+\newcommand{\@supervPos}{{\color{red}{TODO}}}
+\newcommand{\@supervName}{{\color{red}{TODO}}}
+\newcommand{\supervisor}[2]{
+    \renewcommand{\@supervPos}{#1}
+    \renewcommand{\@supervName}{#2}
+}
+
+
+% define student name and group
+\newcommand{\@student}{{\color{red}{TODO}}}
+\newcommand{\@groupName}{{\color{red}{TODO}}}
+\newcommand{\student}[2]{
+    \renewcommand{\@student}{#2}
+    \renewcommand{\@groupName}{#1}
+}
+
+
+% define doc project name
+\newcommand{\@project}{{\color{red}{TODO}}}
+\newcommand{\project}[1]{
+    \renewcommand{\@project}{#1}
+}
+
+% define doc format
+\newcommand{\@docFormat}{{\color{red}{FORMAT TODO}}}
+\newcommand{\docFormat}[1]{
+    \renewcommand{\@docFormat}{#1}
+}
+
+%%% for code and listings
+\newcommand{\code}[1]{%
+    \lstinputlisting[frame=single,basicstyle=\footnotesize\ttfamily]{#1}
+}
+
+\renewcommand{\code}[2]{%
+    \lstinputlisting [frame=single, basicstyle=\footnotesize\ttfamily, caption={#2}, captionpos=b,language=TeX,breaklines] {#1}
+}
+
+\newcommand{\@startAdditions}{
+    \setcounter{section}{0}
+    \renewcommand{\sectionbreak}{}
+    \titleformat{\section}[block]{\Large\bfseries\filright}{}{0mm}{}
+    \renewcommand{\@startAdditions}{}
+}
+
+\newcounter{@tempSection}
+
+\newcommand{\sectionbreak}{\clearpage}
+
+%%% addition. example: ПРИЛОЖЕНИЕ А
+\newcommand{\addition}[1]{%
+    \clearpage
+    \newpage
+    \@startAdditions
+    \stepcounter{section}
+    \begin{flushright}
+        \Large \textbf{\textsc{приложение \alph{section}}}
+    \end{flushright}
+    \setcounter{@tempSection}{\arabic{section}}
+    \setcounter{secnumdepth}{0}
+    \section[Приложение \Alph{@tempSection}]{#1}
+    \setcounter{secnumdepth}{4}
+}
+
+%% [#1]: ref id
+%% #2: file
+%% #3: caption
+\newcommand{\floatCode}[3][]{
+    \begin{figure}[hbp]
+        \lstinputlisting [frame=single,basicstyle=\footnotesize\ttfamily] {#2}
+        \ifblank{#3}{}{\caption{#3}}
+        \ifblank{#1}{}{\label{#1}}
+    \end{figure}
+}
+
+
+%% Свои команды
+\DeclareMathOperator{\sgn}{\mathop{sgn}}
+\newcommand{\tabForFirstPage}
+{\reversemarginpar\marginpar{\rotatebox{90}{\begin{tabular}{|l|l|l|l|l|}
+                                                \hline
+                                                Инв. \text{№} подл & Подп. и дата & Взам. инв. \text{№} & Инв. \text{№} дубл.&Подп. и дата\\
+                                                \hline
+                                                & & & &  \\
+                                                \hline
+\end{tabular}}}}
+\setlength{\oddsidemargin}{0mm}
+\newcommand{\itsHSE}{\begin{center}
+                         \scshape \bfseries правительство российской федерации\\
+                         национальный исследовательский университет \\
+                         «высшая школа экономики»
+                         \par\vspace{5mm}
+                         \upshape\mdseries
+                         \rmfamily\normalsize
+                         Факультет компьютерных наук\\
+                         Департамент программной инженерии
+\end{center}}
+
+\newcommand{\academicTeacher}[2]{
+    \begin{table}[h]
+        \begin{center}
+            \begin{tabular}{ >{\centering\arraybackslash}p{0.5\textwidth}  >{\centering\arraybackslash}p{0.45\textwidth} }
+
+                \textsl{СОГЛАСОВАНО} &  \textsl{УТВЕРЖДАЮ}\\
+                #1 & Академический руководитель образовательной программы «Программная инженерия»
+                профессор департамента программной инженерии, канд. техн. наук\\
+                & \\
+                \underline{\hspace{4cm}} #2 &  \underline{\hspace{4cm}} В. В. Шилов\\
+                <<\underline{\hspace{1cm}}>> \underline{\hspace{3cm}} \@year{} г.&<<\underline{\hspace{1cm}}>> \underline{\hspace{3cm}} \@year{} г.\\
+            \end{tabular}
+        \end{center}
+    \end{table}
+}
+
+\newcommand{\secondPage}{
+    \pagestyle{fancy}
+    \lhead{УТВЕРЖДЕН \newline
+    \@docNumber{}}
+    \vspace*{9cm}
+    \begingroup
+    \centering
+    \projectName{\@project{}}
+    \titleListTwo{\@docFormat{}}
+    \listNumber{\textbf{Листов \pageref{LastPage}}}
+
+    \endgroup
+    \vspace{8cm}
+    \tabForFirstPage
+    \vspace*{\fill}
+}
+
+\newcommand{\thirdPage}{
+    \lhead{ }
+    \chead{\vfill \thepage \vfill  \@docNumber{}}
+    \rhead{ }
+    \cfoot{ }
+    \cfoot{\tabForTZ}
+    \tableofcontents
+}
+
+\newcommand{\projectName}[1]{
+    \begin{center}
+        \large{\textsc{\textbf{#1}}}
+    \end{center}
+}
+
+%\renewcommand{\familydefault}{\sfdefault} % Начертание шрифта
+
+\newcommand{\titleList}{
+    \begin{center}
+        \par\vspace{4mm}
+        \textbf{\@docFormat{}}
+        \par\vspace{6mm}
+        \textbf{
+            ЛИСТ УТВЕРЖДЕНИЯ}
+        \par\vspace{6mm}
+        \textbf{\@docNumber{}}
+        \par\vspace{60mm}
+    \end{center}}
+
+\newcommand{\titleListTwo}[2]{
+    \begin{center}
+        \par\vspace{4mm}
+        \textbf{#1}
+        \par\vspace{6mm}
+        \textbf{\@docNumber{}}
+    \end{center}}
+
+\newcommand{\firstPage}{
+    \itsHSE
+    \academicTeacher{\@supervPos{}}{\@supervName{}}
+    \projectName{\@project{}}
+    \titleList
+    \nameOfAuthor
+    \tabForFirstPage
+}
+
+\newcommand{\nameOfAuthor}{
+    \hfill\begin{tabular}{c}
+              \\
+              Исполнитель: студент группы \@groupName{}
+              \\
+              \underline{\hspace{4cm}} \@student{}
+              \\
+              <<\underline{\hspace{1cm}}>> \underline{\hspace{4cm}} \@year{} г.
+    \end{tabular}
+}
+\newcommand{\listNumber}[1]{\textbf{Листов #1}}
+\newcommand{\listRegistration}{%
+    \cfoot{ }
+    \begin{tabular}{|p{0.05\linewidth}|p{0.04\linewidth}|p{0.06\linewidth}|p{0.06\linewidth}|p{0.06\linewidth}|p{0.1\linewidth}|p{0.1\linewidth}|p{0.12\linewidth}|p{0.05\linewidth}|p{0.05\linewidth}|}
+
+        \hline
+        \multicolumn{10}{|c|}{\textbf{Лист регистрации изменений}}\\
+        \hline
+        \multirow{2}{*}{Изм.} & \multicolumn{4}{c|}{Номера листов} & Всего листов в документе& $\text{№}$ документа& Входящий $\text{№}$ сопроводит. докум. и дата& Под-пись& Дата\\[5ex] \cline{2-5}
+        &из-ме-нен-ных&заме-нен-ных&но-вых&аннул-лиро-ван-ных& & & & & \\[10ex]
+        \hline
+        & & & & & & & & & \\[5ex]
+        \hline
+        & & & & & & & & & \\[5ex]
+        \hline
+        & & & & & & & & & \\[5ex]
+        \hline
+        & & & & & & & & & \\[5ex]
+        \hline
+        & & & & & & & & & \\[5ex]
+        \hline
+        & & & & & & & & & \\[5ex]
+        \hline
+        & & & & & & & & & \\[5ex]
+        \hline
+        & & & & & & & & & \\[5ex]
+        \hline
+        & & & & & & & & & \\[5ex]
+        \hline
+        & & & & & & & & & \\[5ex]
+        \hline
+        & & & & & & & & & \\[5ex]
+        \hline
+        & & & & & & & & & \\[5ex]
+        \hline
+        & & & & & & & & & \\[5ex]
+        \hline
+        & & & & & & & & & \\[5ex]
+        \hline
+        & & & & & & & & & \\[5ex]
+        \hline
+        & & & & & & & & & \\[5ex]
+        \hline
+        & & & & & & & & & \\[5ex]
+        \hline
+        & & & & & & & & & \\[5ex]
+        \hline
+        & & & & & & & & & \\[5ex]
+        \hline
+        & & & & & & & & & \\[5ex]
+        \hline
+        & & & & & & & & & \\[5ex]
+        \hline
+        & & & & & & & & & \\[5ex]
+        \hline
+        & & & & & & & & & \\[5ex]
+        \hline
+        & & & & & & & & & \\[5ex]
+        \hline
+        & & & & & & & & & \\[5ex]
+        \hline
+        & & & & & & & & & \\[5ex]
+        \hline
+        & & & & & & & & & \\[5ex]
+        \hline
+        & & & & & & & & & \\[5ex]
+        \hline
+        & & & & & & & & & \\[5ex]
+        \hline
+        & & & & & & & & & \\[5ex]
+        \hline
+        & & & & & & & & & \\[5ex]
+        \hline
+        & & & & & & & & & \\[5ex]
+        \hline
+        & & & & & & & & & \\[5ex]
+        \hline
+        & & & & & & & & & \\[5ex]
+        \hline
+        & & & & & & & & & \\[5ex]
+        \hline
+        & & & & & & & & & \\[5ex]
+        \hline
+        & & & & & & & & & \\[5ex]
+        \hline
+        & & & & & & & & & \\[5ex]
+        \hline
+        & & & & & & & & & \\[5ex]
+        \hline
+
+    \end{tabular}
+
+}
+
+\newcommand{\tabForTZ}{%
+    \begin{tabular}{|p{0.31\linewidth}|p{0.15\linewidth}|p{0.16\linewidth}|p{0.16\linewidth}|p{0.15\linewidth}|}
+        \hline
+        Изм. & Лист & $\text{№}$  докум. & Подп. & Дата\\
+        \hline
+        \scriptsize{\@docNumber{}}& & & &\\
+        \hline
+        Инв. $\text{№}$ подл. & Подп. и дата & Взам. инв. $\text{№}$ & Инв. $\text{№}$ дубл.& Подп. и дата \\
+        \hline
+    \end{tabular}
+}
+\usepackage{multicol} % Несколько колонок
+

@@ -1,0 +1,40 @@
+\documentclass{../common/TechDoc}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+%\usepackage[pdftex]{graphicx}
+\DeclareGraphicsRule{*}{mps}{*}{}
+\documentclass[12pt]{article}
+\usepackage{tabularx}
+\usepackage{listings}
+\usepackage[russian,british]{babel}
+\usepackage[utf8]{inputenc}
+\setcounter{tocdepth}{3}
+
+\renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
+
+\newcommand{\intro}[1]{
+    \stepcounter{section}
+    \section*{\hfillПРИЛОЖЕНИЕ \arabic{section}}
+    \begin{center}
+        \Large\bf{#1}
+    \end{center}
+    \markboth{\MakeUppercase{#1}}{}
+    \addcontentsline{toc}{section}{Приложение \arabic{section}. #1}
+}
+
+\lstset{basicstyle=\ttfamily,
+    showstringspaces=false,
+    commentstyle=\color{red},
+    keywordstyle=\color{blue}
+}
+
+\title{Автоматизации управления жизненным циклом веб-сервиса}
+\author{Студент группы P3555}{С. А. Федюкович}
+\academicTeacher{Собственник ИП Федюкович Семен Андреевич}{С. А. Федюкович}
+
+\documentTitle{Пояснительная записка}
+\documentCode{RU.17701729.02.06-01 81 01-1}
+
+\begin{document}
+    \maketitle
+\end{document}

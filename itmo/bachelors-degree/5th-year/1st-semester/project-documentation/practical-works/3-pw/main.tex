@@ -1,0 +1,58 @@
+\documentclass{../common/TechDoc}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\usepackage{amssymb}
+\usepackage{amsmath,amsthm,mathtools}
+
+\setcounter{tocdepth}{2}
+\setcounter{secnumdepth}{3}
+
+\renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
+
+\newcommand{\intro}[2]{
+\stepcounter{section}
+\section*{\hfillПРИЛОЖЕНИЕ #2}
+\begin{center}
+    \Large\bf{#1}
+\end{center}
+\markboth{\MakeUppercase{#1}}{}
+\addcontentsline{toc}{section}{Приложение #2. #1}
+}
+
+\title{Автоматизации управления жизненным циклом веб-сервиса}
+\author{Студент группы P3555}{С. А. Федюкович}
+\academicTeacher{Собственник ИП Федюкович Семен Андреевич}{С. А. Федюкович}
+
+\documentTitle{Техническое задание}
+\documentCode{RU.17701729.02.06-01 ТЗ 01-1}
+
+\begin{document}
+    \maketitle
+
+    \tableofcontents
+
+    \newpage
+    \input{includes/0-annotation}
+    \newpage
+
+    \input{includes/10-intro}
+
+    \input{includes/20-use}
+
+    \input{includes/30-program_requirements}
+
+    \input{includes/40-documentation_requirements}
+
+    \input{includes/50-technical_indicators}
+
+    \input{includes/60-development_stages}
+
+    \input{includes/70-control_procedure}
+
+    \input{includes/80-readings}
+
+    \input{includes/90-terminology}
+
+    \registrationList
+\end{document}
