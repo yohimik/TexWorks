@@ -1,0 +1,282 @@
+\documentclass[12pt]{article}
+
+\usepackage[english, russian]{babel}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+
+\usepackage{graphicx}
+\DeclareGraphicsExtensions{.png}
+\graphicspath{{images/}}
+
+\usepackage[left=0.05cm,right=1.4cm, top=1cm,bottom=1cm,bindingoffset=0cm]{geometry}
+
+\usepackage{multirow}
+\usepackage{tabularx}
+\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage{mathtext}
+\usepackage{hhline}
+\usepackage{ltablex}
+
+\hypersetup{colorlinks=true,urlcolor=blue}
+
+\newcolumntype{e}{>{\hsize=.9\hsize}X}
+
+\begin{document}
+    \pagestyle{empty}
+
+    \begin{center}
+        \begin{tabular}{lll}
+            \hline
+            &&\\
+            \multirow{14}{*}{ \includegraphics[scale=0.1]{p}} &\multicolumn{2}{l}{Fullstack/Backend Developer}\\
+            &\multicolumn{2}{l}{\textbf{Semen A. Fediukovich}}\\
+            &&\\
+            &\textbf{Age:} & 23 years old    \\
+            &\textbf{Birthday:} & 19 February 1999  \\
+            &\textbf{Marital Status:} & Married  \\
+            &\textbf{Place of residence:}& Tbilisi, Georgia  \\
+            &&\\
+            \hhline{~--}
+            &&\\
+            &\textbf{Phone number:} & +995-511-195-385  \\
+            &\textbf{Email:} & \href{mailto:yohimik@gmail.com}{yohimik@gmail.com}  \\
+            &\textbf{Github:} & \href{https://github.com/yohimik}{github.com/yohimik}   \\
+            &\textbf{LinkedIn:} & \href{https://www.linkedin.com/in/s-fedyukovich}{www.linkedin.com/in/s-fedyukovich}   \\
+            &&\\
+            &&\\
+            \hline
+        \end{tabular}
+    \end{center}
+
+    \begin{tabularx}{500pt}{eX}
+        \textbf{Experience} & \\
+
+        &\\
+
+        Remote Front-end Developer & \underline{\href{https://urbansharing.com}{Urban Sharing}, Tbilisi, Georgia} \\
+
+        July 2021 --- Present
+
+        & Development and support web micromobility services working across Europe.
+        Developing web service for new product from scratch (Next.js, Material UI, React, TypeScript, GraphQL, Docker, Google Cloud Platform).
+        Presenting team results to the company.
+        Planning sprints and creating tasks for Back-end developers.
+
+        \\
+
+        &\\
+
+        Senior Full-stack Developer & \underline{\href{https://forasoft.com}{Fora Soft LLC.}, St Petersburg, Russia} \\
+
+        August 2020 --- February 2021
+
+        & Leading Washington video \href{https://www.shortklips.com}{project} management system development.
+        Designing microservices architecture and database scheme.
+        Choosing technology stack and development most part of the project.
+        Reviewing and helping other developers.
+
+        Developing multi-threaded service for video render that cuts video into blocks and renders multiple resolutions parallel on multiple servers from cloud to cloud (without saving a local copy).
+        Also processing other file types (documents, audio, images) to be able to preview them in browsers.
+
+        Deploying project using GitLab CI/CD and Docker Swarm.
+        Integrating Docker Swarm with Amazon CloudWatch Logs and providing analytical data based on logs.
+
+        \\
+
+        & (React, Node.js, TypeScript, Amazon S3, Amazon CloudWatch, Multipart Upload, MongoDB, Material UI, Redis, Fast video rendering, ffmpeg, File processing, RabbitMQ, Next.js, Socket.IO)
+
+        Lectures about databases and message brokers (Neo4j and RabbitMQ).
+
+        \\
+
+        Full-stack Developer & \\
+
+        June 2019 --- August 2020
+
+        & Developing back-end and web admin part of E-learning iOS application, for students who want to earn on tutoring, following tasks from Senior Developer.
+        Setting up media server Kurento for video calls and integrating payment system (Node.js, MySQL, Redis, WebRTC, Socket.IO, Next.js, React, Bootstrap).
+        Deploying the project using GitHub Actions and Docker Compose.\\
+
+        &\\
+
+        Junior Back-end Developer & \underline{\href{https://www.yumasoft.com}{Yumasoft Inc.}, St Petersburg, Russia} \\
+
+        June 2018 --- June 2019
+
+        & Development and support web POS system for restaurants and delivery services (C\#, ASP.NET, HTTP, REST API, SOAP, MS SQL).
+        Fixing small bugs and developing new features.
+        Solving Point-in-Polygon problem on sphere for delivery zones.
+
+        \\
+
+        &\\
+
+        Remote Web Developer & \underline{Freelance, St Petersburg, Russia} \\
+
+        November 2017 --- June 2018
+
+        & Searching for orders and coding websites layouts according to design (HTML, CSS, JavaScript).
+        Developing HTML parsers on Java.
+        Fixing small design issues and filling stores databases in WordPress admin.
+
+        \\
+
+        &\\
+
+        \textbf{Education} & \\
+
+        &\\
+
+        Bachelors Degree & \underline{\href{https://en.itmo.ru}{ITMO University}, St Petersburg, Russia} \\
+
+        ''Informatics and Computer Engineering``
+
+        2017 --- 2022
+
+        & \href{https://github.com/YoHimik/diploma}{Graduation thesis} ''Web Service Lifecycle Automation''.
+
+        Analyzing current git providers market and choosing the best one for automated DevOps.
+
+        Deploying a web service based on NodeJs using GitLab CI/CD and Docker Compose.
+
+        Setting up and configuring GitLab Runner on server using Docker.
+
+        Developing GitLab CI/CD pipelines using modern technologies based on Graph Theory.
+
+        Most of the university works listed \href{https://github.com/YoHimik/TexWorks/tree/master/itmo/bachelors-degree}{here}.
+
+        \\
+
+        &\\
+
+        High School & \underline{\href{https://agym.spbu.ru}{Faddeev AG SPSU},  St Petersburg, Russia} \\
+
+        ''Mathematics and cybernetics``
+
+        2015 --- 2017
+
+        & In the learning process was special attention to Mathematical Analysis, Combinatorics, Probability Theory, Complex Numbers, Graph theory, Computational Mathematics and Common Algorithms.
+
+        Figured out many coding exercises (Arbitrary-Precision Arithmetic, Graph Algorithms, Combinatorics, Functional integration and interpolation) using Java and C\# programming languages (some of them listed \href{https://github.com/YoHimik/system-programming-task/tree/master/ag}{here}).
+
+        Calculating Pisano period using Java for big numbers as Mathematician project.
+
+        Taking competition in team and solo olympic programming.
+
+        Assembling simple robots and coding firmware using Arduino.
+
+        Developing OpenCV bot for Doom 2 as summer practical work.
+
+        One of the final problems was a C++ compiler written in the Java (cout, Variables, Conditionals).
+
+        \\
+
+        &\\
+
+        \textbf{Projects} &
+
+        \\
+
+        &\\
+
+        2017 --- 2019 & As test task have developed multi-threaded \href{https://github.com/YoHimik/GZiper}{archiver}, that breaks file into multiple blocks and processes them parallel.
+
+        Also developed other tasks that can be found in my GutHub repository.
+
+        Learning Unity game engine and coding simple games that also listed in my GitHub repository.
+
+        Took part in \href{https://vk.com/hackathon}{VK Hackathon} in 2018 and 2019.
+        Both times were close to victory, but we were not able to present projects well.
+
+        \\
+
+        &\\
+
+        2015 --- 2017 & Continue learning Microsoft XNA framework and coding games (Tetris and Snake) at not interesting school lessons (was yearning to coding).
+
+        First time trying to work as freelance developer and receive an order for developing Minecraft Server Bucket plugin using Java.
+
+        The order was successfully completed.
+
+        \\
+
+        &\\
+
+        2013 --- 2015 & Learning BASIC at school and solving simple coding exercises with arrays and loops.
+
+        Continue setting up servers for friends in any games.
+
+        Learning C\# from books and coding simple Windows Forms games (Tic-tac-toe and Clicker).
+
+        Learning Microsoft XNA framework and coding simple game fragments.
+
+        Reading books about computer networks and protocols.
+
+        \\
+
+        &\\
+
+        2011 --- 2013 & Developing simple Pac-Man like games using GameMaker learning from Google and YouTube videos.
+
+        Setting up servers for Minecraft, Half-Life and Count-Strike at home for whole class in school.
+
+        Learning Java copying code from videos.
+
+        Learning basic Pascal and Delphi (variables, arrays, conditionals).
+
+        \\
+
+        &\\
+
+        \textbf{Skills}& \\
+
+        &\\
+
+        \underline{Common} &
+
+        English level Intermediate or B1, teamwork, perseverance. \\
+
+        &\\
+
+        \underline{Programming languages} &
+
+        JavaScript, Node.Js, Go, C\#. \\
+
+        & \\
+
+        \underline{Layout} &
+
+        HTML, CSS, SASS, CSSinJS, Latex, Figma. \\
+
+        & \\
+
+        \underline{Storage} &
+
+        MySQL, PostgreSQL, Neo4j, MongoDB, Redis. \\
+
+        &\\
+
+        \underline{Deployment} &
+
+        Docker, GitLab CI/CD, Github Actions, Kubernetes. \\
+
+        &\\
+
+        \underline{Frameworks and libraries} &
+
+        React, Next.js, Material UI, Express, Socket.IO, Sequelize, Mongoose. \\
+
+        &\\
+
+        \underline{Protocols} &
+
+        HTTP, WebSocket, REST, GraphQL, TCP/UDP. \\
+
+        &\\
+        \underline{Other} &
+
+        RabbitMQ, GIT, Linux, ffmpeg, clean code, micro services, file processing, code review, Jira, Confluence, Slack.
+    \end{tabularx}
+
+\end{document}
