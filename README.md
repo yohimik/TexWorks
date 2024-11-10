@@ -1,3 +1,3 @@
 # TexWorks
 
-Репозиторий, в котором я храню работы, написанные в техе
+This repository contains LaTeX documents and projects that I have developed
